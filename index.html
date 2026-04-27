@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaLingo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f8; min-height: 100vh; }
+
+.page { display: none; }
+.page.active { display: block; }
+#homePage.active { display: flex; }
+#teacherLoginPage.active { display: flex; }
+#teacherSchedulePage.active { display: block; }
+
+/* ════ HOME ════ */
+#homePage { flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px; }
+.hero { text-align:center;margin-bottom:48px; }
+.hero h1 { font-size:3rem;font-weight:800;background:linear-gradient(135deg,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px; }
+.hero p { color:#6b7280;font-size:1rem; }
+.cards { display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:1000px;width:100%; }
+.card { background:#fff;border-radius:16px;padding:40px 32px;text-align:center;flex:1;min-width:240px;max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,.07);display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform .2s,box-shadow .2s; }
+.card:hover { transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.12); }
+.icon-wrap { width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:8px; }
+.icon-blue  { background:linear-gradient(135deg,#6366f1,#4f46e5); }
+.icon-pink  { background:linear-gradient(135deg,#ec4899,#a855f7); }
+.icon-green { background:linear-gradient(135deg,#22c55e,#16a34a); }
+.card h2 { font-size:1.15rem;font-weight:700;color:#1f2937; }
+.card .sub  { font-size:.9rem;color:#6b7280; }
+.card .desc { font-size:.82rem;color:#9ca3af;margin-bottom:8px; }
+.home-btn { display:block;width:100%;padding:14px;border:none;border-radius:10px;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;transition:opacity .2s,transform .1s;margin-top:auto;font-family:inherit; }
+.home-btn:hover { opacity:.9;transform:scale(1.02); }
+.btn-blue  { background:linear-gradient(135deg,#6366f1,#4f46e5); }
+.btn-pink  { background:linear-gradient(135deg,#ec4899,#a855f7); }
+.btn-green { background:linear-gradient(135deg,#22c55e,#16a34a); }
+.footer-note { margin-top:36px;color:#9ca3af;font-size:.85rem; }
+@media(max-width:640px){ .hero h1{font-size:2.2rem;} .cards{flex-direction:column;align-items:center;} .card{max-width:100%;width:100%;} }
+
+/* ════ REGISTRATION ════ */
+#regPage { min-height:100vh;background:#f0f2f8; }
+.reg-header { background:linear-gradient(135deg,#a855f7 0%,#6366f1 50%,#4f46e5 100%);padding:32px 20px 28px;text-align:center;color:#fff;position:relative; }
+.reg-header h1 { font-size:1.8rem;font-weight:700;margin-bottom:6px; }
+.reg-header p  { font-size:.95rem;opacity:.85; }
+.btn-back-home { position:absolute;top:14px;left:14px;background:rgba(255,255,255,.2);border:none;border-radius:8px;color:#fff;padding:7px 14px;cursor:pointer;font-size:.82rem;font-family:inherit; }
+.btn-back-home:hover { background:rgba(255,255,255,.35); }
+
+.stepper-wrap { background:#fff;padding:24px 20px 0;display:flex;justify-content:center; }
+.stepper { display:flex;align-items:flex-start;max-width:560px;width:100%; }
+.step-item { display:flex;flex-direction:column;align-items:center;flex:1;position:relative; }
+.step-item:not(:last-child)::after { content:'';position:absolute;top:22px;left:60%;width:80%;height:2px;background:#d1d5db;z-index:0; }
+.step-item.done:not(:last-child)::after { background:#6366f1; }
+.step-circle { width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;background:#e5e7eb;color:#9ca3af;position:relative;z-index:1;transition:background .3s; }
+.step-item.active .step-circle { background:#6366f1;color:#fff; }
+.step-item.done   .step-circle { background:#22c55e;color:#fff; }
+.step-label { margin-top:8px;text-align:center;font-size:.75rem;color:#9ca3af;line-height:1.3; }
+.step-item.active .step-label { color:#4f46e5;font-weight:600; }
+.step-item.done   .step-label { color:#22c55e; }
+
+.form-wrap { background:#fff;max-width:960px;margin:0 auto;padding:0 24px 40px; }
+.section-title { border-left:4px solid #6366f1;padding-left:14px;margin:28px 0 6px; }
+.section-title h2 { font-size:1.15rem;font-weight:700;color:#1e1b4b; }
+.section-title p  { font-size:.83rem;color:#6b7280;margin-top:2px; }
+
+.grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px; }
+.grid-3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:18px; }
+.full { grid-column:1/-1; }
+@media(max-width:620px){ .grid-2,.grid-3{grid-template-columns:1fr;} }
+
+label { display:block;font-size:.86rem;font-weight:600;color:#374151;margin-bottom:5px; }
+label .req { color:#ef4444;margin-left:2px; }
+label .hint { font-weight:400;color:#9ca3af;font-size:.78rem;display:block; }
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select,textarea {
+  width:100%;padding:11px 13px;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;
+  color:#111827;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none;font-family:inherit;
+}
+input:focus,select:focus,textarea:focus { border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12); }
+input.error,select.error,textarea.error { border-color:#ef4444; }
+input[readonly] { background:#f9fafb;color:#6b7280;cursor:default; }
+.err-msg { color:#ef4444;font-size:.76rem;margin-top:3px;display:none; }
+.err-msg.show { display:block; }
+textarea { resize:vertical;min-height:80px; }
+
+.radio-group { display:flex;flex-direction:column;gap:9px;margin-top:8px; }
+.radio-group.grid2 { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+.radio-card { display:flex;align-items:center;gap:11px;border:1.5px solid #e5e7eb;border-radius:10px;padding:13px 15px;cursor:pointer;transition:border-color .2s,background .2s; }
+.radio-card:hover { border-color:#a5b4fc; }
+.radio-card input[type=radio] { display:none; }
+.radio-card.selected { border-color:#6366f1;background:#eef2ff; }
+.radio-dot { width:17px;height:17px;border-radius:50%;border:2px solid #d1d5db;flex-shrink:0;display:flex;align-items:center;justify-content:center; }
+.radio-card.selected .radio-dot { border-color:#6366f1; }
+.radio-card.selected .radio-dot::after { content:'';width:8px;height:8px;background:#6366f1;border-radius:50%; }
+.radio-text strong { display:block;font-size:.9rem;color:#1f2937; }
+.radio-text small  { color:#6b7280;font-size:.78rem; }
+.radio-text .price-tag { color:#6366f1;font-weight:700;font-size:.9rem; }
+.radio-text .price-tag.discount { color:#ef4444;text-decoration:line-through;font-weight:400;font-size:.8rem; }
+
+.days-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:8px; }
+@media(max-width:500px){ .days-grid{grid-template-columns:repeat(3,1fr);} }
+.day-btn { border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 6px;text-align:center;cursor:pointer;font-size:.86rem;color:#374151;transition:border-color .2s,background .2s;user-select:none; }
+.day-btn:hover { border-color:#a5b4fc; }
+.day-btn.selected { border-color:#6366f1;background:#eef2ff;color:#4338ca;font-weight:600; }
+.day-check { display:flex;align-items:center;justify-content:center;gap:5px; }
+.day-check-icon { width:15px;height:15px;border-radius:4px;border:2px solid #d1d5db;display:inline-flex;align-items:center;justify-content:center; }
+.day-btn.selected .day-check-icon { background:#6366f1;border-color:#6366f1; }
+.day-btn.selected .day-check-icon::after { content:'✓';font-size:.6rem;color:#fff; }
+
+/* Time slot buttons */
+.time-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px; }
+.time-btn { border:1.5px solid #e5e7eb;border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;font-size:.85rem;color:#374151;transition:border-color .2s,background .2s;user-select:none; }
+.time-btn:hover { border-color:#a5b4fc; }
+.time-btn.selected { border-color:#6366f1;background:#eef2ff;color:#4338ca;font-weight:600; }
+.time-btn .time-icon { font-size:1.4rem;display:block;margin-bottom:3px; }
+.time-btn .time-label { display:block;font-weight:600;font-size:.85rem; }
+.time-btn .time-range { display:block;font-size:.74rem;color:#9ca3af;margin-top:2px; }
+
+/* Course Group ID buttons */
+.btn-gen-grp { padding:11px 16px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:8px;font-size:.84rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap; }
+.btn-gen-grp:hover { opacity:.9; }
+.btn-chk-grp { padding:11px 16px;background:#fff;color:#374151;border:1.5px solid #d1d5db;border-radius:8px;font-size:.84rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap; }
+.btn-chk-grp:hover { border-color:#6366f1;color:#6366f1; }
+.group-badge { display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:.83rem;font-weight:600; }
+.group-badge.ok    { background:#dcfce7;color:#15803d; }
+.group-badge.warn  { background:#fef9c3;color:#a16207; }
+.group-badge.full  { background:#fee2e2;color:#dc2626; }
+.group-badge.new   { background:#eef2ff;color:#4338ca; }
+
+/* Language preference & consent cards */
+.lang-check-card { display:inline-flex;align-items:center;gap:10px;border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 16px;cursor:pointer;transition:border-color .2s,background .2s;font-size:.9rem;color:#374151;user-select:none; }
+.lang-check-card:hover { border-color:#a5b4fc; }
+.lang-check-card.checked { border-color:#6366f1;background:#eef2ff;color:#4338ca;font-weight:600; }
+.lang-check-dot { width:17px;height:17px;border-radius:4px;border:2px solid #d1d5db;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0; }
+.lang-check-card.checked .lang-check-dot { background:#6366f1;border-color:#6366f1; }
+.lang-check-card.checked .lang-check-dot::after { content:'✓';font-size:.65rem;color:#fff;font-weight:700; }
+.consent-card .lang-check-dot { border-radius:50%; }
+.consent-card.checked .lang-check-dot::after { content:'';width:8px;height:8px;background:#fff;border-radius:50%;display:block; }
+
+/* Weekly schedule table */
+.sched-week-block { margin-top:10px; border-radius:10px; border:1.5px solid #e5e7eb; overflow:hidden; }
+.sched-wrap { overflow-x:auto; }
+.sched-table { width:100%; border-collapse:collapse; font-size:.72rem; min-width:900px; }
+.sched-table thead tr.sched-hr th { background:#f5f3ff; color:#4338ca; font-weight:700; padding:5px 0; text-align:center; border-bottom:1px solid #e5e7eb; border-right:1px solid #e9d5ff; font-size:.72rem; }
+.sched-table thead tr.sched-hr th.sched-day-hd { width:68px; text-align:left; padding-left:8px; border-right:1.5px solid #c4b5fd; }
+.sched-table thead tr.sched-hr th.hr-group { border-right:1.5px solid #c4b5fd; }
+.sched-table thead tr.sched-min th { background:#faf5ff; color:#7c3aed; font-size:.68rem; padding:3px 0; text-align:center; border-bottom:2px solid #c4b5fd; border-right:1px solid #ede9fe; }
+.sched-table thead tr.sched-min th.sched-day-hd { border-right:1.5px solid #c4b5fd; background:#f5f3ff; }
+.sched-table thead tr.sched-min th.min-half { border-right:1.5px solid #c4b5fd; }
+.sched-day-lbl { font-weight:700; color:#374151; padding:6px 8px; white-space:nowrap; background:#fafafa; border-right:1.5px solid #e5e7eb; font-size:.78rem; }
+.sched-cell { width:28px; height:30px; text-align:center; cursor:pointer; border:1px solid #f3f4f6; transition:background .12s; }
+.sched-cell:hover { background:#ede9fe; }
+.sched-cell.selected { background:#6366f1; }
+.sched-cell.selected::after { content:''; display:block; width:8px; height:8px; background:#fff; border-radius:50%; margin:auto; margin-top:10px; }
+.sched-cell.half-border { border-right:1.5px solid #c4b5fd; }
+.sched-table tbody tr:nth-child(even) .sched-day-lbl { background:#f9f9ff; }
+
+.date-picker-btn { display:flex;align-items:center;gap:13px;border:1.5px solid #e5e7eb;border-radius:10px;padding:13px 15px;cursor:pointer;margin-top:8px;background:#fff;width:100%;transition:border-color .2s; }
+.date-picker-btn:hover { border-color:#a5b4fc; }
+.date-picker-btn.has-value { border-color:#6366f1; }
+.date-icon { width:40px;height:40px;background:#6366f1;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;flex-shrink:0; }
+.date-text strong { display:block;color:#374151;font-size:.9rem; }
+.date-text small  { color:#9ca3af;font-size:.78rem; }
+input.hidden-date { display:none; }
+
+/* Price summary box */
+.price-box { border-radius:12px;padding:16px 18px;margin-top:16px;border:1.5px solid #d1fae5;background:#f0fdf4; }
+.price-box .price-row { display:flex;justify-content:space-between;align-items:center;font-size:.88rem;color:#374151;margin-bottom:6px; }
+.price-box .price-row.total { font-weight:700;font-size:1.05rem;color:#15803d;border-top:1px solid #bbf7d0;padding-top:8px;margin-top:4px; }
+.price-box .price-row .strike { text-decoration:line-through;color:#9ca3af;font-size:.82rem;margin-left:6px; }
+
+/* Info badge */
+.info-badge { display:inline-flex;align-items:center;gap:5px;background:#eef2ff;color:#4338ca;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:6px; }
+
+.form-footer { display:flex;justify-content:space-between;align-items:center;padding:20px 0 0;border-top:1px solid #e5e7eb;margin-top:28px; }
+.btn-prev { display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #d1d5db;border-radius:8px;padding:10px 20px;font-size:.9rem;cursor:pointer;color:#374151;font-family:inherit; }
+.btn-prev:hover { border-color:#9ca3af; }
+.btn-prev:disabled { opacity:.4;cursor:not-allowed; }
+.btn-next-f { display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:.92rem;font-weight:600;cursor:pointer;font-family:inherit; }
+.btn-next-f:hover { opacity:.9; }
+
+.success-box { text-align:center;padding:44px 20px; }
+.success-icon { width:68px;height:68px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;margin:0 auto 18px; }
+.success-box h2 { font-size:1.5rem;color:#1e1b4b;margin-bottom:8px; }
+.success-box p  { color:#6b7280;margin-bottom:20px; }
+.summary-section { margin-top:20px;text-align:left;max-width:600px;margin-left:auto;margin-right:auto; }
+.summary-section h3 { font-size:.95rem;font-weight:700;color:#4338ca;margin-bottom:10px;border-bottom:1px solid #e0e7ff;padding-bottom:5px; }
+.summary-row { display:flex;gap:8px;font-size:.87rem;margin-bottom:7px; }
+.summary-row .key { color:#6b7280;min-width:170px;flex-shrink:0; }
+.summary-row .val { color:#111827;font-weight:500; }
+.summary-row .val.green { color:#15803d;font-weight:700; }
+.btn-restart { background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;margin-right:10px; }
+.btn-go-home { background:#fff;color:#6366f1;border:1.5px solid #6366f1;border-radius:8px;padding:11px 28px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit; }
+.btn-add-course { background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;margin-right:10px; }
+
+/* ════ INVOICE ════ */
+#invoicePage { min-height:100vh; background:#f8f7ff; }
+.inv-header { background:linear-gradient(135deg,#f59e0b,#d97706); padding:16px 26px; display:flex; align-items:center; justify-content:space-between; }
+.inv-header h1 { color:#fff; font-size:1.2rem; font-weight:800; }
+.inv-header p  { color:rgba(255,255,255,.85); font-size:.83rem; margin-top:2px; }
+.inv-body { padding:24px; max-width:1100px; margin:0 auto; }
+.inv-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+@media(max-width:700px){ .inv-stats{grid-template-columns:1fr 1fr;} }
+.stat-card { background:#fff; border-radius:12px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.stat-card .stat-label { font-size:.78rem; color:#6b7280; margin-bottom:4px; }
+.stat-card .stat-val   { font-size:1.4rem; font-weight:800; color:#1f2937; }
+.stat-card .stat-sub   { font-size:.75rem; color:#9ca3af; margin-top:2px; }
+.stat-amber  { border-left:4px solid #f59e0b; }
+.stat-red    { border-left:4px solid #ef4444; }
+.stat-green  { border-left:4px solid #22c55e; }
+.stat-blue   { border-left:4px solid #6366f1; }
+.inv-table-wrap { background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.05); overflow:hidden; }
+.inv-toolbar { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid #f3f4f6; flex-wrap:wrap; gap:10px; }
+.inv-toolbar h2 { font-size:1rem; font-weight:700; color:#1f2937; }
+.inv-filter { display:flex; gap:6px; }
+.inv-filter button { padding:5px 14px; border-radius:20px; border:none; background:#f3f4f6; font-size:.8rem; color:#6b7280; cursor:pointer; font-family:inherit; transition:background .2s; }
+.inv-filter button.active { background:#d97706; color:#fff; }
+table.inv-tbl { width:100%; border-collapse:collapse; font-size:.85rem; }
+table.inv-tbl th { background:#fafafa; padding:10px 14px; text-align:left; font-size:.78rem; font-weight:700; color:#6b7280; border-bottom:1px solid #e5e7eb; }
+table.inv-tbl td { padding:12px 14px; border-bottom:1px solid #f3f4f6; color:#1f2937; vertical-align:middle; }
+table.inv-tbl tr:last-child td { border-bottom:none; }
+table.inv-tbl tr:hover td { background:#fafafa; }
+.inv-badge { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:.75rem; font-weight:700; }
+.inv-badge.pending  { background:#fef3c7; color:#d97706; }
+.inv-badge.partial  { background:#dbeafe; color:#2563eb; }
+.inv-badge.paid     { background:#dcfce7; color:#16a34a; }
+.inv-badge.overdue  { background:#fee2e2; color:#dc2626; }
+.btn-update-inv { padding:5px 12px; background:#6366f1; color:#fff; border:none; border-radius:6px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:inherit; }
+.btn-update-inv:hover { background:#4f46e5; }
+.inv-empty { text-align:center; padding:40px; color:#9ca3af; font-size:.9rem; }
+/* Update modal */
+.modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:999; align-items:center; justify-content:center; }
+.modal-bg.open { display:flex; }
+.modal-box { background:#fff; border-radius:16px; padding:28px; width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.modal-box h3 { font-size:1.1rem; font-weight:800; color:#1f2937; margin-bottom:6px; }
+.modal-box p  { font-size:.85rem; color:#6b7280; margin-bottom:20px; }
+.modal-field  { margin-bottom:14px; }
+.modal-field label { font-size:.83rem; font-weight:600; color:#374151; display:block; margin-bottom:5px; }
+.modal-field select, .modal-field input { width:100%; padding:9px 12px; border:1.5px solid #d1d5db; border-radius:8px; font-size:.9rem; font-family:inherit; }
+.modal-actions { display:flex; gap:10px; margin-top:20px; }
+.btn-modal-save { flex:1; padding:11px; background:#22c55e; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-family:inherit; }
+.btn-modal-cancel { flex:1; padding:11px; background:#f3f4f6; color:#374151; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-family:inherit; }
+#invoiceLoginWrap { display:flex; align-items:center; justify-content:center; min-height:100vh; background:#f8f7ff; }
+
+/* ════ TEACHER LOGIN ════ */
+#teacherLoginPage { flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:#f0f2f8; }
+.login-card { background:#fff;border-radius:20px;padding:44px 36px;width:100%;max-width:460px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center; }
+.login-icon { width:70px;height:70px;background:#1a2035;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.9rem; }
+.login-card h1 { font-size:1.6rem;font-weight:800;color:#1a2035;margin-bottom:8px;line-height:1.3; }
+.login-card .subtitle { color:#6b7280;font-size:.92rem;margin-bottom:32px; }
+.form-group { text-align:left;margin-bottom:14px; }
+.form-group label { font-size:.88rem;font-weight:700;color:#1a2035;margin-bottom:7px; }
+.form-group input { width:100%;padding:13px 15px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:.93rem;color:#1a2035;outline:none;font-family:inherit; }
+.form-group input:focus { border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.1); }
+.form-group input.error { border-color:#ef4444; }
+.security-note { font-size:.8rem;color:#9ca3af;margin-top:5px; }
+.login-err { color:#ef4444;font-size:.79rem;margin-top:5px;display:none; }
+.login-err.show { display:block; }
+.btn-login { width:100%;padding:14px;background:#6b7280;color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit;transition:background .2s; }
+.btn-login:hover { background:#4b5563; }
+
+/* ════ DASHBOARD ════ */
+#dashPage { min-height:100vh;background:#f3f4f8; }
+.dash-header { background:#fff;padding:14px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e5e7eb; }
+.dash-header-left { display:flex;align-items:center;gap:13px; }
+.dash-header-icon { width:42px;height:42px;background:#1a2035;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#fff;flex-shrink:0; }
+.dash-header-left h1 { font-size:1.2rem;font-weight:800;color:#1a2035; }
+.dash-header-left p  { font-size:.83rem;color:#6b7280; }
+.btn-logout { display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #d1d5db;border-radius:8px;padding:7px 14px;font-size:.86rem;cursor:pointer;color:#374151;font-family:inherit; }
+.btn-logout:hover { border-color:#ef4444;color:#ef4444; }
+.dash-body { padding:24px;max-width:1100px;margin:0 auto; }
+.dash-grid { display:grid;grid-template-columns:1fr 300px;gap:20px; }
+@media(max-width:768px){ .dash-grid{grid-template-columns:1fr;} }
+.panel { background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05); }
+.panel-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px; }
+.panel-title { display:flex;align-items:center;gap:9px; }
+.panel-title h2 { font-size:1rem;font-weight:700;color:#1a2035; }
+.badge-count { background:#fef2f2;color:#ef4444;font-size:.76rem;font-weight:700;padding:3px 9px;border-radius:20px; }
+.badge-count.has-events { background:#eef2ff;color:#6366f1; }
+.filter-btns { display:flex;gap:5px; }
+.filter-btn { padding:5px 13px;border-radius:20px;border:none;background:#f3f4f6;font-size:.8rem;color:#6b7280;cursor:pointer;font-family:inherit;transition:background .2s,color .2s; }
+.filter-btn.active { background:#1a2035;color:#fff; }
+.class-card { border:1.5px solid #e5e7eb;border-radius:12px;padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:start;transition:border-color .2s; }
+.class-card:hover { border-color:#a5b4fc; }
+.class-name { font-weight:700;color:#1a2035;font-size:.92rem; }
+.class-meta { font-size:.8rem;color:#6b7280;margin-top:3px;display:flex;flex-wrap:wrap;gap:10px; }
+.class-type-badge { font-size:.73rem;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;align-self:start; }
+.type-group   { background:#eef2ff;color:#4338ca; }
+.type-private { background:#fdf4ff;color:#9333ea; }
+.empty-state { text-align:center;padding:36px 20px;color:#9ca3af;font-size:.88rem; }
+.upcoming-item { border-left:3px solid #6366f1;padding:9px 13px;margin-bottom:10px;background:#f8faff;border-radius:0 8px 8px 0; }
+.upcoming-item .u-name { font-weight:700;font-size:.88rem;color:#1a2035; }
+.upcoming-item .u-date { font-size:.78rem;color:#6b7280;margin-top:2px; }
+.dash-date { font-size:.83rem;color:#9ca3af;margin-bottom:18px; }
+.btn-sched { display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:.86rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s; }
+.btn-sched:hover { opacity:.88; }
+
+/* ════ TEACHER SCHEDULE PAGE ════ */
+#teacherSchedulePage { min-height:100vh; background:#f0f2f8; }
+.ts-header { background:linear-gradient(135deg,#1a2035,#2d3a58);padding:18px 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px; }
+.ts-header-left { display:flex;align-items:center;gap:14px; }
+.ts-header-left h1 { font-size:1.2rem;font-weight:800;color:#fff; }
+.ts-header-left p  { font-size:.82rem;color:rgba(255,255,255,.7);margin-top:2px; }
+.btn-ts-back { background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:7px 15px;font-size:.83rem;cursor:pointer;font-family:inherit; }
+.btn-ts-back:hover { background:rgba(255,255,255,.25); }
+.ts-controls { background:#fff;padding:16px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-bottom:1px solid #e5e7eb; }
+.ts-controls label { font-size:.85rem;font-weight:600;color:#374151;margin:0; }
+.ts-controls select { max-width:260px;padding:8px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:.88rem;font-family:inherit; }
+.ts-filter-btns { display:flex;gap:6px;margin-left:auto; }
+.ts-filter-btn { padding:6px 14px;border-radius:20px;border:none;background:#f3f4f6;font-size:.8rem;color:#6b7280;cursor:pointer;font-family:inherit;transition:background .2s; }
+.ts-filter-btn.active { background:#4f46e5;color:#fff; }
+.btn-ts-refresh { padding:7px 16px;background:#eef2ff;color:#4f46e5;border:none;border-radius:8px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:inherit; }
+.btn-ts-refresh:hover { background:#e0e7ff; }
+
+/* Line config bar */
+.line-config-bar { background:#f0fdf4;border-bottom:1px solid #bbf7d0;padding:12px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap; }
+.line-config-bar .lc-label { font-size:.83rem;font-weight:700;color:#166534;white-space:nowrap; }
+.line-config-bar input { flex:1;min-width:200px;max-width:480px;padding:7px 12px;border:1.5px solid #86efac;border-radius:8px;font-size:.85rem;font-family:'Courier New',monospace; }
+.line-config-bar input:focus { outline:none;border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.1); }
+.btn-lc-save { padding:7px 16px;background:#22c55e;color:#fff;border:none;border-radius:8px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:inherit; }
+.btn-lc-save:hover { background:#16a34a; }
+.lc-status { font-size:.8rem;color:#166534; }
+
+/* Schedule body */
+.ts-body { padding:24px;max-width:1200px;margin:0 auto; }
+.ts-section-title { font-size:.85rem;font-weight:700;color:#6b7280;letter-spacing:.5px;text-transform:uppercase;margin:0 0 12px; }
+.ts-cards { display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px; }
+@media(max-width:500px){ .ts-cards{grid-template-columns:1fr;} }
+
+/* Schedule card */
+.ts-card { background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);overflow:hidden;transition:box-shadow .2s; }
+.ts-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.1); }
+.ts-card-header { padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f3f4f6; }
+.ts-card-student { font-weight:800;font-size:.95rem;color:#1e1b4b; }
+.ts-card-id { font-size:.75rem;color:#9ca3af;margin-top:2px; }
+.ts-lang-badge { font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:20px;background:#eef2ff;color:#4338ca;flex-shrink:0; }
+.ts-card-body { padding:14px 16px; }
+.ts-info-row { display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:.83rem; }
+.ts-info-row .ts-key { color:#6b7280;min-width:72px;flex-shrink:0; }
+.ts-info-row .ts-val { color:#1f2937;font-weight:500;flex:1;word-break:break-word; }
+.ts-card-footer { padding:12px 16px;background:#fafafa;border-top:1px solid #f3f4f6;display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+
+/* Confirm status badge */
+.confirm-badge { display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700; }
+.confirm-badge.Pending   { background:#fef3c7;color:#d97706; }
+.confirm-badge.Confirmed { background:#dcfce7;color:#15803d; }
+.confirm-badge.Cancelled { background:#fee2e2;color:#dc2626; }
+
+/* Reminder button */
+.btn-remind { display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;background:#0d9488;color:#fff; }
+.btn-remind:hover { background:#0f766e; }
+.btn-remind:disabled { background:#9ca3af;cursor:not-allowed; }
+.btn-remind.sending { background:#6b7280; }
+.ts-no-line { font-size:.76rem;color:#9ca3af;font-style:italic; }
+.ts-empty { text-align:center;padding:60px 20px;color:#9ca3af;font-size:.92rem; }
+.ts-loading { text-align:center;padding:40px;color:#9ca3af; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HOME ════════════ -->
+<div id="homePage" class="page active">
+  <div class="hero">
+    <h1>AlphaLingo</h1>
+    <p>ยินดีต้อนรับสู่ AlphaLingo - สถาบันสอนพิเศษ</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="icon-wrap icon-blue">🎓</div>
+      <h2>ลงทะเบียนนักเรียน</h2>
+      <p class="sub">Student Registration</p>
+      <p class="desc">ลงทะเบียนนักเรียนใหม่พร้อมสมัครคอร์ส</p>
+      <button class="home-btn btn-blue" onclick="showPage('regPage');initReg('new')">ลงทะเบียน</button>
+    </div>
+    <div class="card">
+      <div class="icon-wrap icon-pink">📖</div>
+      <h2>สมัครเรียนคอร์ส</h2>
+      <p class="sub">Course Registration</p>
+      <p class="desc">นักเรียนเดิมสมัครเรียนคอร์สเพิ่มเติม</p>
+      <button class="home-btn btn-pink" onclick="showPage('regPage');initReg('existing')">สมัครเรียน</button>
+    </div>
+    <div class="card">
+      <div class="icon-wrap icon-green">👨‍🏫</div>
+      <h2>ครูผู้สอน</h2>
+      <p class="sub">Teacher Login</p>
+      <p class="desc">เข้าสู่ระบบสำหรับครู</p>
+      <button class="home-btn btn-green" onclick="showPage('teacherLoginPage')">เข้าสู่ระบบ</button>
+    </div>
+    <div class="card">
+      <div class="icon-wrap" style="background:linear-gradient(135deg,#f59e0b,#d97706)">🧾</div>
+      <h2>ใบแจ้งหนี้</h2>
+      <p class="sub">Invoice Management</p>
+      <p class="desc">ติดตามการชำระเงินของนักเรียน</p>
+      <button class="home-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="showPage('invoicePage');initInvoice()">จัดการใบแจ้งหนี้</button>
+    </div>
+  </div>
+  <p class="footer-note">เลือกประเภทผู้ใช้งานเพื่อเข้าสู่ระบบ</p>
+</div>
+
+<!-- ════════════ REGISTRATION FORM ════════════ -->
+<div id="regPage" class="page">
+  <div class="reg-header">
+    <button class="btn-back-home" onclick="showPage('homePage')">← หน้าหลัก</button>
+    <h1 id="regPageTitle">AlphaLingo</h1>
+    <p id="regPageSubtitle">แบบฟอร์มลงทะเบียน</p>
+  </div>
+
+  <div class="stepper-wrap">
+    <div class="stepper" id="stepperContainer"><!-- built by buildStepper() --></div>
+  </div>
+
+  <div class="form-wrap">
+
+    <!-- ── STEP 1 ── -->
+    <div id="step1">
+
+      <!-- ─ NEW STUDENT mode: Full student info ─ -->
+      <div id="newStudentForm">
+        <div class="section-title"><h2>1. ข้อมูลนักเรียน (Student Information)</h2><p>กรอกข้อมูลพื้นฐานของนักเรียน</p></div>
+        <div class="grid-2">
+          <div><label>ชื่อจริง (First Name)<span class="req">*</span></label><input type="text" id="firstName" placeholder="First Name"><div class="err-msg" id="err-firstName">กรุณากรอกชื่อจริง</div></div>
+          <div><label>นามสกุล (Last Name)<span class="req">*</span></label><input type="text" id="lastName" placeholder="Last Name"><div class="err-msg" id="err-lastName">กรุณากรอกนามสกุล</div></div>
+          <div><label>ชื่อเล่น (Nickname)<span class="req">*</span></label><input type="text" id="nickname" placeholder="Nickname"><div class="err-msg" id="err-nickname">กรุณากรอกชื่อเล่น</div></div>
+          <div>
+            <label>วันเกิด (Birth Date)<span class="req">*</span></label>
+            <input type="date" id="birthDate" onchange="calcAge()">
+            <div class="err-msg" id="err-birthDate">กรุณากรอกวันเกิด</div>
+          </div>
+          <div>
+            <label>อายุ (Age) <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— คำนวณอัตโนมัติ</span></label>
+            <input type="text" id="age" placeholder="คำนวณจากวันเกิด" readonly>
+          </div>
+          <div><label>โรงเรียน (School)<span class="req">*</span></label><input type="text" id="school" placeholder="School Name"><div class="err-msg" id="err-school">กรุณากรอกโรงเรียน</div></div>
+          <div><label>ชั้นเรียน (Grade)<span class="req">*</span></label>
+            <select id="grade">
+              <option value="">เลือกชั้นเรียน (Select Grade)</option>
+              <option>อนุบาล 1</option><option>อนุบาล 2</option><option>อนุบาล 3</option>
+              <option>ประถม 1</option><option>ประถม 2</option><option>ประถม 3</option>
+              <option>ประถม 4</option><option>ประถม 5</option><option>ประถม 6</option>
+              <option>มัธยม 1</option><option>มัธยม 2</option><option>มัธยม 3</option>
+              <option>มัธยม 4</option><option>มัธยม 5</option><option>มัธยม 6</option>
+              <option>มหาวิทยาลัย / University</option><option>วัยทำงาน / Working Adult</option>
+            </select>
+            <div class="err-msg" id="err-grade">กรุณาเลือกชั้นเรียน</div>
+          </div>
+          <div>
+            <label>เบอร์โทรผู้ปกครอง (Parent Phone)<span class="req">*</span></label>
+            <input type="tel" id="parentPhone" placeholder="0812345678" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+            <div class="err-msg" id="err-parentPhone">กรุณากรอกเบอร์โทร 10 หลัก (ตัวเลขเท่านั้น)</div>
+          </div>
+          <div>
+            <label>Line User ID ของผู้ปกครอง<span class="hint">สำหรับส่งแจ้งเตือนผ่าน Line OA (ถ้ามี)</span></label>
+            <input type="text" id="parentLineId" placeholder="Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-family:'Courier New',monospace;">
+            <div class="err-msg" id="err-parentLineId"></div>
+          </div>
+          <div class="full">
+            <label>ภาษาที่สนใจเรียน (Language Preference)<span class="req">*</span><span class="hint">เลือกได้มากกว่า 1 ภาษา</span></label>
+            <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+              <label class="lang-check-card" id="lc-english">
+                <input type="checkbox" id="langPrefEnglish" onchange="updateLangPref()">
+                <span class="lang-check-dot"></span>
+                <span>🇬🇧 ภาษาอังกฤษ (English)</span>
+              </label>
+              <label class="lang-check-card" id="lc-chinese">
+                <input type="checkbox" id="langPrefChinese" onchange="updateLangPref()">
+                <span class="lang-check-dot"></span>
+                <span>🇨🇳 ภาษาจีน (Chinese)</span>
+              </label>
+              <label class="lang-check-card" id="lc-german">
+                <input type="checkbox" id="langPrefGerman" onchange="updateLangPref()">
+                <span class="lang-check-dot"></span>
+                <span>🇩🇪 ภาษาเยอรมัน (German)</span>
+              </label>
+            </div>
+            <div class="err-msg" id="err-langPref">กรุณาเลือกอย่างน้อย 1 ภาษา</div>
+          </div>
+          <div class="full">
+            <label>ยินยอมการถ่ายภาพ/วิดีโอ (Photo & Video Consent)<span class="req">*</span>
+              <span class="hint">เพื่อใช้เผยแพร่บน Social Media ของ AlphaLingo</span>
+            </label>
+            <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+              <label class="lang-check-card consent-card" id="cc-allow" onclick="setConsent('allow')">
+                <input type="radio" name="mediaConsent" value="allow" style="display:none">
+                <span class="lang-check-dot"></span>
+                <span>✅ ยินยอม (Allow)</span>
+              </label>
+              <label class="lang-check-card consent-card" id="cc-notallow" onclick="setConsent('not_allow')">
+                <input type="radio" name="mediaConsent" value="not_allow" style="display:none">
+                <span class="lang-check-dot"></span>
+                <span>🚫 ไม่ยินยอม (Not Allow)</span>
+              </label>
+            </div>
+            <div class="err-msg" id="err-consent">กรุณาเลือกการยินยอม</div>
+          </div>
+          <div class="full">
+            <label>รู้จัก AlphaLingo ได้อย่างไร? (How did you find us?)<span class="req">*</span></label>
+            <select id="hearAbout">
+              <option value="">-- เลือก --</option>
+              <option value="Facebook / Instagram">📱 Facebook / Instagram</option>
+              <option value="Google Search">🔍 Google Search</option>
+              <option value="YouTube / TikTok">▶️ YouTube / TikTok</option>
+              <option value="Friend / Family referral">👥 เพื่อน / ครอบครัวแนะนำ (Friend/Family)</option>
+              <option value="Walk-in">🚶 ผ่านมาเห็น (Walk-in)</option>
+              <option value="School / Teacher referral">🏫 โรงเรียน / ครูแนะนำ (School/Teacher)</option>
+              <option value="Other">📝 อื่นๆ (Other)</option>
+            </select>
+            <div class="err-msg" id="err-hearAbout">กรุณาเลือกช่องทางที่รู้จัก</div>
+          </div>
+          <div class="full"><label>ความสนใจ / หมายเหตุ (Interests / Notes)</label><textarea id="interests" placeholder="เช่น ความสนใจพิเศษ, ข้อมูลที่ควรทราบ, ความต้องการพิเศษ..."></textarea></div>
+          <div class="full">
+            <label>บันทึกโดย (Registered by)<span class="req">*</span><span class="hint">เจ้าหน้าที่ที่บันทึกข้อมูล</span></label>
+            <select id="registeredBy">
+              <option value="">-- เลือกเจ้าหน้าที่ --</option>
+              <option value="Chirayu (A001)">Chirayu — A001</option>
+              <option value="Kanya (A002)">Kanya — A002</option>
+            </select>
+            <div class="err-msg" id="err-registeredBy">กรุณาเลือกชื่อเจ้าหน้าที่</div>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button class="btn-prev" disabled>‹ ย้อนกลับ</button>
+          <button class="btn-next-f" onclick="goStep(2)">ถัดไป ›</button>
+        </div>
+      </div>
+
+      <!-- ─ COURSE REG mode: Student ID lookup ─ -->
+      <div id="courseRegSearch" style="display:none">
+        <div class="section-title"><h2>1. ค้นหานักเรียน (Student Lookup)</h2><p>ค้นหาด้วยรหัสนักเรียนเพื่อสมัครเรียนคอร์ส</p></div>
+        <div style="margin-top:16px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:18px;">
+          <div style="font-weight:700;color:#15803d;margin-bottom:10px;">🎓 กรอกรหัสนักเรียน (Student ID)</div>
+          <div style="display:flex;gap:10px;align-items:flex-end;">
+            <div style="flex:1;">
+              <label style="font-size:.83rem;color:#374151;margin-bottom:4px;display:block;">Student ID</label>
+              <input type="text" id="searchStudentId" placeholder="STU-20260424-1430" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')searchStudentById()" style="width:100%;padding:10px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;font-family:inherit;letter-spacing:.5px;">
+            </div>
+            <button onclick="searchStudentById()" style="padding:10px 20px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;font-size:.9rem;">ค้นหา 🔍</button>
+          </div>
+          <div id="searchStatusById" style="margin-top:8px;font-size:.83rem;min-height:18px;"></div>
+        </div>
+
+        <div id="foundStudentPanel" style="display:none;margin-top:14px;">
+          <div style="background:#fff;border:1.5px solid #a5b4fc;border-radius:12px;padding:14px 16px;">
+            <div style="font-size:.75rem;font-weight:700;color:#6366f1;margin-bottom:10px;">✅ พบข้อมูลนักเรียน</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">ชื่อ-นามสกุล</div><div id="foundName" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">ชื่อเล่น (Nickname)</div><div id="foundNickname" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">อายุ (Age)</div><div id="foundAge" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <label>บันทึกโดย (Registered by)<span class="req">*</span><span class="hint">เจ้าหน้าที่ที่บันทึกข้อมูล</span></label>
+          <select id="registeredByCourse">
+            <option value="">-- เลือกเจ้าหน้าที่ --</option>
+            <option value="Chirayu (A001)">Chirayu — A001</option>
+            <option value="Kanya (A002)">Kanya — A002</option>
+          </select>
+          <div class="err-msg" id="err-registeredByCourse">กรุณาเลือกชื่อเจ้าหน้าที่</div>
+        </div>
+        <div class="form-footer">
+          <button class="btn-prev" disabled>‹ ย้อนกลับ</button>
+          <button class="btn-next-f" onclick="goStep(2)">ถัดไป ›</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── STEP 2 ── -->
+    <div id="step2" style="display:none">
+
+      <!-- ─ NEW STUDENT mode: Availability / Schedule ─ -->
+      <div id="newStudentSchedule" style="display:none">
+        <div class="section-title"><h2>2. ความพร้อมเรียน (Availability)</h2><p>เลือกวันและช่วงเวลาที่สะดวกสำหรับนักเรียน</p></div>
+
+        <div style="margin-top:18px">
+          <label>วันที่สะดวกเรียน (Preferred Days)<span class="req">*</span><span class="hint">เลือกได้มากกว่า 1 วัน</span></label>
+          <div class="days-grid">
+            <div class="day-btn" onclick="toggleDay(this,'monday')"><div class="day-check"><div class="day-check-icon"></div>จันทร์</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'tuesday')"><div class="day-check"><div class="day-check-icon"></div>อังคาร</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'wednesday')"><div class="day-check"><div class="day-check-icon"></div>พุธ</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'thursday')"><div class="day-check"><div class="day-check-icon"></div>พฤหัสดี</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'friday')"><div class="day-check"><div class="day-check-icon"></div>ศุกร์</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'saturday')"><div class="day-check"><div class="day-check-icon"></div>เสาร์</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'sunday')"><div class="day-check"><div class="day-check-icon"></div>อาทิตย์</div></div>
+          </div>
+          <div class="err-msg" id="err-days-new">กรุณาเลือกอย่างน้อย 1 วัน</div>
+        </div>
+
+        <div style="margin-top:20px">
+          <label>ช่วงเวลาที่สะดวก (Preferred Time Slots)<span class="req">*</span><span class="hint">กรอกเวลาที่สะดวก เช่น 09:00–11:00, หลังเลิกเรียน, เสาร์บ่าย</span></label>
+          <textarea id="preferredTimeSlotsText" placeholder="เช่น จันทร์–ศุกร์ 16:00–18:00, เสาร์ 09:00–12:00" style="min-height:80px;"></textarea>
+          <div class="err-msg" id="err-timeSlots-new">กรุณากรอกช่วงเวลาที่สะดวก</div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn-prev" onclick="goStep(1)">‹ ย้อนกลับ</button>
+          <button class="btn-next-f" onclick="submitForm()">🎓 ลงทะเบียนนักเรียน</button>
+        </div>
+      </div>
+
+      <!-- ─ COURSE REG mode: Course Details ─ -->
+      <div id="courseRegCourseDetails" style="display:none">
+        <div class="section-title"><h2>2. รายละเอียดคอร์ส (Course Details)</h2><p>เลือกภาษา ระดับ และข้อมูลคอร์ส</p></div>
+
+        <div style="margin-top:18px">
+          <label>ภาษาที่ต้องการเรียน (Language)<span class="req">*</span></label>
+          <div class="radio-group grid2" id="langGroup">
+            <div class="radio-card" onclick="selectRadio('langGroup','english')"><input type="radio" name="language" value="english"><div class="radio-dot"></div><div class="radio-text"><strong>🇬🇧 ภาษาอังกฤษ (English)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','chinese')"><input type="radio" name="language" value="chinese"><div class="radio-dot"></div><div class="radio-text"><strong>🇨🇳 ภาษาจีน (Chinese)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','german')"><input type="radio" name="language" value="german"><div class="radio-dot"></div><div class="radio-text"><strong>🇩🇪 ภาษาเยอรมัน (German)</strong></div></div>
+          </div>
+          <div class="err-msg" id="err-lang">กรุณาเลือกภาษา</div>
+        </div>
+
+        <div style="margin-top:20px">
+          <label>ระดับภาษา (Language Level)<span class="req">*</span></label>
+          <div class="radio-group grid2" id="levelGroup">
+            <div class="radio-card" onclick="selectRadio('levelGroup','beginner')"><input type="radio" name="level" value="beginner"><div class="radio-dot"></div><div class="radio-text"><strong>Beginner (เริ่มต้น)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','elementary')"><input type="radio" name="level" value="elementary"><div class="radio-dot"></div><div class="radio-text"><strong>Elementary (พื้นฐาน)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','intermediate')"><input type="radio" name="level" value="intermediate"><div class="radio-dot"></div><div class="radio-text"><strong>Intermediate (ปานกลาง)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','advanced')"><input type="radio" name="level" value="advanced"><div class="radio-dot"></div><div class="radio-text"><strong>Advanced (สูง)</strong></div></div>
+          </div>
+          <div class="err-msg" id="err-level">กรุณาเลือกระดับภาษา</div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+          <div>
+            <label>ครูผู้สอนหลัก (Main Teacher)<span class="req">*</span></label>
+            <select id="mainTeacher">
+              <option value="">-- เลือกครูผู้สอน --</option>
+              <option value="Natalia (T001)">Natalia — T001</option>
+              <option value="Savanah (T002)">Savanah — T002</option>
+              <option value="Erik (T003)">Erik — T003</option>
+              <option value="Mack (T004)">Mack — T004</option>
+              <option value="David (T005)">David — T005</option>
+              <option value="Jane (T006)">Jane — T006</option>
+              <option value="Wang (T007)">Wang — T007</option>
+              <option value="Tawan (T008)">Tawan — T008</option>
+            </select>
+            <div class="err-msg" id="err-mainTeacher">กรุณาเลือกครูผู้สอน</div>
+          </div>
+          <div>
+            <label>ครูทดลองสอน (Trial Teacher) <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— ถ้ามี (optional)</span></label>
+            <select id="trialTeacher">
+              <option value="">-- ไม่มี / None --</option>
+              <option value="Natalia (T001)">Natalia — T001</option>
+              <option value="Savanah (T002)">Savanah — T002</option>
+              <option value="Erik (T003)">Erik — T003</option>
+              <option value="Mack (T004)">Mack — T004</option>
+              <option value="David (T005)">David — T005</option>
+              <option value="Jane (T006)">Jane — T006</option>
+              <option value="Wang (T007)">Wang — T007</option>
+              <option value="Tawan (T008)">Tawan — T008</option>
+            </select>
+          </div>
+          <div class="full">
+            <label>ชื่อคอร์ส / แพ็คเกจ (Course Package)<span class="req">*</span></label>
+            <input type="text" id="coursePackage" placeholder="เช่น English for Kids, IELTS Preparation">
+            <div class="err-msg" id="err-coursePackage">กรุณากรอกชื่อคอร์ส</div>
+          </div>
+        </div>
+
+        <!-- Course ID / Group -->
+        <div style="margin-top:22px">
+          <label>รหัสกลุ่มเรียน (Course Group ID)<span class="req">*</span><span class="hint">สร้างกลุ่มใหม่ หรือเพิ่มนักเรียนเข้ากลุ่มที่มีอยู่</span></label>
+          <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;align-items:flex-start">
+            <div style="flex:1;min-width:200px">
+              <input type="text" id="courseGroupId" placeholder="เช่น GRP-20260426-0900" style="font-family:monospace;font-size:.9rem;">
+              <div class="err-msg" id="err-courseGroupId">กรุณากรอกหรือสร้างรหัสกลุ่ม</div>
+            </div>
+            <button type="button" class="btn-gen-grp" onclick="generateGroupId()">🆕 สร้างรหัสใหม่</button>
+            <button type="button" class="btn-chk-grp" onclick="checkGroupEnrollment()">🔍 ตรวจสอบกลุ่ม</button>
+          </div>
+          <div id="groupStatus" style="margin-top:8px;font-size:.84rem;"></div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn-prev" onclick="goStep(1)">‹ ย้อนกลับ</button>
+          <button class="btn-next-f" onclick="goStep(3)">ถัดไป ›</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── STEP 3: Schedule & Pricing ── -->
+    <div id="step3" style="display:none">
+      <div class="section-title"><h2>3. ตารางเรียน & ราคา (Schedule & Pricing)</h2><p>เลือกประเภทคอร์ส จำนวนชั่วโมง และวันเวลาเรียน</p></div>
+
+      <!-- Course Type -->
+      <div style="margin-top:18px">
+        <label>ประเภทคอร์ส (Course Type)<span class="req">*</span></label>
+        <div class="radio-group" id="typeGroup">
+          <div class="radio-card" onclick="selectRadio('typeGroup','group');updatePrice()">
+            <input type="radio" name="courseType" value="group">
+            <div class="radio-dot"></div>
+            <div class="radio-text">
+              <strong>Group Class (เรียนกลุ่ม) — สูงสุด 5 คน</strong>
+              <small>Half 12h: <b>5,500 THB</b> &nbsp;|&nbsp; Full 24h: <b>9,800 THB</b></small>
+            </div>
+          </div>
+          <div class="radio-card" onclick="selectRadio('typeGroup','private');updatePrice()">
+            <input type="radio" name="courseType" value="private">
+            <div class="radio-dot"></div>
+            <div class="radio-text">
+              <strong>Private Class (เรียนตัวต่อตัว) — 1:1 กับครู</strong>
+              <small>Half 12h: <b>14,500 THB</b> &nbsp;|&nbsp; Full 24h: <b>27,500 THB</b></small>
+            </div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-type">กรุณาเลือกประเภทคอร์ส</div>
+      </div>
+
+      <!-- Course Duration -->
+      <div style="margin-top:20px">
+        <label>ระยะเวลาคอร์ส (Course Duration)<span class="req">*</span></label>
+        <div class="radio-group grid2" id="durationGroup">
+          <div class="radio-card" onclick="selectRadio('durationGroup','half');renderSessionFormats();updatePrice()">
+            <input type="radio" name="duration" value="half">
+            <div class="radio-dot"></div>
+            <div class="radio-text"><strong>Half-course — 12 ชั่วโมง</strong><small id="priceHalf">—</small></div>
+          </div>
+          <div class="radio-card" onclick="selectRadio('durationGroup','full');renderSessionFormats();updatePrice()">
+            <input type="radio" name="duration" value="full">
+            <div class="radio-dot"></div>
+            <div class="radio-text"><strong>Full-course — 24 ชั่วโมง</strong><small id="priceFull">—</small></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-duration">กรุณาเลือกระยะเวลาคอร์ส</div>
+      </div>
+
+      <!-- Session Format (dynamic) -->
+      <div style="margin-top:20px" id="sessionSection" style="display:none">
+        <label>รูปแบบชั่วโมงเรียน (Session Format)<span class="req">*</span></label>
+        <div class="radio-group" id="sessionGroup"></div>
+        <div class="err-msg" id="err-session">กรุณาเลือกรูปแบบชั่วโมงเรียน</div>
+      </div>
+
+      <!-- Student Status -->
+      <div style="margin-top:20px">
+        <label>ประเภทนักเรียน (Student Status)<span class="req">*</span></label>
+        <div class="radio-group grid2" id="statusGroup">
+          <div class="radio-card" onclick="selectRadio('statusGroup','new');updatePrice()">
+            <input type="radio" name="studentStatus" value="new">
+            <div class="radio-dot"></div>
+            <div class="radio-text"><strong>🆕 นักเรียนใหม่ (New Student)</strong><small>ราคาปกติ</small></div>
+          </div>
+          <div class="radio-card" onclick="selectRadio('statusGroup','existing');updatePrice()">
+            <input type="radio" name="studentStatus" value="existing">
+            <div class="radio-dot"></div>
+            <div class="radio-text"><strong>⭐ นักเรียนเดิม (Existing Student)</strong><small style="color:#16a34a;font-weight:600;">ลด 20% เฉพาะ Private Class / 20% off Private only</small></div>
+          </div>
+        </div>
+        <div class="err-msg" id="err-status">กรุณาเลือกประเภทนักเรียน</div>
+      </div>
+
+      <!-- Price Summary Box -->
+      <div id="priceBox" style="display:none" class="price-box">
+        <div class="price-row"><span>ราคาปกติ (Regular Price)</span><span id="pb-base"></span></div>
+        <div class="price-row" id="pb-discount-row"><span>ส่วนลดนักเรียนเดิม 20%</span><span id="pb-discount" style="color:#ef4444;"></span></div>
+        <div class="price-row total"><span>💰 ราคาสุทธิ (Final Price)</span><span id="pb-final"></span></div>
+      </div>
+
+      <!-- Weekly Schedule Picker -->
+      <div style="margin-top:20px">
+        <label>ตารางเวลาเรียน (Class Schedule)<span class="req">*</span><span class="hint">คลิกช่องเพื่อเลือกวันและเวลา — ตารางนี้จะใช้ตลอดคอร์ส</span></label>
+        <div id="schedWeeksContainer"></div>
+        <div class="err-msg" id="err-days"></div>
+        <div class="err-msg" id="err-timeSlots">กรุณาเลือกอย่างน้อย 1 ช่อง</div>
+      </div>
+
+      <!-- Start Date + Payment Due Date -->
+      <div class="grid-2" style="margin-top:20px">
+        <div>
+          <label>วันที่เริ่มเรียน (Start Date)<span class="req">*</span></label>
+          <input type="date" id="startDate" onchange="updateDate(this.value);autoSetDueDate(this.value)" style="font-size:.95rem;padding:12px 14px;">
+          <div id="dateDisplay" style="margin-top:6px;font-size:.85rem;color:#6366f1;font-weight:600;min-height:20px;"></div>
+          <div class="err-msg" id="err-date">กรุณาเลือกวันที่เริ่มเรียน</div>
+        </div>
+        <div>
+          <label>วันครบกำหนดชำระ (Payment Due Date)<span class="req">*</span><span class="hint">ค่าเริ่มต้น: 7 วันหลังเริ่มเรียน</span></label>
+          <input type="date" id="paymentDueDate" style="font-size:.95rem;padding:12px 14px;">
+          <div class="err-msg" id="err-dueDate">กรุณาเลือกวันครบกำหนดชำระ</div>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-prev" onclick="goStep(2)">‹ ย้อนกลับ</button>
+        <button class="btn-next-f" id="submitBtn" onclick="submitForm()">ส่งข้อมูล ›</button>
+      </div>
+    </div>
+
+    <!-- ── SUCCESS ── -->
+    <div id="stepSuccess" style="display:none">
+      <div class="success-box">
+        <div class="success-icon">✓</div>
+        <h2>ลงทะเบียนสำเร็จ!</h2>
+        <p>ขอบคุณที่สมัครเรียนกับ AlphaLingo<br>เราจะติดต่อกลับเร็วๆ นี้</p>
+        <div id="summaryArea"></div><br>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
+          <button style="display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;" onclick="downloadInvoicePDF()">📄 ดาวน์โหลด Invoice PDF</button>
+        </div>
+        <button class="btn-add-course" id="btnAddCourse" style="display:none" onclick="addAnotherCourse()">➕ เพิ่มคอร์สให้นักเรียนคนเดิม</button>
+        <button class="btn-restart" onclick="restartReg()">สมัครนักเรียนใหม่</button>
+        <button class="btn-go-home" onclick="showPage('homePage')">หน้าหลัก</button>
+      </div>
+    </div>
+
+  </div><!-- /form-wrap -->
+</div><!-- /regPage -->
+
+<!-- ════════════ INVOICE PAGE ════════════ -->
+<div id="invoicePage" class="page">
+  <div class="inv-header">
+    <div>
+      <h1>🧾 Invoice Management</h1>
+      <p id="invDateLine"></p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button onclick="loadInvoices()" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:8px;color:#fff;padding:7px 14px;cursor:pointer;font-size:.82rem;font-family:inherit;">🔄 Refresh</button>
+      <button class="btn-logout" onclick="showPage('homePage')">← หน้าหลัก</button>
+    </div>
+  </div>
+  <div class="inv-body">
+    <!-- Stats -->
+    <div class="inv-stats">
+      <div class="stat-card stat-blue"><div class="stat-label">Total Invoices</div><div class="stat-val" id="stat-total">—</div><div class="stat-sub">all registrations</div></div>
+      <div class="stat-card stat-red"><div class="stat-label">Pending / Overdue</div><div class="stat-val" id="stat-pending">—</div><div class="stat-sub">awaiting payment</div></div>
+      <div class="stat-card stat-green"><div class="stat-label">Collected (THB)</div><div class="stat-val" id="stat-collected">—</div><div class="stat-sub">amount received</div></div>
+      <div class="stat-card stat-amber"><div class="stat-label">Outstanding (THB)</div><div class="stat-val" id="stat-outstanding">—</div><div class="stat-sub">balance due</div></div>
+    </div>
+    <!-- Table -->
+    <div class="inv-table-wrap">
+      <div class="inv-toolbar">
+        <h2>All Invoices</h2>
+        <div class="inv-filter">
+          <button class="active" onclick="filterInv('all',this)">All</button>
+          <button onclick="filterInv('Pending',this)">Pending</button>
+          <button onclick="filterInv('Partial',this)">Partial</button>
+          <button onclick="filterInv('Paid',this)">Paid</button>
+          <button onclick="filterInv('Overdue',this)">Overdue</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="inv-tbl">
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Student</th>
+              <th>Course / Teacher</th>
+              <th>Total (THB)</th>
+              <th>Due Date</th>
+              <th>Course Ends</th>
+              <th>Status</th>
+              <th>Paid (THB)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="invTableBody"></tbody>
+        </table>
+      </div>
+      <div id="invEmpty" class="inv-empty" style="display:none">No invoices found. Submit a registration to create one.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Update Invoice Modal -->
+<div class="modal-bg" id="updateModal">
+  <div class="modal-box">
+    <h3>Update Invoice</h3>
+    <p id="modalInvInfo">Invoice details</p>
+    <div class="modal-field">
+      <label>Payment Status</label>
+      <select id="modalStatus">
+        <option value="Pending">Pending — ยังไม่ชำระ</option>
+        <option value="Partial">Partial — ชำระบางส่วน</option>
+        <option value="Paid">Paid — ชำระครบแล้ว</option>
+        <option value="Overdue">Overdue — เกินกำหนด</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <label>Amount Paid (THB)</label>
+      <input type="number" id="modalAmountPaid" placeholder="0" min="0">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-save" onclick="saveInvoiceUpdate()">Save ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ TEACHER LOGIN ════════════ -->
+<div id="teacherLoginPage" class="page">
+  <div class="login-card">
+    <div class="login-icon">🎓</div>
+    <h1>Attendance Management System</h1>
+    <p class="subtitle">Please login with your Teacher ID only</p>
+    <div class="form-group">
+      <label>Teacher ID <span class="req">*</span></label>
+      <input type="text" id="teacherIdInput" placeholder="Enter Teacher ID only (not name)" onkeydown="if(event.key==='Enter')doLogin()">
+      <p class="security-note">🔒 For security, only Teacher ID is accepted</p>
+      <div class="login-err" id="loginErr"></div>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Login</button>
+    <br><br>
+    <button style="background:none;border:none;color:#9ca3af;font-size:.83rem;cursor:pointer;font-family:inherit;" onclick="showPage('homePage')">← Back to Home</button>
+  </div>
+</div>
+
+<!-- ════════════ DASHBOARD ════════════ -->
+<div id="dashPage" class="page">
+  <div class="dash-header">
+    <div class="dash-header-left">
+      <div class="dash-header-icon">📅</div>
+      <div><h1>Teacher Dashboard</h1><p id="welcomeMsg">Welcome</p></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn-sched" onclick="openTeacherSchedule()">📅 My Schedule</button>
+      <button class="btn-logout" onclick="doLogout()">↪ Logout</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <p class="dash-date" id="todayDate"></p>
+    <div class="dash-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><h2>Today's Attendance</h2><span class="badge-count" id="eventBadge">0 events</span></div>
+          <div class="filter-btns">
+            <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+            <button class="filter-btn" onclick="setFilter('private',this)">Private</button>
+            <button class="filter-btn" onclick="setFilter('group',this)">Group</button>
+          </div>
+        </div>
+        <div id="classList"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title"><h2>Upcoming</h2></div></div>
+        <div id="upcomingList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ TEACHER SCHEDULE ════════════ -->
+<div id="teacherSchedulePage" class="page">
+  <!-- Header -->
+  <div class="ts-header">
+    <div class="ts-header-left">
+      <button class="btn-ts-back" onclick="showPage('dashPage')">← Back</button>
+      <div>
+        <h1>📅 Teaching Schedule</h1>
+        <p>View your classes and send reminders to parents</p>
+      </div>
+    </div>
+    <button class="btn-ts-refresh" onclick="loadTeacherSchedule()">🔄 Refresh</button>
+  </div>
+
+  <!-- Controls -->
+  <div class="ts-controls">
+    <label>Teacher:</label>
+    <select id="tsTeacherFilter" onchange="renderTeacherSchedule()">
+      <option value="">👥 All Teachers</option>
+    </select>
+    <div class="ts-filter-btns">
+      <button class="ts-filter-btn active" onclick="setTsFilter('all',this)">All</button>
+      <button class="ts-filter-btn" onclick="setTsFilter('pending',this)">⏳ Pending</button>
+      <button class="ts-filter-btn" onclick="setTsFilter('confirmed',this)">✅ Confirmed</button>
+      <button class="ts-filter-btn" onclick="setTsFilter('cancelled',this)">❌ Cancelled</button>
+    </div>
+  </div>
+
+  <!-- Line Token Config -->
+  <div class="line-config-bar" id="lineConfigBar">
+    <span class="lc-label">🟢 Line OA Token:</span>
+    <input type="password" id="lineTokenInput" placeholder="Channel Access Token" autocomplete="off">
+    <button class="btn-lc-save" onclick="saveLineToken()">Save</button>
+    <span class="lc-status" id="lineTokenStatus"></span>
+  </div>
+
+  <!-- Course cards -->
+  <div class="ts-body">
+    <div id="tsCardContainer" class="ts-loading">⏳ Loading...</div>
+  </div>
+</div>
+
+<script>
+// ── Config ──
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzO_tRi-O7VrKiFqkQFD83oNwZ3viJTV1QkYc2dMsPUlcGR9lqp6vUa0LOSjiql61yJ/exec';
+
+const PRICES = {
+  group:   { half: 5500,  full: 9800  },
+  private: { half: 14500, full: 27500 }
+};
+const DISCOUNT_RATE = 0.20;
+
+const SESSION_FORMATS = {
+  half: [
+    { value:'1h-12',  label:'1 ชม./ครั้ง × 12 ครั้ง',  sub:'12 sessions × 1 hr each'  },
+    { value:'1.5h-8', label:'1.5 ชม./ครั้ง × 8 ครั้ง', sub:'8 sessions × 1.5 hr each' },
+    { value:'2h-6',   label:'2 ชม./ครั้ง × 6 ครั้ง',   sub:'6 sessions × 2 hr each'  }
+  ],
+  full: [
+    { value:'1h-24',   label:'1 ชม./ครั้ง × 24 ครั้ง',  sub:'24 sessions × 1 hr each'  },
+    { value:'1.5h-16', label:'1.5 ชม./ครั้ง × 16 ครั้ง', sub:'16 sessions × 1.5 hr each' },
+    { value:'2h-12',   label:'2 ชม./ครั้ง × 12 ครั้ง',  sub:'12 sessions × 2 hr each'  }
+  ]
+};
+
+const TEACHERS = {
+  'T001': { name:'Natalia (T001)', classes:[
+    { name:'English for Kids – Group A', ageGroup:'Age 6–9',  students:4, day:'Monday', time:'09:00–10:00', type:'group',   upcoming:['Wednesday 09:00','Friday 09:00'] },
+    { name:'IELTS Preparation',          ageGroup:'Age 16–20',students:1, day:'Monday', time:'11:00–12:30', type:'private', upcoming:['Wednesday 11:00'] },
+    { name:'Business English – Group B', ageGroup:'Age 25–35',students:5, day:'Monday', time:'14:00–15:00', type:'group',   upcoming:['Thursday 14:00'] }
+  ]},
+  'T002': { name:'Savanah (T002)', classes:[
+    { name:'Chinese Beginner – Group A', ageGroup:'Age 8–12', students:3, day:'Monday', time:'10:00–11:00', type:'group',   upcoming:['Wednesday 10:00','Saturday 10:00'] },
+    { name:'Chinese Intermediate',       ageGroup:'Age 18–25',students:1, day:'Monday', time:'13:00–14:30', type:'private', upcoming:['Thursday 13:00'] }
+  ]},
+  'T003': { name:'Erik (T003)', classes:[
+    { name:'German for Kids',  ageGroup:'Age 7–10', students:5, day:'Monday', time:'08:00–09:00', type:'group',   upcoming:['Wednesday 08:00','Friday 08:00'] },
+    { name:'German Advanced',  ageGroup:'Age 20–30',students:1, day:'Monday', time:'15:00–17:00', type:'private', upcoming:['Thursday 15:00'] }
+  ]},
+  'T004': { name:'Mack (T004)',   classes:[] },
+  'T005': { name:'David (T005)',  classes:[] },
+  'T006': { name:'Jane (T006)',   classes:[] },
+  'T007': { name:'Wang (T007)',   classes:[] },
+  'T008': { name:'Tawan (T008)', classes:[] }
+};
+
+// ── Page switching ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (id === 'teacherSchedulePage') { initLineConfig(); }
+}
+
+// ════ REGISTRATION ════
+let currentStep = 1, selectedDays = [], selectedTimeSlots = [], regMode = 'new';
+let foundStudentData = null;
+let selectedSchedule = {}; // { monday: ['09:00','14:00'], friday: ['10:00'] }
+
+const STEP_DEFS = {
+  new:      [['ข้อมูลนักเรียน','Student Info'],['ความพร้อมเรียน','Availability']],
+  existing: [['ค้นหานักเรียน','Student Lookup'],['รายละเอียดคอร์ส','Course Details'],['ตารางเรียน & ราคา','Schedule & Pricing']]
+};
+
+function buildStepper() {
+  const steps = STEP_DEFS[regMode];
+  const container = document.getElementById('stepperContainer');
+  container.innerHTML = steps.map((s, i) => `
+    <div class="step-item${i===0?' active':''}" id="s${i+1}">
+      <div class="step-circle" id="sc${i+1}">${i+1}</div>
+      <div class="step-label">${s[0]}<br>${s[1]}</div>
+    </div>`).join('');
+}
+
+function initReg(mode) {
+  regMode = mode || 'new';
+  currentStep = 1; selectedDays = []; selectedTimeSlots = [];
+  selectedSchedule = {};
+  foundStudentData = null;
+  const container = document.getElementById('schedWeeksContainer');
+  if (container) { container.innerHTML = buildSchedTable(); }
+
+  // Update page header
+  const titles = { new: ['🎓 ลงทะเบียนนักเรียน','Student Registration — กรอกข้อมูลนักเรียนใหม่'], existing: ['📖 สมัครเรียนคอร์ส','Course Registration — สมัครเรียนสำหรับนักเรียนเดิม'] };
+  document.getElementById('regPageTitle').textContent = titles[mode][0];
+  document.getElementById('regPageSubtitle').textContent = titles[mode][1];
+
+  // Reset text inputs
+  // Reset language preference checkboxes
+  ['English','Chinese','German'].forEach(l => {
+    const cb = document.getElementById('langPref'+l); if (cb) cb.checked = false;
+    const card = document.getElementById('lc-'+l.toLowerCase()); if (card) card.classList.remove('checked');
+  });
+  // Reset consent
+  ['cc-allow','cc-notallow'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.remove('checked'); });
+  document.querySelectorAll('input[name="mediaConsent"]').forEach(r => r.checked = false);
+
+  const gidEl = document.getElementById('courseGroupId'); if (gidEl) gidEl.value = '';
+  const gsEl  = document.getElementById('groupStatus');   if (gsEl)  gsEl.innerHTML = '';
+  ['firstName','lastName','nickname','birthDate','age','school','parentPhone','parentLineId','interests','coursePackage','preferredTimeSlotsText'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; el.classList.remove('error'); }
+  });
+  ['grade','mainTeacher','trialTeacher','registeredBy','registeredByCourse','hearAbout'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = ''; el.classList.remove('error'); }
+  });
+  const sdEl = document.getElementById('searchStudentId');
+  if (sdEl) { sdEl.value = ''; }
+  document.getElementById('searchStatusById').innerHTML = '';
+  document.getElementById('foundStudentPanel').style.display = 'none';
+  document.getElementById('startDate').value = '';
+  document.getElementById('paymentDueDate').value = '';
+  document.getElementById('dateDisplay').textContent = '';
+
+  // Reset radio groups
+  ['langGroup','levelGroup','typeGroup','durationGroup','sessionGroup','statusGroup'].forEach(gid => {
+    const g = document.getElementById(gid);
+    if (g) { g.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected')); g.querySelectorAll('input[type=radio]').forEach(r => r.checked = false); }
+  });
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.err-msg').forEach(e => e.classList.remove('show'));
+
+  document.getElementById('priceBox').style.display = 'none';
+  document.getElementById('sessionSection').style.display = 'none';
+  document.getElementById('sessionGroup').innerHTML = '';
+
+  // Show/hide mode-specific step1 content
+  document.getElementById('newStudentForm').style.display   = mode === 'new'      ? 'block' : 'none';
+  document.getElementById('courseRegSearch').style.display  = mode === 'existing' ? 'block' : 'none';
+
+  // Show/hide mode-specific step2 content
+  document.getElementById('newStudentSchedule').style.display      = mode === 'new'      ? 'block' : 'none';
+  document.getElementById('courseRegCourseDetails').style.display  = mode === 'existing' ? 'block' : 'none';
+
+  // Show step1, hide others
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('stepSuccess').style.display = 'none';
+
+  // Auto-select existing student discount for course reg
+  if (mode === 'existing') {
+    setTimeout(() => { selectRadio('statusGroup','existing'); updatePrice(); }, 100);
+  }
+
+  buildStepper();
+  updateStepper();
+}
+
+function goStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+  document.getElementById('step'+currentStep).style.display = 'none';
+  currentStep = n;
+  document.getElementById('step'+n).style.display = 'block';
+  updateStepper();
+  document.getElementById('regPage').scrollIntoView({behavior:'smooth'});
+}
+
+function updateStepper() {
+  const maxStep = STEP_DEFS[regMode].length;
+  for (let i = 1; i <= maxStep; i++) {
+    const el = document.getElementById('s'+i);
+    const c  = document.getElementById('sc'+i);
+    if (!el) continue;
+    el.className = 'step-item';
+    if (i < currentStep)       { el.classList.add('done');   c.innerHTML = '✓'; }
+    else if (i === currentStep) { el.classList.add('active'); c.innerHTML = i; }
+    else                         c.innerHTML = i;
+  }
+}
+
+function selectRadio(gid, val) {
+  const g = document.getElementById(gid);
+  if (!g) return;
+  g.querySelectorAll('.radio-card').forEach(card => {
+    const r = card.querySelector('input[type=radio]');
+    if (r && r.value === val) { card.classList.add('selected'); r.checked = true; }
+    else { card.classList.remove('selected'); if(r) r.checked = false; }
+  });
+}
+function getRadio(name) { const el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:null; }
+
+// ── Course Group ID ──
+const MAX_GROUP_SIZE = 5;
+
+function generateGroupId() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const id = 'GRP-' + now.getFullYear() + pad(now.getMonth()+1) + pad(now.getDate()) + '-' + pad(now.getHours()) + pad(now.getMinutes());
+  document.getElementById('courseGroupId').value = id;
+  document.getElementById('groupStatus').innerHTML =
+    `<span class="group-badge new">🆕 กลุ่มใหม่ — 0/${MAX_GROUP_SIZE} นักเรียน (New Group)</span>`;
+}
+
+function checkGroupEnrollment() {
+  const gid = document.getElementById('courseGroupId').value.trim();
+  const statusEl = document.getElementById('groupStatus');
+  if (!gid) { statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">กรุณากรอกรหัสกลุ่มก่อน</span>'; return; }
+  statusEl.innerHTML = '<span style="color:#6b7280;font-size:.82rem;">⏳ กำลังตรวจสอบ...</span>';
+
+  const cbName = 'alGrp_' + Date.now();
+  const scId   = 'alGrpSc_' + Date.now();
+  window[cbName] = function(result) {
+    delete window[cbName];
+    const sc = document.getElementById(scId); if (sc) sc.remove();
+    if (result && result.status === 'ok') {
+      const count = result.count;
+      const remaining = MAX_GROUP_SIZE - count;
+      if (count >= MAX_GROUP_SIZE) {
+        statusEl.innerHTML = `<span class="group-badge full">🚫 กลุ่มเต็มแล้ว ${count}/${MAX_GROUP_SIZE} นักเรียน — กรุณาสร้างกลุ่มใหม่</span>`;
+      } else if (count === 0) {
+        statusEl.innerHTML = `<span class="group-badge new">🆕 ยังไม่มีนักเรียนในกลุ่มนี้ — 0/${MAX_GROUP_SIZE}</span>`;
+      } else {
+        const cls = remaining === 1 ? 'warn' : 'ok';
+        statusEl.innerHTML = `<span class="group-badge ${cls}">👥 ${count}/${MAX_GROUP_SIZE} นักเรียน — เหลือ ${remaining} ที่ว่าง</span>`;
+      }
+    } else {
+      statusEl.innerHTML = `<span class="group-badge new">🆕 ไม่พบกลุ่มนี้ — จะสร้างเป็นกลุ่มใหม่</span>`;
+    }
+  };
+  const script = document.createElement('script');
+  script.id = scId;
+  script.onerror = () => { delete window[cbName]; statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">❌ เชื่อมต่อไม่ได้</span>'; };
+  script.src = APPS_SCRIPT_URL + '?action=getGroupCount&courseGroupId=' + encodeURIComponent(gid) + '&callback=' + cbName;
+  document.head.appendChild(script);
+}
+
+function updateLangPref() {
+  ['english','chinese','german'].forEach(l => {
+    const cb = document.getElementById('langPref'+l.charAt(0).toUpperCase()+l.slice(1));
+    const card = document.getElementById('lc-'+l);
+    if (cb && card) card.classList.toggle('checked', cb.checked);
+  });
+}
+
+function setConsent(val) {
+  document.getElementById('cc-allow').classList.toggle('checked',    val==='allow');
+  document.getElementById('cc-notallow').classList.toggle('checked', val==='not_allow');
+  const r = document.querySelector('input[name="mediaConsent"][value="'+val+'"]');
+  if (r) r.checked = true;
+}
+
+function getLangPref() {
+  const labels = {English:'English',Chinese:'Chinese',German:'German'};
+  return ['English','Chinese','German'].filter(l => {
+    const el = document.getElementById('langPref'+l);
+    return el && el.checked;
+  }).join(', ');
+}
+
+function calcAge() {
+  const bd = document.getElementById('birthDate').value;
+  if (!bd) { document.getElementById('age').value=''; return; }
+  const today=new Date(), birth=new Date(bd);
+  let age = today.getFullYear()-birth.getFullYear();
+  const m = today.getMonth()-birth.getMonth();
+  if (m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
+  document.getElementById('age').value = age >= 0 ? age+' ปี (years old)' : '';
+}
+
+function toggleDay(el, day) {
+  el.classList.toggle('selected');
+  selectedDays = el.classList.contains('selected') ? [...selectedDays,day] : selectedDays.filter(d=>d!==day);
+}
+
+function toggleTimeSlot(el, slot) {
+  el.classList.toggle('selected');
+  selectedTimeSlots = el.classList.contains('selected') ? [...selectedTimeSlots,slot] : selectedTimeSlots.filter(s=>s!==slot);
+}
+
+// ── Schedule builder (30-min slots, single weekly grid) ──
+const SCHED_DAYS = [
+  {key:'monday',    th:'จันทร์'},
+  {key:'tuesday',   th:'อังคาร'},
+  {key:'wednesday', th:'พุธ'},
+  {key:'thursday',  th:'พฤหัสฯ'},
+  {key:'friday',    th:'ศุกร์'},
+  {key:'saturday',  th:'เสาร์'},
+  {key:'sunday',    th:'อาทิตย์'}
+];
+const SCHED_HOURS = [8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+function buildSchedTable() {
+  let hrHead  = `<th class="sched-day-hd">วัน / Day</th>`;
+  let minHead = `<th class="sched-day-hd"></th>`;
+  SCHED_HOURS.forEach(h => {
+    const isLast = h === 20;
+    hrHead  += `<th colspan="${isLast?1:2}" class="hr-group">${String(h).padStart(2,'0')}:00</th>`;
+    minHead += `<th>:00</th>`;
+    if (!isLast) minHead += `<th class="min-half">:30</th>`;
+  });
+
+  let rows = '';
+  SCHED_DAYS.forEach(d => {
+    let cells = `<td class="sched-day-lbl">${d.th}</td>`;
+    SCHED_HOURS.forEach(h => {
+      const t00  = `${String(h).padStart(2,'0')}:00`;
+      const t30  = `${String(h).padStart(2,'0')}:30`;
+      const isLast = h === 20;
+      cells += `<td class="sched-cell${isLast?' half-border':''}" onclick="toggleSched(this,'${d.key}','${t00}')"></td>`;
+      if (!isLast) cells += `<td class="sched-cell half-border" onclick="toggleSched(this,'${d.key}','${t30}')"></td>`;
+    });
+    rows += `<tr>${cells}</tr>`;
+  });
+
+  return `
+    <div class="sched-week-block">
+      <div class="sched-wrap">
+        <table class="sched-table">
+          <thead>
+            <tr class="sched-hr">${hrHead}</tr>
+            <tr class="sched-min">${minHead}</tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function toggleSched(el, day, time) {
+  el.classList.toggle('selected');
+  if (!selectedSchedule[day]) selectedSchedule[day] = [];
+  if (el.classList.contains('selected')) {
+    selectedSchedule[day].push(time);
+    selectedSchedule[day].sort();
+  } else {
+    selectedSchedule[day] = selectedSchedule[day].filter(t => t !== time);
+    if (selectedSchedule[day].length === 0) delete selectedSchedule[day];
+  }
+}
+
+function formatSchedule() {
+  const dayOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+  const dayTh    = {monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสฯ',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'};
+  return dayOrder
+    .filter(d => selectedSchedule[d] && selectedSchedule[d].length > 0)
+    .map(d => dayTh[d] + ' ' + selectedSchedule[d].join(', '))
+    .join(' | ');
+}
+
+function hasAnySchedSelection() {
+  return Object.values(selectedSchedule).some(times => times.length > 0);
+}
+
+function autoSetDueDate(startVal) {
+  if (!startVal) return;
+  const d = new Date(startVal + 'T00:00:00');
+  d.setDate(d.getDate() + 7);
+  document.getElementById('paymentDueDate').value = d.toISOString().split('T')[0];
+}
+
+function updateDate(val) {
+  const display = document.getElementById('dateDisplay');
+  if (!val) { display.textContent = ''; return; }
+  const d = new Date(val+'T00:00:00');
+  display.textContent = '📅 ' + d.toLocaleDateString('th-TH',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+
+function renderSessionFormats() {
+  const dur = getRadio('duration');
+  const sec = document.getElementById('sessionSection');
+  const grp = document.getElementById('sessionGroup');
+  if (!dur) { sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  grp.innerHTML = '';
+  // Clear previous selection
+  SESSION_FORMATS[dur].forEach(fmt => {
+    const div = document.createElement('div');
+    div.className = 'radio-card';
+    div.onclick = () => selectRadio('sessionGroup', fmt.value);
+    div.innerHTML = `<input type="radio" name="sessionFmt" value="${fmt.value}"><div class="radio-dot"></div><div class="radio-text"><strong>${fmt.label}</strong><small>${fmt.sub}</small></div>`;
+    grp.appendChild(div);
+  });
+}
+
+function updatePrice() {
+  const type   = getRadio('courseType');
+  const dur    = getRadio('duration');
+  const status = getRadio('studentStatus');
+
+  // Update inline price labels
+  ['half','full'].forEach(d => {
+    const el = document.getElementById('price'+d.charAt(0).toUpperCase()+d.slice(1));
+    if (!el) return;
+    if (!type) { el.textContent = '—'; return; }
+    const base = PRICES[type][d];
+    const disc = (status==='existing' && type==='private') ? Math.round(base*DISCOUNT_RATE) : 0;
+    const final = base - disc;
+    el.innerHTML = disc>0
+      ? `<span style="text-decoration:line-through;color:#9ca3af;">${fmt(base)} THB</span> → <b style="color:#15803d;">${fmt(final)} THB</b>`
+      : `<b>${fmt(base)} THB</b>`;
+  });
+
+  // Price box
+  const box = document.getElementById('priceBox');
+  if (!type || !dur || !status) { box.style.display='none'; return; }
+  const base  = PRICES[type][dur];
+  const disc  = status==='existing' ? Math.round(base*DISCOUNT_RATE) : 0;
+  const final = base - disc;
+  document.getElementById('pb-base').textContent    = fmt(base)+' THB';
+  document.getElementById('pb-discount').textContent = disc>0 ? '-'+fmt(disc)+' THB' : '—';
+  document.getElementById('pb-discount-row').style.display = disc>0 ? 'flex' : 'none';
+  document.getElementById('pb-final').textContent   = fmt(final)+' THB';
+  box.style.display = 'block';
+}
+
+function fmt(n) { return n.toLocaleString('th-TH'); }
+
+function validateStep(s) {
+  let ok = true;
+
+  // ── NEW STUDENT REGISTRATION ──
+  if (regMode === 'new') {
+    if (s===1) {
+      ok = req('firstName','err-firstName') & ok;
+      ok = req('lastName','err-lastName') & ok;
+      ok = req('nickname','err-nickname') & ok;
+      ok = req('birthDate','err-birthDate') & ok;
+      ok = req('school','err-school') & ok;
+      ok = reqSel('grade','err-grade') & ok;
+      const phoneEl = document.getElementById('parentPhone');
+      const phoneOk = /^\d{10}$/.test((phoneEl?phoneEl.value.trim():''));
+      if (!phoneOk) { if(phoneEl) phoneEl.classList.add('error'); showE('err-parentPhone',true); ok=false; }
+      else { if(phoneEl) phoneEl.classList.remove('error'); showE('err-parentPhone',false); }
+      const langOk = getLangPref().length > 0; showE('err-langPref',!langOk); if(!langOk) ok=false;
+      const consentEl = document.querySelector('input[name="mediaConsent"]:checked');
+      const consentOk = !!consentEl; showE('err-consent',!consentOk); if(!consentOk) ok=false;
+      ok = reqSel('hearAbout','err-hearAbout') & ok;
+      ok = reqSel('registeredBy','err-registeredBy') & ok;
+    }
+    if (s===2) {
+      const dOk  = selectedDays.length>0;       showE('err-days-new',!dOk);      if(!dOk)  ok=false;
+      const tsEl = document.getElementById('preferredTimeSlotsText');
+      const tsOk = tsEl && tsEl.value.trim().length>0; showE('err-timeSlots-new',!tsOk); if(!tsOk) ok=false;
+    }
+  }
+
+  // ── COURSE REGISTRATION ──
+  if (regMode === 'existing') {
+    if (s===1) {
+      if (!foundStudentData) {
+        showE('err-registeredByCourse', false);
+        document.getElementById('searchStatusById').innerHTML = '<span style="color:#ef4444">❌ กรุณาค้นหานักเรียนก่อน</span>';
+        ok = false;
+      }
+      ok = reqSel('registeredByCourse','err-registeredByCourse') & ok;
+    }
+    if (s===2) {
+      ok = reqR('language','err-lang') & ok;
+      ok = reqR('level','err-level') & ok;
+      ok = reqSel('mainTeacher','err-mainTeacher') & ok;
+      ok = req('coursePackage','err-coursePackage') & ok;
+      ok = req('courseGroupId','err-courseGroupId') & ok;
+      // Block if group is full
+      const gs = document.getElementById('groupStatus');
+      if (gs && gs.innerHTML.includes('กลุ่มเต็มแล้ว')) {
+        gs.innerHTML += ' <span style="color:#ef4444;font-size:.8rem;">— กรุณาสร้างกลุ่มใหม่ก่อนดำเนินการต่อ</span>';
+        ok = false;
+      }
+    }
+    if (s===3) {
+      ok = reqR('courseType','err-type') & ok;
+      ok = reqR('duration','err-duration') & ok;
+      ok = reqR('sessionFmt','err-session') & ok;
+      ok = reqR('studentStatus','err-status') & ok;
+      const schedOk = hasAnySchedSelection();
+      showE('err-timeSlots', !schedOk); if (!schedOk) ok = false;
+      const dtOk = !!document.getElementById('startDate').value; showE('err-date',!dtOk); if(!dtOk) ok=false;
+      const ddOk = !!document.getElementById('paymentDueDate').value; showE('err-dueDate',!ddOk); if(!ddOk) ok=false;
+    }
+  }
+  return !!ok;
+}
+function req(id,eid) { const el=document.getElementById(id); if(!el||!el.value.trim()){if(el)el.classList.add('error');showE(eid,true);return false;} el.classList.remove('error');showE(eid,false);return true; }
+function reqR(name,eid) { if(!getRadio(name)){showE(eid,true);return false;} showE(eid,false);return true; }
+function reqSel(id,eid) { const el=document.getElementById(id); if(!el||!el.value){if(el)el.classList.add('error');showE(eid,true);return false;} el.classList.remove('error');showE(eid,false);return true; }
+function showE(id,show) { const el=document.getElementById(id); if(el) el.classList.toggle('show',show); }
+function v(id) { const el=document.getElementById(id); return el?el.value.trim():''; }
+
+// ── Search student by ID (JSONP — bypasses CORS) ──
+function searchStudentById() {
+  const sid    = document.getElementById('searchStudentId').value.trim().toUpperCase();
+  const status = document.getElementById('searchStatusById');
+  if (!sid) { status.innerHTML = '<span style="color:#ef4444">กรุณากรอกรหัสนักเรียน</span>'; return; }
+
+  status.innerHTML = '<span style="color:#6b7280">⏳ กำลังค้นหา...</span>';
+  document.getElementById('foundStudentPanel').style.display = 'none';
+  foundStudentData = null;
+
+  const cbName   = 'alSrch_' + Date.now();
+  const scriptId = 'alSc_'   + Date.now();
+
+  window[cbName] = function(result) {
+    delete window[cbName];
+    const sc = document.getElementById(scriptId); if (sc) sc.remove();
+    if (result && result.status === 'found') {
+      const d = result.student;
+      foundStudentData = d;
+      document.getElementById('foundName').textContent     = (d.firstName||'') + ' ' + (d.lastName||'');
+      document.getElementById('foundNickname').textContent = d.nickname || '—';
+      // Calculate current age from birth date if available
+      let ageStr = d.age || '—';
+      if (d.birthDate) {
+        const today = new Date(), birth = new Date(d.birthDate);
+        let a = today.getFullYear() - birth.getFullYear();
+        const m = today.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) a--;
+        if (a >= 0) ageStr = a + ' ปี (years old)';
+      }
+      document.getElementById('foundAge').textContent = ageStr;
+      document.getElementById('foundStudentPanel').style.display = 'block';
+      status.innerHTML = '<span style="color:#15803d;font-weight:700;">✅ พบนักเรียน — กรุณาตรวจสอบข้อมูลด้านล่าง</span>';
+    } else {
+      status.innerHTML = '<span style="color:#ef4444">❌ ไม่พบรหัสนักเรียนนี้ในระบบ — กรุณาตรวจสอบรหัสอีกครั้ง</span>';
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = scriptId;
+  script.onerror = () => {
+    delete window[cbName];
+    status.innerHTML = '<span style="color:#ef4444">❌ เชื่อมต่อไม่ได้ — กรุณาเปิดในเบราว์เซอร์หรือตรวจสอบการเชื่อมต่อ</span>';
+  };
+  script.src = APPS_SCRIPT_URL + '?action=searchById&studentId=' + encodeURIComponent(sid) + '&callback=' + cbName;
+  document.head.appendChild(script);
+}
+
+function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
+
+async function submitForm() {
+  const lastValidStep = regMode === 'new' ? 2 : 3;
+  if (!validateStep(lastValidStep)) return;
+
+  const dayLabels   = {monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสดี',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'};
+  const langLabels  = {english:'ภาษาอังกฤษ (English)',chinese:'ภาษาจีน (Chinese)',german:'ภาษาเยอรมัน (German)'};
+  const levelLabels = {beginner:'Beginner',elementary:'Elementary',intermediate:'Intermediate',advanced:'Advanced'};
+  const typeLabels  = {group:'Group Class (เรียนกลุ่ม)',private:'Private Class (เรียนตัวต่อตัว)'};
+  const durLabels   = {half:'Half-course (12h)',full:'Full-course (24h)'};
+  const timeSlotLabels = {morning:'เช้า 08-12 (Morning)',afternoon:'บ่าย 12-17 (Afternoon)',evening:'เย็น 17-20 (Evening)'};
+
+  // Generate timestamps
+  const _now = new Date();
+  const _pad = (n,len=2) => String(n).padStart(len,'0');
+  const _ts  = _now.getFullYear()+_pad(_now.getMonth()+1)+_pad(_now.getDate())+'-'+_pad(_now.getHours())+_pad(_now.getMinutes());
+  const _studentId = 'STU-' + _ts;
+  const _invoiceNo = 'AL-'  + _ts;
+
+  // ════════════════════════════════════════════
+  // NEW STUDENT REGISTRATION
+  // ════════════════════════════════════════════
+  if (regMode === 'new') {
+    const data = {
+      studentType:  'Student Registration',
+      submittedAt:  new Date().toLocaleString('th-TH'),
+      studentId:    _studentId,
+      registeredBy: v('registeredBy'),
+      firstName:    v('firstName'),
+      lastName:     v('lastName'),
+      nickname:     v('nickname'),
+      birthDate:    v('birthDate'),
+      age:          v('age'),
+      school:       v('school'),
+      grade:        v('grade'),
+      parentPhone:  v('parentPhone'),
+      parentLineId: v('parentLineId'),
+      hearAbout:    v('hearAbout'),
+      interests:    v('interests'),
+      langPref:     getLangPref(),
+      mediaConsent: (document.querySelector('input[name="mediaConsent"]:checked')||{}).value||'',
+      preferredDays:       selectedDays.map(d=>dayLabels[d]||d).join(', '),
+      preferredTimeSlots:  (document.getElementById('preferredTimeSlotsText')||{}).value||''
+    };
+
+    // Send to sheet
+    if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_')) {
+      try {
+        const params = new URLSearchParams();
+        params.append('payload', JSON.stringify(data));
+        await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() });
+      } catch(e) { console.warn('Sheet save error:', e); }
+    }
+
+    // Success screen — student registration
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('stepSuccess').style.display = 'block';
+    const maxS = STEP_DEFS['new'].length;
+    for(let i=1;i<=maxS;i++){document.getElementById('s'+i).className='step-item done';document.getElementById('sc'+i).innerHTML='✓';}
+
+    document.getElementById('summaryArea').innerHTML = `
+      <div style="background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1.5px solid #a5b4fc;border-radius:12px;padding:16px 20px;margin:16px 0;text-align:center;">
+        <div style="font-size:.8rem;color:#6366f1;font-weight:700;margin-bottom:6px;">🎓 รหัสนักเรียน (Student ID)</div>
+        <div style="font-size:1.4rem;font-weight:900;color:#1e1b4b;letter-spacing:1px;">${_studentId}</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:4px;">กรุณาบันทึกรหัสนี้ไว้เพื่อใช้ในการสมัครเรียนคอร์ส</div>
+      </div>
+      <div class="summary-section"><h3>ข้อมูลนักเรียน</h3>
+        <div class="summary-row"><span class="key">ชื่อ-นามสกุล:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
+        <div class="summary-row"><span class="key">วันเกิด / อายุ:</span><span class="val">${data.birthDate} (${data.age})</span></div>
+        ${data.school?`<div class="summary-row"><span class="key">โรงเรียน:</span><span class="val">${data.school}${data.grade?' ชั้น '+data.grade:''}</span></div>`:''}
+        <div class="summary-row"><span class="key">เบอร์ผู้ปกครอง:</span><span class="val">${data.parentPhone}</span></div>
+        ${data.hearAbout?`<div class="summary-row"><span class="key">รู้จักจาก:</span><span class="val">${data.hearAbout}</span></div>`:''}
+        <div class="summary-row"><span class="key">บันทึกโดย:</span><span class="val">${data.registeredBy}</span></div>
+      </div>
+      <div class="summary-section"><h3>ความพร้อมเรียน</h3>
+        <div class="summary-row"><span class="key">วันที่สะดวก:</span><span class="val">${data.preferredDays}</span></div>
+        <div class="summary-row"><span class="key">ช่วงเวลา:</span><span class="val">${data.preferredTimeSlots}</span></div>
+      </div>`;
+
+    // Replace buttons on success screen
+    document.querySelector('.success-box p').innerHTML = 'ลงทะเบียนนักเรียนสำเร็จ! กรุณาบันทึกรหัสนักเรียนด้านบน<br>เพื่อใช้ในการ<strong>สมัครเรียนคอร์ส</strong>ครั้งต่อไป';
+    document.querySelector('.success-box .success-icon').textContent = '✓';
+    // Hide the PDF button (not needed for student registration)
+    const pdfBtnWrap = document.querySelector('.success-box div[style*="flex"]');
+    if (pdfBtnWrap) pdfBtnWrap.style.display = 'none';
+    return;
+  }
+
+  // ════════════════════════════════════════════
+  // COURSE REGISTRATION
+  // ════════════════════════════════════════════
+  const type   = getRadio('courseType');
+  const dur    = getRadio('duration');
+  const status = getRadio('studentStatus');
+  const base   = PRICES[type][dur];
+  const disc   = status==='existing' ? Math.round(base*DISCOUNT_RATE) : 0;
+  const final  = base - disc;
+
+  const sd = foundStudentData || {};
+
+  const data = {
+    submittedAt:  new Date().toLocaleString('th-TH'),
+    studentId:    sd.studentId || v('searchStudentId') || '',
+    registeredBy: v('registeredByCourse'),
+    studentType:  status==='existing' ? (type==='private' ? 'Existing Student (20% off Private)' : 'Existing Student') : 'New Student',
+    firstName:    sd.firstName || '',
+    lastName:     sd.lastName  || '',
+    nickname:     sd.nickname  || '',
+    age:          sd.age       || '',
+    language:     langLabels[getRadio('language')]||'',
+    level:        levelLabels[getRadio('level')]||'',
+    mainTeacher:  v('mainTeacher'),
+    trialTeacher: v('trialTeacher'),
+    parentLineId:   sd.parentLineId || '',
+    coursePackage:  v('coursePackage'),
+    courseGroupId:  v('courseGroupId'),
+    courseType:   typeLabels[type]||'',
+    courseDuration: durLabels[dur]||'',
+    sessionFormat:  getRadio('sessionFmt')||'',
+    preferredDays:       Object.keys(selectedSchedule).map(d=>({monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสฯ',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'})[d]||d).join(', '),
+    preferredTimeSlots:  formatSchedule(),
+    startDate:       document.getElementById('startDate').value,
+    paymentDueDate:  document.getElementById('paymentDueDate').value,
+    basePrice:       base,
+    discount:        disc,
+    finalPrice:      final,
+    invoiceNo:       _invoiceNo
+  };
+
+  // Store for PDF + live invoice list
+  lastSubmission = {
+    ...data,
+    status:'Pending', amountPaid:0, balanceDue:final,
+    dueDate: data.paymentDueDate
+  };
+  allInvoices.unshift({...lastSubmission});
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'กำลังส่งข้อมูล...'; btn.disabled = true;
+  if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_')) {
+    try {
+      const params = new URLSearchParams();
+      params.append('payload', JSON.stringify(data));
+      await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() });
+    } catch(e) { console.warn('Sheet save error:', e); }
+  }
+  btn.textContent = 'ส่งข้อมูล ›'; btn.disabled = false;
+  // Show "Add Another Course" button and store student data for re-use
+  window._lastCourseStudent = foundStudentData;
+  const addBtn = document.getElementById('btnAddCourse');
+  if (addBtn) addBtn.style.display = 'inline-block';
+
+  const priceHTML = disc>0
+    ? `<div class="summary-row"><span class="key">ราคาปกติ:</span><span class="val" style="text-decoration:line-through;color:#9ca3af;">${fmt(base)} THB</span></div>
+       <div class="summary-row"><span class="key">ส่วนลด 20%:</span><span class="val" style="color:#ef4444;">-${fmt(disc)} THB</span></div>
+       <div class="summary-row"><span class="key">💰 ราคาสุทธิ:</span><span class="val green">${fmt(final)} THB</span></div>`
+    : `<div class="summary-row"><span class="key">💰 ราคาสุทธิ:</span><span class="val green">${fmt(final)} THB</span></div>`;
+
+  const summaryHTML = `
+    <div class="summary-section"><h3>ข้อมูลนักเรียน</h3>
+      <div class="summary-row"><span class="key">รหัสนักเรียน:</span><span class="val" style="color:#6366f1;font-weight:700;">${data.studentId}</span></div>
+      <div class="summary-row"><span class="key">ชื่อ-นามสกุล:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
+      ${data.age?`<div class="summary-row"><span class="key">อายุ:</span><span class="val">${data.age}</span></div>`:''}
+      <div class="summary-row"><span class="key">บันทึกโดย:</span><span class="val">${data.registeredBy}</span></div>
+    </div>
+    <div class="summary-section"><h3>รายละเอียดคอร์ส</h3>
+      <div class="summary-row"><span class="key">ภาษา:</span><span class="val">${data.language}</span></div>
+      <div class="summary-row"><span class="key">ระดับ:</span><span class="val">${data.level}</span></div>
+      <div class="summary-row"><span class="key">ครูผู้สอน:</span><span class="val">${data.mainTeacher}</span></div>
+      ${data.trialTeacher?`<div class="summary-row"><span class="key">ครูทดลองสอน:</span><span class="val">${data.trialTeacher}</span></div>`:''}
+      <div class="summary-row"><span class="key">แพ็คเกจ:</span><span class="val">${data.coursePackage}</span></div>
+    </div>
+    <div class="summary-section"><h3>ตารางเรียน & ราคา</h3>
+      <div class="summary-row"><span class="key">ประเภท:</span><span class="val">${data.courseType}</span></div>
+      <div class="summary-row"><span class="key">ระยะเวลา:</span><span class="val">${data.courseDuration}</span></div>
+      <div class="summary-row"><span class="key">รูปแบบชั่วโมง:</span><span class="val">${data.sessionFormat}</span></div>
+      <div class="summary-row"><span class="key">วันที่สะดวก:</span><span class="val">${data.preferredDays}</span></div>
+      <div class="summary-row"><span class="key">ช่วงเวลา:</span><span class="val">${data.preferredTimeSlots}</span></div>
+      <div class="summary-row"><span class="key">วันเริ่มเรียน:</span><span class="val">${fmtDateShort(data.startDate)}</span></div>
+      <div class="summary-row"><span class="key">ประเภทนักเรียน:</span><span class="val">${data.studentType}</span></div>
+      ${priceHTML}
+    </div>`;
+
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('stepSuccess').style.display = 'block';
+
+  // Show PDF button for course registration
+  const pdfBtnWrap = document.querySelector('.success-box div[style*="flex"]');
+  if (pdfBtnWrap) pdfBtnWrap.style.display = 'flex';
+  document.querySelector('.success-box p').innerHTML = 'ขอบคุณที่สมัครเรียนกับ AlphaLingo<br>เราจะติดต่อกลับเร็วๆ นี้';
+
+  const invoiceBanner = `<div style="background:#eef2ff;border:1.5px solid #a5b4fc;border-radius:10px;padding:12px 18px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
+        <div><span style="font-size:.75rem;color:#6b7280;font-weight:600;">🎓 Student ID</span><br><span style="font-size:.95rem;font-weight:800;color:#1e1b4b;letter-spacing:.5px;">${data.studentId}</span></div>
+        <div><span style="font-size:.75rem;color:#6366f1;font-weight:600;">🧾 Invoice No.</span><br><span style="font-size:.95rem;font-weight:800;color:#1e1b4b;">${_invoiceNo}</span></div>
+      </div>
+    </div>
+    <span class="inv-badge pending" style="font-size:.8rem;">Pending Payment</span>
+  </div>`;
+  document.getElementById('summaryArea').innerHTML = invoiceBanner + summaryHTML;
+  const maxS2 = STEP_DEFS['existing'].length;
+  for(let i=1;i<=maxS2;i++){document.getElementById('s'+i).className='step-item done';document.getElementById('sc'+i).innerHTML='✓';}
+}
+
+function restartReg() { initReg(regMode); }
+
+function addAnotherCourse() {
+  // Re-init course registration and pre-fill student from last submission
+  const saved = window._lastCourseStudent;
+  initReg('existing');
+  if (saved) {
+    // Pre-fill student ID search and auto-show the found panel
+    setTimeout(() => {
+      const sidEl = document.getElementById('searchStudentId');
+      if (sidEl) { sidEl.value = saved.studentId || ''; }
+      foundStudentData = saved;
+      document.getElementById('foundName').textContent     = (saved.firstName||'') + ' ' + (saved.lastName||'');
+      document.getElementById('foundNickname').textContent = saved.nickname || '—';
+      document.getElementById('foundAge').textContent      = saved.age || '—';
+      document.getElementById('foundStudentPanel').style.display = 'block';
+      document.getElementById('searchStatusById').innerHTML =
+        '<span style="color:#15803d;font-weight:700;">✅ นักเรียนเดิม — กรุณาเลือกรายละเอียดคอร์สใหม่</span>';
+    }, 50);
+  }
+}
+
+// ════ INVOICE ════
+let allInvoices = [], invFilter = 'all', currentInvRow = null, lastSubmission = null;
+
+// Example data shown when Google Sheet is not connected
+const EXAMPLE_INVOICES = [
+  { invoiceNo:'AL-2026-0001', firstName:'สมชาย', lastName:'ใจดี', nickname:'โจ', coursePackage:'English for Kids', courseType:'Group Class (เรียนกลุ่ม)', mainTeacher:'Natalia (T001)', finalPrice:9800, dueDate:'2026-05-07', startDate:'2026-05-01', sessionFormat:'1.5h-16', preferredDays:'จันทร์, พุธ', status:'Paid',    amountPaid:9800, balanceDue:0,    language:'ภาษาอังกฤษ', level:'Beginner', courseDuration:'Full-course (24h)' },
+  { invoiceNo:'AL-2026-0002', firstName:'มาลี',   lastName:'รักเรียน', nickname:'หมิว', coursePackage:'IELTS Preparation', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'Natalia (T001)', finalPrice:14500, dueDate:'2026-04-28', startDate:'2026-04-21', sessionFormat:'1h-12', preferredDays:'อังคาร, พฤหัสดี', status:'Overdue', amountPaid:0,    balanceDue:14500, language:'ภาษาอังกฤษ', level:'Intermediate', courseDuration:'Half-course (12h)' },
+  { invoiceNo:'AL-2026-0003', firstName:'วิชัย',  lastName:'เก่งมาก', nickname:'โอ', coursePackage:'Chinese Beginner', courseType:'Group Class (เรียนกลุ่ม)', mainTeacher:'Savanah (T002)', finalPrice:7840, dueDate:'2026-05-10', startDate:'2026-05-03', sessionFormat:'1h-12', preferredDays:'เสาร์', status:'Partial', amountPaid:4000, balanceDue:3840, language:'ภาษาจีน', level:'Beginner', courseDuration:'Half-course (12h)' },
+  { invoiceNo:'AL-2026-0004', firstName:'อาภา',   lastName:'สดใส', nickname:'เฟิร์น', coursePackage:'German for Kids', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'Erik (T003)', finalPrice:27500, dueDate:'2026-05-15', startDate:'2026-05-08', sessionFormat:'2h-12', preferredDays:'จันทร์, ศุกร์', status:'Pending', amountPaid:0,    balanceDue:27500, language:'ภาษาเยอรมัน', level:'Beginner', courseDuration:'Full-course (24h)' },
+  { invoiceNo:'AL-2026-0005', firstName:'ธนา',    lastName:'มั่งมี', nickname:'บอล', coursePackage:'Business English', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'David (T005)', finalPrice:22000, dueDate:'2026-05-01', startDate:'2026-04-24', sessionFormat:'1.5h-8', preferredDays:'พุธ, ศุกร์', status:'Paid',    amountPaid:22000, balanceDue:0,    language:'ภาษาอังกฤษ', level:'Advanced', courseDuration:'Half-course (12h)' }
+];
+
+// Calculate estimated course end date
+function calcEndDate(startDate, sessionFormat, preferredDays) {
+  if (!startDate || !sessionFormat) return null;
+  const numSessions  = parseInt((sessionFormat || '').split('-')[1]) || 0;
+  const days         = (preferredDays || '').split(',').filter(d => d.trim()).length || 1;
+  const weeksNeeded  = Math.ceil(numSessions / days);
+  const end = new Date(startDate + 'T00:00:00');
+  end.setDate(end.getDate() + (weeksNeeded * 7) - 1);
+  return end;
+}
+
+function fmtDateShort(d) {
+  if (!d) return '—';
+  try {
+    let dt = new Date(d.toString().length === 10 ? d + 'T00:00:00' : d);
+    if (isNaN(dt.getTime())) dt = new Date(d);
+    if (isNaN(dt.getTime())) return d.toString();
+    return dt.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  } catch(e) { return d||'—'; }
+}
+
+function initInvoice() {
+  const now = new Date();
+  document.getElementById('invDateLine').textContent =
+    now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  // If we already have real invoices (e.g. just came from a registration), render them immediately
+  // Only fetch from sheet if list is empty or contains only example data
+  const hasRealData = allInvoices.length > 0 && allInvoices.some(i => i.invoiceNo && !EXAMPLE_INVOICES.find(e => e.invoiceNo === i.invoiceNo));
+  if (hasRealData) {
+    renderInvoices();
+  } else {
+    loadInvoices();
+  }
+}
+
+function loadInvoices() {
+  document.getElementById('invTableBody').innerHTML =
+    '<tr><td colspan="9" style="text-align:center;padding:28px;color:#9ca3af">⏳ Loading invoices...</td></tr>';
+  document.getElementById('invEmpty').style.display = 'none';
+
+  const cb = 'invCb_' + Date.now(), sid = 'invSc_' + Date.now();
+  window[cb] = function(result) {
+    delete window[cb]; const s = document.getElementById(sid); if(s) s.remove();
+    if (result && result.status === 'ok' && result.invoices.length > 0) {
+      allInvoices = result.invoices;
+    } else {
+      // Fall back to example data if sheet empty or unreachable
+      allInvoices = JSON.parse(JSON.stringify(EXAMPLE_INVOICES));
+      document.getElementById('invTableBody').innerHTML = '';
+      const note = document.createElement('div');
+      note.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 16px;margin:0 20px 16px;font-size:.83rem;color:#92400e;';
+      note.textContent = '⚠ Showing example data. Open in Chrome/Safari and connect to Google Sheet to see real invoices.';
+      document.querySelector('.inv-table-wrap').insertBefore(note, document.querySelector('.inv-table-wrap div'));
+    }
+    renderInvoices();
+  };
+  const sc = document.createElement('script');
+  sc.id = sid;
+  sc.onerror = () => {
+    delete window[cb];
+    allInvoices = JSON.parse(JSON.stringify(EXAMPLE_INVOICES));
+    renderInvoices();
+  };
+  sc.src = APPS_SCRIPT_URL + '?action=invoices&callback=' + cb;
+  document.head.appendChild(sc);
+}
+
+function filterInv(f, btn) {
+  invFilter = f;
+  document.querySelectorAll('.inv-filter button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderInvoices();
+}
+
+function renderInvoices() {
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Auto-mark overdue
+  allInvoices.forEach(inv => {
+    if ((inv.status === 'Pending') && inv.dueDate) {
+      if (new Date(inv.dueDate + 'T00:00:00') < today) inv.status = 'Overdue';
+    }
+  });
+
+  let rows = invFilter === 'all' ? allInvoices : allInvoices.filter(r => r.status === invFilter);
+
+  // Stats
+  document.getElementById('stat-total').textContent = allInvoices.length;
+  document.getElementById('stat-pending').textContent = allInvoices.filter(r => r.status==='Pending'||r.status==='Overdue').length;
+  const collected   = allInvoices.reduce((s,r) => s + (parseFloat(r.amountPaid)||0), 0);
+  const outstanding = allInvoices.reduce((s,r) => s + (parseFloat(r.balanceDue)||0), 0);
+  document.getElementById('stat-collected').textContent   = collected.toLocaleString('th-TH');
+  document.getElementById('stat-outstanding').textContent = outstanding.toLocaleString('th-TH');
+
+  const tbody = document.getElementById('invTableBody');
+  const empty = document.getElementById('invEmpty');
+  if (!rows.length) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  const bc = s => ({Pending:'pending',Partial:'partial',Paid:'paid',Overdue:'overdue'}[s]||'pending');
+
+  tbody.innerHTML = rows.map(inv => {
+    const endDate = calcEndDate(inv.startDate, inv.sessionFormat, inv.preferredDays);
+    const endStr  = endDate ? fmtDateShort(endDate.toISOString().split('T')[0]) : '—';
+    const overdue = inv.status !== 'Paid' && inv.dueDate && new Date(inv.dueDate+'T00:00:00') < today;
+    const idx     = allInvoices.indexOf(inv);
+    return `<tr>
+      <td><span style="font-weight:700;color:#6366f1;font-size:.82rem">${inv.invoiceNo||'—'}</span></td>
+      <td>
+        <div style="font-weight:600;font-size:.88rem">${inv.firstName||''} ${inv.lastName||''}</div>
+        <div style="font-size:.74rem;color:#9ca3af">${inv.nickname?'('+inv.nickname+')':''}</div>
+      </td>
+      <td>
+        <div style="font-size:.85rem;font-weight:500">${inv.coursePackage||'—'}</div>
+        <div style="font-size:.74rem;color:#9ca3af">${inv.mainTeacher||''}</div>
+      </td>
+      <td style="font-weight:700">${parseFloat(inv.finalPrice||0).toLocaleString('th-TH')} ฿</td>
+      <td style="${overdue?'color:#dc2626;font-weight:600':''}font-size:.83rem">
+        ${fmtDateShort(inv.dueDate)}${overdue?'<div style="font-size:.7rem;color:#dc2626">⚠ Overdue</div>':''}
+      </td>
+      <td style="font-size:.83rem;color:#6366f1;font-weight:600">${endStr}</td>
+      <td><span class="inv-badge ${bc(inv.status)}">${inv.status||'Pending'}</span></td>
+      <td style="font-size:.83rem">${parseFloat(inv.amountPaid||0).toLocaleString('th-TH')} ฿</td>
+      <td style="display:flex;gap:5px;flex-wrap:wrap;">
+        <button class="btn-update-inv" onclick="openModal(${idx})">✏️ Update</button>
+        <button class="btn-update-inv" style="background:#d97706" onclick="downloadInvoicePDFFromRow(${idx})">📄 PDF</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openModal(idx) {
+  currentInvRow = idx;
+  const inv = allInvoices[idx];
+  document.getElementById('modalInvInfo').textContent = (inv.invoiceNo||'') + ' — ' + (inv.firstName||'') + ' ' + (inv.lastName||'');
+  document.getElementById('modalStatus').value       = inv.status || 'Pending';
+  document.getElementById('modalAmountPaid').value   = inv.amountPaid || 0;
+  document.getElementById('updateModal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('updateModal').classList.remove('open'); currentInvRow = null; }
+
+function saveInvoiceUpdate() {
+  if (currentInvRow === null) return;
+  const inv        = allInvoices[currentInvRow];
+  const newStatus  = document.getElementById('modalStatus').value;
+  const amountPaid = parseFloat(document.getElementById('modalAmountPaid').value) || 0;
+  const balanceDue = Math.max(0, (parseFloat(inv.finalPrice)||0) - amountPaid);
+  allInvoices[currentInvRow].status     = newStatus;
+  allInvoices[currentInvRow].amountPaid = amountPaid;
+  allInvoices[currentInvRow].balanceDue = balanceDue;
+  closeModal();
+  renderInvoices();
+  const params = new URLSearchParams();
+  params.append('payload', JSON.stringify({ action:'updateInvoice', invoiceNo:inv.invoiceNo, status:newStatus, amountPaid, balanceDue }));
+  fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() })
+    .catch(e => console.warn('Update error:', e));
+}
+
+// ── PDF Generation ──
+function downloadInvoicePDF() {
+  if (!lastSubmission) { alert('No submission data found.'); return; }
+  generatePDF(lastSubmission);
+}
+
+function downloadInvoicePDFFromRow(idx) {
+  generatePDF(allInvoices[idx]);
+}
+
+function generatePDF(inv) {
+  if (typeof window.jspdf === 'undefined') { alert('PDF library loading... please try again in a moment.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'mm', format:'a4' });
+  const pw = 210, ph = 297;
+
+  // ── Header bar ──
+  doc.setFillColor(79, 70, 229);
+  doc.rect(0, 0, pw, 38, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(22); doc.setFont('helvetica','bold');
+  doc.text('AlphaLingo', 14, 16);
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  doc.text('Language Learning Institute  |  alphalingothailand@gmail.com', 14, 24);
+  doc.setFontSize(18); doc.setFont('helvetica','bold');
+  doc.text('INVOICE', pw - 14, 16, { align:'right' });
+  doc.setFontSize(10); doc.setFont('helvetica','normal');
+  doc.text(inv.invoiceNo || '—', pw - 14, 25, { align:'right' });
+
+  // ── Invoice meta ──
+  doc.setTextColor(30,30,30);
+  const issueDate = new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
+  const dueStr    = fmtDateShort(inv.dueDate);
+  let y = 50;
+  doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(120,120,120);
+  doc.text('Issue Date:', 14, y); doc.text('Payment Due:', 80, y); doc.text('Status:', 146, y);
+  doc.setTextColor(30,30,30); doc.setFont('helvetica','bold');
+  doc.text(issueDate, 14, y+6); doc.text(dueStr, 80, y+6);
+  const sc = {Paid:'#16a34a', Pending:'#d97706', Partial:'#2563eb', Overdue:'#dc2626'}[inv.status||'Pending'] || '#d97706';
+  const rgb = sc.startsWith('#') ? [parseInt(sc.slice(1,3),16), parseInt(sc.slice(3,5),16), parseInt(sc.slice(5,7),16)] : [215,119,6];
+  doc.setTextColor(...rgb); doc.text(inv.status||'Pending', 146, y+6); doc.setTextColor(30,30,30);
+
+  // ── Divider ──
+  y += 16;
+  doc.setDrawColor(220,220,230); doc.setLineWidth(0.3); doc.line(14, y, pw-14, y);
+
+  // ── Bill To ──
+  y += 8;
+  doc.setFontSize(8); doc.setTextColor(120,120,120); doc.setFont('helvetica','normal');
+  doc.text('BILL TO', 14, y);
+  y += 5;
+  doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+  doc.text((inv.firstName||'') + ' ' + (inv.lastName||'') + (inv.nickname ? '  (' + inv.nickname + ')' : ''), 14, y);
+  y += 5;
+  doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(80,80,80);
+  if (inv.parentPhone) doc.text('Phone: ' + inv.parentPhone, 14, y++);
+
+  // ── Course Details box ──
+  y += 6;
+  doc.setFillColor(248,247,255); doc.setDrawColor(200,198,240);
+  doc.roundedRect(14, y, pw-28, 48, 2, 2, 'FD');
+  doc.setFontSize(8); doc.setTextColor(100,98,200); doc.setFont('helvetica','bold');
+  doc.text('COURSE DETAILS', 18, y+7);
+  doc.setFont('helvetica','normal'); doc.setTextColor(50,50,50); doc.setFontSize(9);
+
+  const endDate = calcEndDate(inv.startDate, inv.sessionFormat, inv.preferredDays);
+  const endStr  = endDate ? fmtDateShort(endDate.toISOString().split('T')[0]) : '—';
+  const rows2 = [
+    ['Language', inv.language||'—',           'Level',      inv.level||'—'],
+    ['Teacher',  inv.mainTeacher||'—',         'Package',    inv.coursePackage||'—'],
+    ['Type',     inv.courseType||'—',          'Duration',   inv.courseDuration||'—'],
+    ['Sessions', inv.sessionFormat||'—',       'Days',       inv.preferredDays||'—'],
+    ['Start Date', fmtDateShort(inv.startDate),'Course Ends', endStr + ' (est.)'],
+  ];
+  let ry = y + 14;
+  rows2.forEach(r => {
+    doc.setTextColor(120,120,120); doc.text(r[0]+':', 18, ry); doc.setTextColor(30,30,30); doc.text(r[1], 48, ry);
+    doc.setTextColor(120,120,120); doc.text(r[2]+':', 115, ry); doc.setTextColor(30,30,30); doc.text(r[3], 145, ry);
+    ry += 7;
+  });
+
+  // ── Pricing ──
+  y += 56;
+  doc.setDrawColor(220,220,230); doc.line(14, y, pw-14, y); y += 8;
+  doc.setFontSize(8); doc.setTextColor(100,98,200); doc.setFont('helvetica','bold');
+  doc.text('PRICING SUMMARY', 14, y); y += 6;
+  doc.setFont('helvetica','normal'); doc.setTextColor(60,60,60); doc.setFontSize(9);
+  const basePrice   = parseFloat(inv.basePrice  || inv.finalPrice || 0);
+  const discount    = parseFloat(inv.discount   || 0);
+  const finalPrice  = parseFloat(inv.finalPrice || 0);
+  const amountPaid  = parseFloat(inv.amountPaid || 0);
+  const balanceDue  = parseFloat(inv.balanceDue ?? (finalPrice - amountPaid));
+  doc.text('Regular Price:', 14, y); doc.text(basePrice.toLocaleString('th-TH') + ' THB', pw-14, y, {align:'right'});  y+=6;
+  if (discount > 0) {
+    doc.setTextColor(220,50,50);
+    doc.text('Discount (20%):', 14, y); doc.text('-' + discount.toLocaleString('th-TH') + ' THB', pw-14, y, {align:'right'}); y+=6;
+  }
+  doc.setDrawColor(200,198,240); doc.line(14, y, pw-14, y); y+=5;
+  doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+  doc.text('Total Due:', 14, y); doc.text(finalPrice.toLocaleString('th-TH') + ' THB', pw-14, y, {align:'right'}); y+=7;
+  doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.setTextColor(60,60,60);
+  doc.text('Amount Paid:', 14, y); doc.setTextColor(22,163,74); doc.text(amountPaid.toLocaleString('th-TH') + ' THB', pw-14, y, {align:'right'}); y+=6;
+  doc.setTextColor(60,60,60); doc.text('Balance Due:', 14, y);
+  doc.setTextColor(balanceDue>0?220:22, balanceDue>0?50:163, balanceDue>0?50:74);
+  doc.text(balanceDue.toLocaleString('th-TH') + ' THB', pw-14, y, {align:'right'}); y+=10;
+
+  // ── Footer ──
+  doc.setDrawColor(220,220,230); doc.line(14, y, pw-14, y); y+=6;
+  doc.setFontSize(8); doc.setTextColor(150,150,150); doc.setFont('helvetica','italic');
+  doc.text('Thank you for choosing AlphaLingo! Please contact us if you have any questions.', pw/2, y, {align:'center'});
+  doc.text('This invoice was generated automatically upon course registration.', pw/2, y+5, {align:'center'});
+
+  doc.save((inv.invoiceNo||'invoice') + '_' + (inv.firstName||'student') + '.pdf');
+}
+
+// ════ TEACHER DASHBOARD ════
+let currentTeacher=null, currentFilter='all';
+
+function doLogin() {
+  const id  = document.getElementById('teacherIdInput').value.trim().toUpperCase();
+  const err = document.getElementById('loginErr');
+  const inp = document.getElementById('teacherIdInput');
+  if (!id) { inp.classList.add('error'); err.textContent='Please enter your Teacher ID.'; err.classList.add('show'); return; }
+  if (!TEACHERS[id]) { inp.classList.add('error'); err.textContent='Teacher ID not found. Please try again.'; err.classList.add('show'); return; }
+  inp.classList.remove('error'); err.classList.remove('show');
+  currentTeacher = TEACHERS[id];
+  document.getElementById('welcomeMsg').textContent = 'Welcome, '+currentTeacher.name+' 👋';
+  const now=new Date(), dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('todayDate').textContent = dayNames[now.getDay()]+', '+now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  renderDashboard();
+  showPage('dashPage');
+}
+
+function doLogout() {
+  currentTeacher=null; currentFilter='all';
+  document.getElementById('teacherIdInput').value='';
+  document.querySelectorAll('.filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  showPage('teacherLoginPage');
+}
+
+function setFilter(f,btn) {
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderClasses();
+}
+
+function renderDashboard() { renderClasses(); renderUpcoming(); }
+
+function renderClasses() {
+  const container=document.getElementById('classList'), badge=document.getElementById('eventBadge');
+  const classes=currentTeacher.classes.filter(c=>currentFilter==='all'||c.type===currentFilter);
+  badge.textContent=classes.length+(classes.length===1?' event':' events');
+  badge.className='badge-count'+(classes.length>0?' has-events':'');
+  if(!classes.length){container.innerHTML='<div class="empty-state">No classes found for this filter.</div>';return;}
+  container.innerHTML=classes.map(c=>`
+    <div class="class-card">
+      <div>
+        <div class="class-name">${c.name}</div>
+        <div class="class-meta">
+          <span>👶 ${c.ageGroup}</span>
+          <span>👤 ${c.students} student${c.students!==1?'s':''}</span>
+          <span>📅 ${c.day}</span>
+          <span>🕐 ${c.time}</span>
+        </div>
+      </div>
+      <span class="class-type-badge type-${c.type}">${c.type==='group'?'Group':'Private'}</span>
+    </div>`).join('');
+}
+
+function renderUpcoming() {
+  const container=document.getElementById('upcomingList');
+  const upcoming=currentTeacher.classes.flatMap(c=>(c.upcoming||[]).map(date=>({name:c.name,date})));
+  if(!upcoming.length){container.innerHTML='<div class="empty-state">No upcoming sessions.</div>';return;}
+  container.innerHTML=upcoming.map(u=>`<div class="upcoming-item"><div class="u-name">${u.name}</div><div class="u-date">📅 ${u.date}</div></div>`).join('');
+}
+
+// ════ TEACHER SCHEDULE ════
+let tsAllCourses = [];
+let tsFilter = 'all';
+
+function openTeacherSchedule() {
+  showPage('teacherSchedulePage');
+  // Pre-select the current logged-in teacher
+  if (currentTeacher) {
+    const sel = document.getElementById('tsTeacherFilter');
+    if (sel) {
+      // Find option matching teacher name
+      Array.from(sel.options).forEach(o => {
+        if (currentTeacher.name && currentTeacher.name.includes(o.value.split(' ')[0])) {
+          sel.value = o.value;
+        }
+      });
+    }
+  }
+  loadTeacherSchedule();
+}
+
+function loadTeacherSchedule() {
+  const container = document.getElementById('tsCardContainer');
+  container.innerHTML = '<div class="ts-loading">⏳ Loading schedule...</div>';
+
+  const cb = 'tsCb_' + Date.now();
+  const sc = 'tsSc_' + Date.now();
+
+  window[cb] = function(result) {
+    delete window[cb];
+    const el = document.getElementById(sc); if (el) el.remove();
+    if (result && result.status === 'ok') {
+      tsAllCourses = result.invoices || [];
+      buildTeacherFilterOptions();
+      renderTeacherSchedule();
+    } else {
+      container.innerHTML = '<div class="ts-empty">⚠ Could not load data. Please try again.</div>';
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = sc;
+  script.onerror = () => {
+    delete window[cb];
+    document.getElementById('tsCardContainer').innerHTML = '<div class="ts-empty">❌ Connection failed — please check your network.</div>';
+  };
+  script.src = APPS_SCRIPT_URL + '?action=invoices&callback=' + cb;
+  document.head.appendChild(script);
+}
+
+function buildTeacherFilterOptions() {
+  const sel = document.getElementById('tsTeacherFilter');
+  const current = sel.value;
+  const teachers = [...new Set(tsAllCourses.map(c => c.mainTeacher).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">👥 All Teachers</option>' +
+    teachers.map(t => `<option value="${t}"${t===current?' selected':''}>${t}</option>`).join('');
+}
+
+function renderTeacherSchedule() {
+  const container = document.getElementById('tsCardContainer');
+  const teacher   = document.getElementById('tsTeacherFilter').value;
+
+  let courses = tsAllCourses;
+  if (teacher) courses = courses.filter(c => c.mainTeacher === teacher);
+  if (tsFilter === 'confirmed')  courses = courses.filter(c => c.confirmStatus === 'Confirmed');
+  if (tsFilter === 'pending')    courses = courses.filter(c => !c.confirmStatus || c.confirmStatus === 'Pending');
+  if (tsFilter === 'cancelled')  courses = courses.filter(c => c.confirmStatus === 'Cancelled');
+
+  if (!courses.length) {
+    container.innerHTML = '<div class="ts-empty">📭 No classes found for this filter.</div>';
+    return;
+  }
+
+  const lineToken = localStorage.getItem('al_line_token') || '';
+
+  container.innerHTML = '<div class="ts-cards">' + courses.map((inv, idx) => {
+    const name  = (inv.firstName || '') + ' ' + (inv.lastName || '') + (inv.nickname ? ' (' + inv.nickname + ')' : '');
+    const cs    = inv.confirmStatus || 'Pending';
+    const csEmoji = {Confirmed:'✅',Cancelled:'❌',Pending:'⏳'}[cs] || '⏳';
+    const hasLine = !!inv.parentLineId;
+    const reminderBtn = hasLine
+      ? `<button class="btn-remind" id="rbtn-${idx}" onclick="sendReminder(${idx})">📩 Send Reminder</button>`
+      : `<span class="ts-no-line">🔗 No Line ID</span>`;
+    const fmtDate = d => {
+      if (!d) return '—';
+      try {
+        // Try ISO format first (YYYY-MM-DD), then fall back to raw parse
+        let dt = new Date(d.toString().length === 10 ? d + 'T00:00:00' : d);
+        if (isNaN(dt.getTime())) dt = new Date(d);
+        if (isNaN(dt.getTime())) return d.toString();
+        return dt.toLocaleDateString('th-TH', {year:'numeric', month:'short', day:'numeric'});
+      } catch(e) { return d||'—'; }
+    };
+    return `
+    <div class="ts-card">
+      <div class="ts-card-header">
+        <div>
+          <div class="ts-card-student">${name}</div>
+          <div class="ts-card-id">ID: ${inv.studentId||'—'} · ${inv.invoiceNo||'—'}</div>
+        </div>
+        <span class="ts-lang-badge">${inv.language||'—'}</span>
+      </div>
+      <div class="ts-card-body">
+        <div class="ts-info-row"><span class="ts-key">👨‍🏫 Teacher</span><span class="ts-val">${inv.mainTeacher||'—'}</span></div>
+        <div class="ts-info-row"><span class="ts-key">📖 Course</span><span class="ts-val">${inv.coursePackage||'—'} · ${inv.courseType||''} · ${inv.courseDuration||''}</span></div>
+        <div class="ts-info-row"><span class="ts-key">📅 Schedule</span><span class="ts-val">${inv.preferredTimeSlots||inv.preferredDays||'—'}</span></div>
+        <div class="ts-info-row"><span class="ts-key">🎯 Level</span><span class="ts-val">${inv.level||'—'} · ${inv.sessionFormat||'—'}</span></div>
+        <div class="ts-info-row"><span class="ts-key">🗓 Start</span><span class="ts-val">${fmtDate(inv.startDate)}</span></div>
+        ${inv.courseGroupId ? `<div class="ts-info-row"><span class="ts-key">👥 Group</span><span class="ts-val" style="font-family:monospace;font-size:.8rem">${inv.courseGroupId}</span></div>` : ''}
+      </div>
+      <div class="ts-card-footer">
+        <span class="confirm-badge ${cs}">${csEmoji} ${cs}</span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+          ${reminderBtn}
+        </div>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+function setTsFilter(f, btn) {
+  tsFilter = f;
+  document.querySelectorAll('.ts-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTeacherSchedule();
+}
+
+// ── Line Config ──
+function initLineConfig() {
+  const saved = localStorage.getItem('al_line_token') || '';
+  const inp = document.getElementById('lineTokenInput');
+  if (inp && saved) { inp.value = saved; document.getElementById('lineTokenStatus').textContent = '✅ Token saved'; }
+}
+
+function saveLineToken() {
+  const val = (document.getElementById('lineTokenInput').value || '').trim();
+  if (!val) { document.getElementById('lineTokenStatus').textContent = '⚠ Please enter a token'; return; }
+  localStorage.setItem('al_line_token', val);
+  document.getElementById('lineTokenStatus').textContent = '✅ Saved!';
+  setTimeout(() => { document.getElementById('lineTokenStatus').textContent = '✅ Token ready'; }, 1500);
+}
+
+// ── Send Line Reminder ──
+async function sendReminder(idx) {
+  const inv   = tsAllCourses[idx];
+  const token = localStorage.getItem('al_line_token') || '';
+
+  if (!token) {
+    alert('Please enter the Line Channel Access Token first.');
+    document.getElementById('lineTokenInput').focus();
+    return;
+  }
+  if (!inv.parentLineId) {
+    alert('No Line User ID found for this student\'s parent.');
+    return;
+  }
+
+  const btn = document.getElementById('rbtn-' + idx);
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Sending...'; btn.classList.add('sending'); }
+
+  const studentName = (inv.firstName||'') + ' ' + (inv.lastName||'') + (inv.nickname ? ' ('+inv.nickname+')' : '');
+  const payload = {
+    action:      'sendReminder',
+    lineToken:   token,
+    lineUserId:  inv.parentLineId,
+    invoiceNo:   inv.invoiceNo,
+    studentName: studentName,
+    teacher:     inv.mainTeacher || '—',
+    courseInfo:  (inv.coursePackage||'') + ' · ' + (inv.language||'') + ' · ' + (inv.level||''),
+    schedule:    inv.preferredTimeSlots || inv.preferredDays || '—',
+    startDate:   inv.startDate || '',
+    gasUrl:      APPS_SCRIPT_URL
+  };
+
+  try {
+    const params = new URLSearchParams();
+    params.append('payload', JSON.stringify(payload));
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    if (btn) { btn.disabled = false; btn.textContent = '✅ Sent!'; btn.classList.remove('sending'); btn.style.background='#15803d'; }
+    setTimeout(() => {
+      if (btn) { btn.textContent = '📩 Send Reminder'; btn.style.background=''; }
+    }, 3000);
+  } catch(err) {
+    if (btn) { btn.disabled = false; btn.textContent = '❌ Failed'; btn.classList.remove('sending'); btn.style.background='#dc2626'; }
+    setTimeout(() => { if (btn) { btn.textContent = '📩 Send Reminder'; btn.style.background=''; } }, 3000);
+    console.warn('Line send error:', err);
+  }
+}
+</script>
+</body>
+</html>
