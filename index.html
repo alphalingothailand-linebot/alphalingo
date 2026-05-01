@@ -456,17 +456,17 @@ table.inv-tbl tr:hover td { background:#fafafa; }
             <label>ภาษาที่สนใจเรียน (Language Preference)<span class="req">*</span><span class="hint">เลือกได้มากกว่า 1 ภาษา</span></label>
             <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
               <label class="lang-check-card" id="lc-english">
-                <input type="checkbox" id="langPrefEnglish" onchange="updateLangPref()">
+                <input type="checkbox" id="langPrefEnglish" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
                 <span>🇬🇧 ภาษาอังกฤษ (English)</span>
               </label>
               <label class="lang-check-card" id="lc-chinese">
-                <input type="checkbox" id="langPrefChinese" onchange="updateLangPref()">
+                <input type="checkbox" id="langPrefChinese" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
                 <span>🇨🇳 ภาษาจีน (Chinese)</span>
               </label>
               <label class="lang-check-card" id="lc-german">
-                <input type="checkbox" id="langPrefGerman" onchange="updateLangPref()">
+                <input type="checkbox" id="langPrefGerman" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
                 <span>🇩🇪 ภาษาเยอรมัน (German)</span>
               </label>
@@ -605,9 +605,9 @@ table.inv-tbl tr:hover td { background:#fafafa; }
         <div style="margin-top:18px">
           <label>ภาษาที่ต้องการเรียน (Language)<span class="req">*</span></label>
           <div class="radio-group grid2" id="langGroup">
-            <div class="radio-card" onclick="selectRadio('langGroup','english')"><input type="radio" name="language" value="english"><div class="radio-dot"></div><div class="radio-text"><strong>🇬🇧 ภาษาอังกฤษ (English)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('langGroup','chinese')"><input type="radio" name="language" value="chinese"><div class="radio-dot"></div><div class="radio-text"><strong>🇨🇳 ภาษาจีน (Chinese)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('langGroup','german')"><input type="radio" name="language" value="german"><div class="radio-dot"></div><div class="radio-text"><strong>🇩🇪 ภาษาเยอรมัน (German)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','english'); updateCoursePackages('english')"><input type="radio" name="language" value="english"><div class="radio-dot"></div><div class="radio-text"><strong>🇬🇧 ภาษาอังกฤษ (English)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','chinese'); updateCoursePackages('chinese')"><input type="radio" name="language" value="chinese"><div class="radio-dot"></div><div class="radio-text"><strong>🇨🇳 ภาษาจีน (Chinese)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','german'); updateCoursePackages('german')"><input type="radio" name="language" value="german"><div class="radio-dot"></div><div class="radio-text"><strong>🇩🇪 ภาษาเยอรมัน (German)</strong></div></div>
           </div>
           <div class="err-msg" id="err-lang">กรุณาเลือกภาษา</div>
         </div>
@@ -655,8 +655,10 @@ table.inv-tbl tr:hover td { background:#fafafa; }
           </div>
           <div class="full">
             <label>ชื่อคอร์ส / แพ็คเกจ (Course Package)<span class="req">*</span></label>
-            <input type="text" id="coursePackage" placeholder="เช่น English for Kids, IELTS Preparation">
-            <div class="err-msg" id="err-coursePackage">กรุณากรอกชื่อคอร์ส</div>
+            <select id="coursePackage">
+              <option value="">-- กรุณาเลือกภาษาก่อน (Select language first) --</option>
+            </select>
+            <div class="err-msg" id="err-coursePackage">กรุณาเลือกคอร์ส</div>
           </div>
         </div>
 
@@ -1081,7 +1083,10 @@ function initReg(mode) {
 
   const gidEl = document.getElementById('courseGroupId'); if (gidEl) gidEl.value = '';
   const gsEl  = document.getElementById('groupStatus');   if (gsEl)  gsEl.innerHTML = '';
-  ['firstName','lastName','nickname','birthDate','age','school','parentPhone','parentLineId','interests','coursePackage','preferredTimeSlotsText'].forEach(id => {
+  // Reset course package to empty state when form is re-opened
+  const cpSel = document.getElementById('coursePackage');
+  if (cpSel) cpSel.innerHTML = '<option value="">-- กรุณาเลือกภาษาก่อน (Select language first) --</option>';
+  ['firstName','lastName','nickname','birthDate','age','school','parentPhone','parentLineId','interests','preferredTimeSlotsText'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.value = ''; el.classList.remove('error'); }
   });
@@ -1234,14 +1239,94 @@ function getLangPref() {
   }).join(', ');
 }
 
+// ── Course Package data per language ──
+const COURSE_PACKAGES = {
+  english: {
+    'Phonics': [
+      'Phonics Basic & Activity based learning (LEGO DUPLO)',
+      'Oxford Phonics 1 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford Phonics 2 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford Phonics 3 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford Phonics 4 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford Phonics 5 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford Phonics 6 & Activity based learning (LEGO DUPLO/Classic)',
+    ],
+    'Oxford English Time': [
+      'Oxford English Time 1 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford English Time 2 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford English Time 3 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford English Time 4 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford English Time 5 & Activity based learning (LEGO DUPLO/Classic)',
+      'Oxford English Time 6 & Activity based learning (LEGO DUPLO/Classic)',
+    ],
+    'Oxford Reading & Writing': [
+      'Oxford Reading & Writing 1',
+      'Oxford Reading & Writing 2',
+      'Oxford Reading & Writing 3',
+    ],
+    'Advanced & Professional': [
+      'Academic English 4 Skills',
+      'IELTS',
+      'TOEFL',
+      'SAT',
+      'English for Business Communication',
+    ]
+  },
+  chinese: {
+    'YCT (Young Learners)': [
+      'YCT1 & Activity based learning',
+      'YCT2 & Activity based learning',
+      'YCT3 & Activity based learning',
+    ],
+    'HSK': [
+      'HSK1', 'HSK2', 'HSK3', 'HSK4', 'HSK5', 'HSK6',
+    ],
+    'Business Chinese': [
+      'Chinese for Business BCT1',
+      'Chinese for Business BCT2',
+      'Chinese for Business BCT3',
+    ]
+  },
+  german: {
+    'German Courses': [
+      'German Beginner (A1)',
+      'German Elementary (A2)',
+      'German Intermediate (B1)',
+      'German Upper-Intermediate (B2)',
+    ]
+  }
+};
+
+function updateCoursePackages(lang) {
+  const sel = document.getElementById('coursePackage');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">-- เลือกคอร์ส (Select Course Package) --</option>';
+  const data = COURSE_PACKAGES[lang];
+  if (!data) return;
+  Object.entries(data).forEach(([group, courses]) => {
+    const og = document.createElement('optgroup');
+    og.label = '── ' + group + ' ──';
+    courses.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      og.appendChild(opt);
+    });
+    sel.appendChild(og);
+  });
+}
+
 function calcAge() {
   const bd = document.getElementById('birthDate').value;
-  if (!bd) { document.getElementById('age').value=''; return; }
-  const today=new Date(), birth=new Date(bd);
-  let age = today.getFullYear()-birth.getFullYear();
-  const m = today.getMonth()-birth.getMonth();
-  if (m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
-  document.getElementById('age').value = age >= 0 ? age+' ปี (years old)' : '';
+  if (!bd) { document.getElementById('age').value = ''; return; }
+  const today = new Date(), birth = new Date(bd + 'T00:00:00');
+  let y = today.getFullYear() - birth.getFullYear();
+  let m = today.getMonth() - birth.getMonth();
+  if (today.getDate() < birth.getDate()) m--;
+  if (m < 0) { y--; m += 12; }
+  if (y < 0) { document.getElementById('age').value = ''; return; }
+  const th = (y > 0 ? y + ' ปี ' : '') + (m > 0 ? m + ' เดือน' : (y === 0 ? '< 1 เดือน' : ''));
+  const en = (y > 0 ? y + ' yr' + (y > 1 ? 's' : '') + (m > 0 ? ' ' : '') : '') + (m > 0 ? m + ' mo' : (y === 0 ? '< 1 mo' : ''));
+  document.getElementById('age').value = th.trim() + ' (' + en.trim() + ')';
 }
 
 function toggleDay(el, day) {
