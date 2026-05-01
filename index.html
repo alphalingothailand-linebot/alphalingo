@@ -363,47 +363,47 @@ table.inv-tbl tr:hover td { background:#fafafa; }
 <div id="homePage" class="page active">
   <div class="hero">
     <h1>AlphaLingo</h1>
-    <p>ยินดีต้อนรับสู่ AlphaLingo - สถาบันสอนพิเศษ</p>
+    <p>Welcome to AlphaLingo Language &amp; Learning Center</p>
   </div>
   <div class="cards">
     <div class="card">
       <div class="icon-wrap icon-blue">🎓</div>
-      <h2>ลงทะเบียนนักเรียน</h2>
-      <p class="sub">Student Registration</p>
-      <p class="desc">ลงทะเบียนนักเรียนใหม่พร้อมสมัครคอร์ส</p>
-      <button class="home-btn btn-blue" onclick="showPage('regPage');initReg('new')">ลงทะเบียน</button>
+      <h2>Student Registration</h2>
+      <p class="sub">New Student</p>
+      <p class="desc">Register a new student and enroll in a course</p>
+      <button class="home-btn btn-blue" onclick="showPage('regPage');initReg('new')">Register</button>
     </div>
     <div class="card">
       <div class="icon-wrap icon-pink">📖</div>
-      <h2>สมัครเรียนคอร์ส</h2>
-      <p class="sub">Course Registration</p>
-      <p class="desc">นักเรียนเดิมสมัครเรียนคอร์สเพิ่มเติม</p>
-      <button class="home-btn btn-pink" onclick="showPage('regPage');initReg('existing')">สมัครเรียน</button>
+      <h2>Course Registration</h2>
+      <p class="sub">Existing Student</p>
+      <p class="desc">Existing students enroll in an additional course</p>
+      <button class="home-btn btn-pink" onclick="showPage('regPage');initReg('existing')">Enroll</button>
     </div>
     <div class="card">
       <div class="icon-wrap icon-green">👨‍🏫</div>
-      <h2>ครูผู้สอน</h2>
+      <h2>Teacher Portal</h2>
       <p class="sub">Teacher Login</p>
-      <p class="desc">เข้าสู่ระบบสำหรับครู</p>
-      <button class="home-btn btn-green" onclick="showPage('teacherLoginPage')">เข้าสู่ระบบ</button>
+      <p class="desc">Login to view your schedule and classes</p>
+      <button class="home-btn btn-green" onclick="showPage('teacherLoginPage')">Login</button>
     </div>
     <div class="card">
       <div class="icon-wrap" style="background:linear-gradient(135deg,#f59e0b,#d97706)">🧾</div>
-      <h2>ใบแจ้งหนี้</h2>
+      <h2>Invoices</h2>
       <p class="sub">Invoice Management</p>
-      <p class="desc">ติดตามการชำระเงินของนักเรียน</p>
-      <button class="home-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="showPage('invoicePage');initInvoice()">จัดการใบแจ้งหนี้</button>
+      <p class="desc">Track and manage student payments</p>
+      <button class="home-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="showPage('invoicePage');initInvoice()">Manage Invoices</button>
     </div>
   </div>
-  <p class="footer-note">เลือกประเภทผู้ใช้งานเพื่อเข้าสู่ระบบ</p>
+  <p class="footer-note">Select a section to get started</p>
 </div>
 
 <!-- ════════════ REGISTRATION FORM ════════════ -->
 <div id="regPage" class="page">
   <div class="reg-header">
-    <button class="btn-back-home" onclick="showPage('homePage')">← หน้าหลัก</button>
+    <button class="btn-back-home" onclick="showPage('homePage')">← Home</button>
     <h1 id="regPageTitle">AlphaLingo</h1>
-    <p id="regPageSubtitle">แบบฟอร์มลงทะเบียน</p>
+    <p id="regPageSubtitle">Registration Form</p>
   </div>
 
   <div class="stepper-wrap">
@@ -417,151 +417,151 @@ table.inv-tbl tr:hover td { background:#fafafa; }
 
       <!-- ─ NEW STUDENT mode: Full student info ─ -->
       <div id="newStudentForm">
-        <div class="section-title"><h2>1. ข้อมูลนักเรียน (Student Information)</h2><p>กรอกข้อมูลพื้นฐานของนักเรียน</p></div>
+        <div class="section-title"><h2>1. Student Information</h2><p>Fill in the student's basic details</p></div>
         <div class="grid-2">
-          <div><label>ชื่อจริง (First Name)<span class="req">*</span></label><input type="text" id="firstName" placeholder="First Name"><div class="err-msg" id="err-firstName">กรุณากรอกชื่อจริง</div></div>
-          <div><label>นามสกุล (Last Name)<span class="req">*</span></label><input type="text" id="lastName" placeholder="Last Name"><div class="err-msg" id="err-lastName">กรุณากรอกนามสกุล</div></div>
-          <div><label>ชื่อเล่น (Nickname)<span class="req">*</span></label><input type="text" id="nickname" placeholder="Nickname"><div class="err-msg" id="err-nickname">กรุณากรอกชื่อเล่น</div></div>
+          <div><label>First Name<span class="req">*</span></label><input type="text" id="firstName" placeholder="First Name"><div class="err-msg" id="err-firstName">Please enter first name</div></div>
+          <div><label>Last Name<span class="req">*</span></label><input type="text" id="lastName" placeholder="Last Name"><div class="err-msg" id="err-lastName">Please enter last name</div></div>
+          <div><label>Nickname<span class="req">*</span></label><input type="text" id="nickname" placeholder="Nickname"><div class="err-msg" id="err-nickname">Please enter nickname</div></div>
           <div>
-            <label>วันเกิด (Birth Date)<span class="req">*</span></label>
+            <label>Birth Date<span class="req">*</span></label>
             <input type="date" id="birthDate" onchange="calcAge()">
-            <div class="err-msg" id="err-birthDate">กรุณากรอกวันเกิด</div>
+            <div class="err-msg" id="err-birthDate">Please enter birth date</div>
           </div>
           <div>
-            <label>อายุ (Age) <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— คำนวณอัตโนมัติ</span></label>
-            <input type="text" id="age" placeholder="คำนวณจากวันเกิด" readonly>
+            <label>Age <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— calculated automatically</span></label>
+            <input type="text" id="age" placeholder="Calculated from birth date" readonly>
           </div>
-          <div><label>โรงเรียน (School)<span class="req">*</span></label><input type="text" id="school" placeholder="School Name"><div class="err-msg" id="err-school">กรุณากรอกโรงเรียน</div></div>
-          <div><label>ชั้นเรียน (Grade)<span class="req">*</span></label>
+          <div><label>School<span class="req">*</span></label><input type="text" id="school" placeholder="School Name"><div class="err-msg" id="err-school">Please enter school name</div></div>
+          <div><label>Grade<span class="req">*</span></label>
             <select id="grade">
-              <option value="">เลือกชั้นเรียน (Select Grade)</option>
-              <option>อนุบาล 1</option><option>อนุบาล 2</option><option>อนุบาล 3</option>
-              <option>ประถม 1</option><option>ประถม 2</option><option>ประถม 3</option>
-              <option>ประถม 4</option><option>ประถม 5</option><option>ประถม 6</option>
-              <option>มัธยม 1</option><option>มัธยม 2</option><option>มัธยม 3</option>
-              <option>มัธยม 4</option><option>มัธยม 5</option><option>มัธยม 6</option>
-              <option>มหาวิทยาลัย / University</option><option>วัยทำงาน / Working Adult</option>
+              <option value="">-- Select Grade --</option>
+              <option>Kindergarten 1</option><option>Kindergarten 2</option><option>Kindergarten 3</option>
+              <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
+              <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
+              <option>Grade 7 (M.1)</option><option>Grade 8 (M.2)</option><option>Grade 9 (M.3)</option>
+              <option>Grade 10 (M.4)</option><option>Grade 11 (M.5)</option><option>Grade 12 (M.6)</option>
+              <option>University</option><option>Working Adult</option>
             </select>
-            <div class="err-msg" id="err-grade">กรุณาเลือกชั้นเรียน</div>
+            <div class="err-msg" id="err-grade">Please select a grade</div>
           </div>
           <div>
-            <label>เบอร์โทรผู้ปกครอง (Parent Phone)<span class="req">*</span></label>
+            <label>Parent / Guardian Phone<span class="req">*</span></label>
             <input type="tel" id="parentPhone" placeholder="0812345678" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
-            <div class="err-msg" id="err-parentPhone">กรุณากรอกเบอร์โทร 10 หลัก (ตัวเลขเท่านั้น)</div>
+            <div class="err-msg" id="err-parentPhone">Please enter a 10-digit phone number (numbers only)</div>
           </div>
           <div>
-            <label>Line User ID ของผู้ปกครอง<span class="hint">สำหรับส่งแจ้งเตือนผ่าน Line OA (ถ้ามี)</span></label>
+            <label>Parent Line User ID<span class="hint">For notifications via Line OA (optional)</span></label>
             <input type="text" id="parentLineId" placeholder="Uxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-family:'Courier New',monospace;">
             <div class="err-msg" id="err-parentLineId"></div>
           </div>
           <div class="full">
-            <label>ภาษาที่สนใจเรียน (Language Preference)<span class="req">*</span><span class="hint">เลือกได้มากกว่า 1 ภาษา</span></label>
+            <label>Language Preference<span class="req">*</span><span class="hint">You may select more than one language</span></label>
             <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
               <label class="lang-check-card" id="lc-english">
                 <input type="checkbox" id="langPrefEnglish" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
-                <span>🇬🇧 ภาษาอังกฤษ (English)</span>
+                <span>🇬🇧 English</span>
               </label>
               <label class="lang-check-card" id="lc-chinese">
                 <input type="checkbox" id="langPrefChinese" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
-                <span>🇨🇳 ภาษาจีน (Chinese)</span>
+                <span>🇨🇳 Chinese</span>
               </label>
               <label class="lang-check-card" id="lc-german">
                 <input type="checkbox" id="langPrefGerman" onchange="updateLangPref()" style="display:none">
                 <span class="lang-check-dot"></span>
-                <span>🇩🇪 ภาษาเยอรมัน (German)</span>
+                <span>🇩🇪 German</span>
               </label>
             </div>
-            <div class="err-msg" id="err-langPref">กรุณาเลือกอย่างน้อย 1 ภาษา</div>
+            <div class="err-msg" id="err-langPref">Please select at least one language</div>
           </div>
           <div class="full">
-            <label>ยินยอมการถ่ายภาพ/วิดีโอ (Photo & Video Consent)<span class="req">*</span>
-              <span class="hint">เพื่อใช้เผยแพร่บน Social Media ของ AlphaLingo</span>
+            <label>Photo &amp; Video Consent<span class="req">*</span>
+              <span class="hint">For use on AlphaLingo's social media channels</span>
             </label>
             <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
               <label class="lang-check-card consent-card" id="cc-allow" onclick="setConsent('allow')">
                 <input type="radio" name="mediaConsent" value="allow" style="display:none">
                 <span class="lang-check-dot"></span>
-                <span>✅ ยินยอม (Allow)</span>
+                <span>✅ Allow</span>
               </label>
               <label class="lang-check-card consent-card" id="cc-notallow" onclick="setConsent('not_allow')">
                 <input type="radio" name="mediaConsent" value="not_allow" style="display:none">
                 <span class="lang-check-dot"></span>
-                <span>🚫 ไม่ยินยอม (Not Allow)</span>
+                <span>🚫 Not Allow</span>
               </label>
             </div>
-            <div class="err-msg" id="err-consent">กรุณาเลือกการยินยอม</div>
+            <div class="err-msg" id="err-consent">Please select a consent option</div>
           </div>
           <div class="full">
-            <label>รู้จัก AlphaLingo ได้อย่างไร? (How did you find us?)<span class="req">*</span></label>
+            <label>How did you find us?<span class="req">*</span></label>
             <select id="hearAbout">
-              <option value="">-- เลือก --</option>
+              <option value="">-- Select --</option>
               <option value="Facebook / Instagram">📱 Facebook / Instagram</option>
               <option value="Google Search">🔍 Google Search</option>
               <option value="YouTube / TikTok">▶️ YouTube / TikTok</option>
-              <option value="Friend / Family referral">👥 เพื่อน / ครอบครัวแนะนำ (Friend/Family)</option>
-              <option value="Walk-in">🚶 ผ่านมาเห็น (Walk-in)</option>
-              <option value="School / Teacher referral">🏫 โรงเรียน / ครูแนะนำ (School/Teacher)</option>
-              <option value="Other">📝 อื่นๆ (Other)</option>
+              <option value="Friend / Family referral">👥 Friend / Family referral</option>
+              <option value="Walk-in">🚶 Walk-in</option>
+              <option value="School / Teacher referral">🏫 School / Teacher referral</option>
+              <option value="Other">📝 Other</option>
             </select>
-            <div class="err-msg" id="err-hearAbout">กรุณาเลือกช่องทางที่รู้จัก</div>
+            <div class="err-msg" id="err-hearAbout">Please select how you found us</div>
           </div>
-          <div class="full"><label>ความสนใจ / หมายเหตุ (Interests / Notes)</label><textarea id="interests" placeholder="เช่น ความสนใจพิเศษ, ข้อมูลที่ควรทราบ, ความต้องการพิเศษ..."></textarea></div>
+          <div class="full"><label>Interests / Notes</label><textarea id="interests" placeholder="e.g. special interests, important notes, specific needs..."></textarea></div>
           <div class="full">
-            <label>บันทึกโดย (Registered by)<span class="req">*</span><span class="hint">เจ้าหน้าที่ที่บันทึกข้อมูล</span></label>
+            <label>Registered by<span class="req">*</span><span class="hint">Staff member recording this registration</span></label>
             <select id="registeredBy">
-              <option value="">-- เลือกเจ้าหน้าที่ --</option>
+              <option value="">-- Select Staff --</option>
               <option value="Chirayu (A001)">Chirayu — A001</option>
               <option value="Kanya (A002)">Kanya — A002</option>
             </select>
-            <div class="err-msg" id="err-registeredBy">กรุณาเลือกชื่อเจ้าหน้าที่</div>
+            <div class="err-msg" id="err-registeredBy">Please select a staff member</div>
           </div>
         </div>
         <div class="form-footer">
-          <button class="btn-prev" disabled>‹ ย้อนกลับ</button>
-          <button class="btn-next-f" onclick="goStep(2)">ถัดไป ›</button>
+          <button class="btn-prev" disabled>‹ Back</button>
+          <button class="btn-next-f" onclick="goStep(2)">Next ›</button>
         </div>
       </div>
 
       <!-- ─ COURSE REG mode: Student ID lookup ─ -->
       <div id="courseRegSearch" style="display:none">
-        <div class="section-title"><h2>1. ค้นหานักเรียน (Student Lookup)</h2><p>ค้นหาด้วยรหัสนักเรียนเพื่อสมัครเรียนคอร์ส</p></div>
+        <div class="section-title"><h2>1. Student Lookup</h2><p>Search by Student ID to enroll in a course</p></div>
         <div style="margin-top:16px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:18px;">
-          <div style="font-weight:700;color:#15803d;margin-bottom:10px;">🎓 กรอกรหัสนักเรียน (Student ID)</div>
+          <div style="font-weight:700;color:#15803d;margin-bottom:10px;">🎓 Enter Student ID</div>
           <div style="display:flex;gap:10px;align-items:flex-end;">
             <div style="flex:1;">
               <label style="font-size:.83rem;color:#374151;margin-bottom:4px;display:block;">Student ID</label>
               <input type="text" id="searchStudentId" placeholder="STU-20260424-1430" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')searchStudentById()" style="width:100%;padding:10px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:.9rem;font-family:inherit;letter-spacing:.5px;">
             </div>
-            <button onclick="searchStudentById()" style="padding:10px 20px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;font-size:.9rem;">ค้นหา 🔍</button>
+            <button onclick="searchStudentById()" style="padding:10px 20px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;font-size:.9rem;">Search 🔍</button>
           </div>
           <div id="searchStatusById" style="margin-top:8px;font-size:.83rem;min-height:18px;"></div>
         </div>
 
         <div id="foundStudentPanel" style="display:none;margin-top:14px;">
           <div style="background:#fff;border:1.5px solid #a5b4fc;border-radius:12px;padding:14px 16px;">
-            <div style="font-size:.75rem;font-weight:700;color:#6366f1;margin-bottom:10px;">✅ พบข้อมูลนักเรียน</div>
+            <div style="font-size:.75rem;font-weight:700;color:#6366f1;margin-bottom:10px;">✅ Student Found</div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
-              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">ชื่อ-นามสกุล</div><div id="foundName" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
-              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">ชื่อเล่น (Nickname)</div><div id="foundNickname" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
-              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">อายุ (Age)</div><div id="foundAge" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">Full Name</div><div id="foundName" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">Nickname</div><div id="foundNickname" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
+              <div><div style="font-size:.74rem;color:#6b7280;margin-bottom:3px;">Age</div><div id="foundAge" style="font-weight:700;color:#1f2937;font-size:.92rem;"></div></div>
             </div>
           </div>
         </div>
 
         <div style="margin-top:20px;">
-          <label>บันทึกโดย (Registered by)<span class="req">*</span><span class="hint">เจ้าหน้าที่ที่บันทึกข้อมูล</span></label>
+          <label>Registered by<span class="req">*</span><span class="hint">Staff member recording this registration</span></label>
           <select id="registeredByCourse">
-            <option value="">-- เลือกเจ้าหน้าที่ --</option>
+            <option value="">-- Select Staff --</option>
             <option value="Chirayu (A001)">Chirayu — A001</option>
             <option value="Kanya (A002)">Kanya — A002</option>
           </select>
-          <div class="err-msg" id="err-registeredByCourse">กรุณาเลือกชื่อเจ้าหน้าที่</div>
+          <div class="err-msg" id="err-registeredByCourse">Please select a staff member</div>
         </div>
         <div class="form-footer">
-          <button class="btn-prev" disabled>‹ ย้อนกลับ</button>
-          <button class="btn-next-f" onclick="goStep(2)">ถัดไป ›</button>
+          <button class="btn-prev" disabled>‹ Back</button>
+          <button class="btn-next-f" onclick="goStep(2)">Next ›</button>
         </div>
       </div>
 
@@ -572,64 +572,64 @@ table.inv-tbl tr:hover td { background:#fafafa; }
 
       <!-- ─ NEW STUDENT mode: Availability / Schedule ─ -->
       <div id="newStudentSchedule" style="display:none">
-        <div class="section-title"><h2>2. ความพร้อมเรียน (Availability)</h2><p>เลือกวันและช่วงเวลาที่สะดวกสำหรับนักเรียน</p></div>
+        <div class="section-title"><h2>2. Availability</h2><p>Select the student's preferred days and time slots</p></div>
 
         <div style="margin-top:18px">
-          <label>วันที่สะดวกเรียน (Preferred Days)<span class="req">*</span><span class="hint">เลือกได้มากกว่า 1 วัน</span></label>
+          <label>Preferred Days<span class="req">*</span><span class="hint">You may select more than one day</span></label>
           <div class="days-grid">
-            <div class="day-btn" onclick="toggleDay(this,'monday')"><div class="day-check"><div class="day-check-icon"></div>จันทร์</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'tuesday')"><div class="day-check"><div class="day-check-icon"></div>อังคาร</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'wednesday')"><div class="day-check"><div class="day-check-icon"></div>พุธ</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'thursday')"><div class="day-check"><div class="day-check-icon"></div>พฤหัสดี</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'friday')"><div class="day-check"><div class="day-check-icon"></div>ศุกร์</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'saturday')"><div class="day-check"><div class="day-check-icon"></div>เสาร์</div></div>
-            <div class="day-btn" onclick="toggleDay(this,'sunday')"><div class="day-check"><div class="day-check-icon"></div>อาทิตย์</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'monday')"><div class="day-check"><div class="day-check-icon"></div>Monday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'tuesday')"><div class="day-check"><div class="day-check-icon"></div>Tuesday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'wednesday')"><div class="day-check"><div class="day-check-icon"></div>Wednesday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'thursday')"><div class="day-check"><div class="day-check-icon"></div>Thursday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'friday')"><div class="day-check"><div class="day-check-icon"></div>Friday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'saturday')"><div class="day-check"><div class="day-check-icon"></div>Saturday</div></div>
+            <div class="day-btn" onclick="toggleDay(this,'sunday')"><div class="day-check"><div class="day-check-icon"></div>Sunday</div></div>
           </div>
-          <div class="err-msg" id="err-days-new">กรุณาเลือกอย่างน้อย 1 วัน</div>
+          <div class="err-msg" id="err-days-new">Please select at least one day</div>
         </div>
 
         <div style="margin-top:20px">
-          <label>ช่วงเวลาที่สะดวก (Preferred Time Slots)<span class="req">*</span><span class="hint">กรอกเวลาที่สะดวก เช่น 09:00–11:00, หลังเลิกเรียน, เสาร์บ่าย</span></label>
-          <textarea id="preferredTimeSlotsText" placeholder="เช่น จันทร์–ศุกร์ 16:00–18:00, เสาร์ 09:00–12:00" style="min-height:80px;"></textarea>
-          <div class="err-msg" id="err-timeSlots-new">กรุณากรอกช่วงเวลาที่สะดวก</div>
+          <label>Preferred Time Slots<span class="req">*</span><span class="hint">Enter available times, e.g. 09:00–11:00, after school, Saturday afternoon</span></label>
+          <textarea id="preferredTimeSlotsText" placeholder="e.g. Mon–Fri 16:00–18:00, Saturday 09:00–12:00" style="min-height:80px;"></textarea>
+          <div class="err-msg" id="err-timeSlots-new">Please enter preferred time slots</div>
         </div>
 
         <div class="form-footer">
-          <button class="btn-prev" onclick="goStep(1)">‹ ย้อนกลับ</button>
-          <button class="btn-next-f" onclick="submitForm()">🎓 ลงทะเบียนนักเรียน</button>
+          <button class="btn-prev" onclick="goStep(1)">‹ Back</button>
+          <button class="btn-next-f" onclick="submitForm()">🎓 Register Student</button>
         </div>
       </div>
 
       <!-- ─ COURSE REG mode: Course Details ─ -->
       <div id="courseRegCourseDetails" style="display:none">
-        <div class="section-title"><h2>2. รายละเอียดคอร์ส (Course Details)</h2><p>เลือกภาษา ระดับ และข้อมูลคอร์ส</p></div>
+        <div class="section-title"><h2>2. Course Details</h2><p>Select language, level, and course information</p></div>
 
         <div style="margin-top:18px">
-          <label>ภาษาที่ต้องการเรียน (Language)<span class="req">*</span></label>
+          <label>Language<span class="req">*</span></label>
           <div class="radio-group grid2" id="langGroup">
-            <div class="radio-card" onclick="selectRadio('langGroup','english'); updateCoursePackages('english')"><input type="radio" name="language" value="english"><div class="radio-dot"></div><div class="radio-text"><strong>🇬🇧 ภาษาอังกฤษ (English)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('langGroup','chinese'); updateCoursePackages('chinese')"><input type="radio" name="language" value="chinese"><div class="radio-dot"></div><div class="radio-text"><strong>🇨🇳 ภาษาจีน (Chinese)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('langGroup','german'); updateCoursePackages('german')"><input type="radio" name="language" value="german"><div class="radio-dot"></div><div class="radio-text"><strong>🇩🇪 ภาษาเยอรมัน (German)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','english'); updateCoursePackages('english')"><input type="radio" name="language" value="english"><div class="radio-dot"></div><div class="radio-text"><strong>🇬🇧 English</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','chinese'); updateCoursePackages('chinese')"><input type="radio" name="language" value="chinese"><div class="radio-dot"></div><div class="radio-text"><strong>🇨🇳 Chinese</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('langGroup','german'); updateCoursePackages('german')"><input type="radio" name="language" value="german"><div class="radio-dot"></div><div class="radio-text"><strong>🇩🇪 German</strong></div></div>
           </div>
-          <div class="err-msg" id="err-lang">กรุณาเลือกภาษา</div>
+          <div class="err-msg" id="err-lang">Please select a language</div>
         </div>
 
         <div style="margin-top:20px">
-          <label>ระดับภาษา (Language Level)<span class="req">*</span></label>
+          <label>Language Level<span class="req">*</span></label>
           <div class="radio-group grid2" id="levelGroup">
-            <div class="radio-card" onclick="selectRadio('levelGroup','beginner')"><input type="radio" name="level" value="beginner"><div class="radio-dot"></div><div class="radio-text"><strong>Beginner (เริ่มต้น)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('levelGroup','elementary')"><input type="radio" name="level" value="elementary"><div class="radio-dot"></div><div class="radio-text"><strong>Elementary (พื้นฐาน)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('levelGroup','intermediate')"><input type="radio" name="level" value="intermediate"><div class="radio-dot"></div><div class="radio-text"><strong>Intermediate (ปานกลาง)</strong></div></div>
-            <div class="radio-card" onclick="selectRadio('levelGroup','advanced')"><input type="radio" name="level" value="advanced"><div class="radio-dot"></div><div class="radio-text"><strong>Advanced (สูง)</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','beginner')"><input type="radio" name="level" value="beginner"><div class="radio-dot"></div><div class="radio-text"><strong>Beginner</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','elementary')"><input type="radio" name="level" value="elementary"><div class="radio-dot"></div><div class="radio-text"><strong>Elementary</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','intermediate')"><input type="radio" name="level" value="intermediate"><div class="radio-dot"></div><div class="radio-text"><strong>Intermediate</strong></div></div>
+            <div class="radio-card" onclick="selectRadio('levelGroup','advanced')"><input type="radio" name="level" value="advanced"><div class="radio-dot"></div><div class="radio-text"><strong>Advanced</strong></div></div>
           </div>
-          <div class="err-msg" id="err-level">กรุณาเลือกระดับภาษา</div>
+          <div class="err-msg" id="err-level">Please select a language level</div>
         </div>
 
         <div class="grid-2" style="margin-top:20px">
           <div>
-            <label>ครูผู้สอนหลัก (Main Teacher)<span class="req">*</span></label>
+            <label>Main Teacher<span class="req">*</span></label>
             <select id="mainTeacher">
-              <option value="">-- เลือกครูผู้สอน --</option>
+              <option value="">-- Select Teacher --</option>
               <option value="Natalia (T001)">Natalia — T001</option>
               <option value="Savanah (T002)">Savanah — T002</option>
               <option value="Erik (T003)">Erik — T003</option>
@@ -639,12 +639,12 @@ table.inv-tbl tr:hover td { background:#fafafa; }
               <option value="Wang (T007)">Wang — T007</option>
               <option value="Tawan (T008)">Tawan — T008</option>
             </select>
-            <div class="err-msg" id="err-mainTeacher">กรุณาเลือกครูผู้สอน</div>
+            <div class="err-msg" id="err-mainTeacher">Please select a teacher</div>
           </div>
           <div>
-            <label>ครูทดลองสอน (Trial Teacher) <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— ถ้ามี (optional)</span></label>
+            <label>Trial Teacher <span style="font-weight:400;color:#9ca3af;font-size:.78rem">— optional</span></label>
             <select id="trialTeacher">
-              <option value="">-- ไม่มี / None --</option>
+              <option value="">-- None --</option>
               <option value="Natalia (T001)">Natalia — T001</option>
               <option value="Savanah (T002)">Savanah — T002</option>
               <option value="Erik (T003)">Erik — T003</option>
@@ -656,31 +656,31 @@ table.inv-tbl tr:hover td { background:#fafafa; }
             </select>
           </div>
           <div class="full">
-            <label>ชื่อคอร์ส / แพ็คเกจ (Course Package)<span class="req">*</span></label>
+            <label>Course Package<span class="req">*</span></label>
             <select id="coursePackage">
-              <option value="">-- กรุณาเลือกภาษาก่อน (Select language first) --</option>
+              <option value="">-- Please select a language first --</option>
             </select>
-            <div class="err-msg" id="err-coursePackage">กรุณาเลือกคอร์ส</div>
+            <div class="err-msg" id="err-coursePackage">Please select a course package</div>
           </div>
         </div>
 
         <!-- Course ID / Group -->
         <div style="margin-top:22px">
-          <label>รหัสกลุ่มเรียน (Course Group ID)<span class="req">*</span><span class="hint">สร้างกลุ่มใหม่ หรือเพิ่มนักเรียนเข้ากลุ่มที่มีอยู่</span></label>
+          <label>Course Group ID<span class="req">*</span><span class="hint">Create a new group or add student to an existing group</span></label>
           <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;align-items:flex-start">
             <div style="flex:1;min-width:200px">
-              <input type="text" id="courseGroupId" placeholder="เช่น GRP-20260426-0900" style="font-family:monospace;font-size:.9rem;">
-              <div class="err-msg" id="err-courseGroupId">กรุณากรอกหรือสร้างรหัสกลุ่ม</div>
+              <input type="text" id="courseGroupId" placeholder="e.g. GRP-20260426-0900" style="font-family:monospace;font-size:.9rem;">
+              <div class="err-msg" id="err-courseGroupId">Please enter or generate a group ID</div>
             </div>
-            <button type="button" class="btn-gen-grp" onclick="generateGroupId()">🆕 สร้างรหัสใหม่</button>
-            <button type="button" class="btn-chk-grp" onclick="checkGroupEnrollment()">🔍 ตรวจสอบกลุ่ม</button>
+            <button type="button" class="btn-gen-grp" onclick="generateGroupId()">🆕 Generate New ID</button>
+            <button type="button" class="btn-chk-grp" onclick="checkGroupEnrollment()">🔍 Check Group</button>
           </div>
           <div id="groupStatus" style="margin-top:8px;font-size:.84rem;"></div>
         </div>
 
         <div class="form-footer">
-          <button class="btn-prev" onclick="goStep(1)">‹ ย้อนกลับ</button>
-          <button class="btn-next-f" onclick="goStep(3)">ถัดไป ›</button>
+          <button class="btn-prev" onclick="goStep(1)">‹ Back</button>
+          <button class="btn-next-f" onclick="goStep(3)">Next ›</button>
         </div>
       </div>
 
@@ -688,17 +688,17 @@ table.inv-tbl tr:hover td { background:#fafafa; }
 
     <!-- ── STEP 3: Schedule & Pricing ── -->
     <div id="step3" style="display:none">
-      <div class="section-title"><h2>3. ตารางเรียน & ราคา (Schedule & Pricing)</h2><p>เลือกประเภทคอร์ส จำนวนชั่วโมง และวันเวลาเรียน</p></div>
+      <div class="section-title"><h2>3. Schedule &amp; Pricing</h2><p>Select course type, hours, and class schedule</p></div>
 
       <!-- Course Type -->
       <div style="margin-top:18px">
-        <label>ประเภทคอร์ส (Course Type)<span class="req">*</span></label>
+        <label>Course Type<span class="req">*</span></label>
         <div class="radio-group" id="typeGroup">
           <div class="radio-card" onclick="selectRadio('typeGroup','group');updatePrice()">
             <input type="radio" name="courseType" value="group">
             <div class="radio-dot"></div>
             <div class="radio-text">
-              <strong>Group Class (เรียนกลุ่ม) — สูงสุด 5 คน</strong>
+              <strong>Group Class — max 5 students</strong>
               <small>Half 12h: <b>5,500 THB</b> &nbsp;|&nbsp; Full 24h: <b>9,800 THB</b></small>
             </div>
           </div>
@@ -706,90 +706,90 @@ table.inv-tbl tr:hover td { background:#fafafa; }
             <input type="radio" name="courseType" value="private">
             <div class="radio-dot"></div>
             <div class="radio-text">
-              <strong>Private Class (เรียนตัวต่อตัว) — 1:1 กับครู</strong>
+              <strong>Private Class — 1:1 with teacher</strong>
               <small>Half 12h: <b>14,500 THB</b> &nbsp;|&nbsp; Full 24h: <b>27,500 THB</b></small>
             </div>
           </div>
         </div>
-        <div class="err-msg" id="err-type">กรุณาเลือกประเภทคอร์ส</div>
+        <div class="err-msg" id="err-type">Please select a course type</div>
       </div>
 
       <!-- Course Duration -->
       <div style="margin-top:20px">
-        <label>ระยะเวลาคอร์ส (Course Duration)<span class="req">*</span></label>
+        <label>Course Duration<span class="req">*</span></label>
         <div class="radio-group grid2" id="durationGroup">
           <div class="radio-card" onclick="selectRadio('durationGroup','half');renderSessionFormats();updatePrice()">
             <input type="radio" name="duration" value="half">
             <div class="radio-dot"></div>
-            <div class="radio-text"><strong>Half-course — 12 ชั่วโมง</strong><small id="priceHalf">—</small></div>
+            <div class="radio-text"><strong>Half-course — 12 hours</strong><small id="priceHalf">—</small></div>
           </div>
           <div class="radio-card" onclick="selectRadio('durationGroup','full');renderSessionFormats();updatePrice()">
             <input type="radio" name="duration" value="full">
             <div class="radio-dot"></div>
-            <div class="radio-text"><strong>Full-course — 24 ชั่วโมง</strong><small id="priceFull">—</small></div>
+            <div class="radio-text"><strong>Full-course — 24 hours</strong><small id="priceFull">—</small></div>
           </div>
         </div>
-        <div class="err-msg" id="err-duration">กรุณาเลือกระยะเวลาคอร์ส</div>
+        <div class="err-msg" id="err-duration">Please select a course duration</div>
       </div>
 
       <!-- Session Format (dynamic) -->
       <div style="margin-top:20px" id="sessionSection" style="display:none">
-        <label>รูปแบบชั่วโมงเรียน (Session Format)<span class="req">*</span></label>
+        <label>Session Format<span class="req">*</span></label>
         <div class="radio-group" id="sessionGroup"></div>
-        <div class="err-msg" id="err-session">กรุณาเลือกรูปแบบชั่วโมงเรียน</div>
+        <div class="err-msg" id="err-session">Please select a session format</div>
       </div>
 
       <!-- Student Status -->
       <div style="margin-top:20px">
-        <label>ประเภทนักเรียน (Student Status)<span class="req">*</span></label>
+        <label>Student Status<span class="req">*</span></label>
         <div class="radio-group grid2" id="statusGroup">
           <div class="radio-card" onclick="selectRadio('statusGroup','new');updatePrice()">
             <input type="radio" name="studentStatus" value="new">
             <div class="radio-dot"></div>
-            <div class="radio-text"><strong>🆕 นักเรียนใหม่ (New Student)</strong><small>ราคาปกติ</small></div>
+            <div class="radio-text"><strong>🆕 New Student</strong><small>Regular price</small></div>
           </div>
           <div class="radio-card" onclick="selectRadio('statusGroup','existing');updatePrice()">
             <input type="radio" name="studentStatus" value="existing">
             <div class="radio-dot"></div>
-            <div class="radio-text"><strong>⭐ นักเรียนเดิม (Existing Student)</strong><small style="color:#16a34a;font-weight:600;">ลด 20% เฉพาะ Private Class / 20% off Private only</small></div>
+            <div class="radio-text"><strong>⭐ Existing Student</strong><small style="color:#16a34a;font-weight:600;">20% off Private Class only</small></div>
           </div>
         </div>
-        <div class="err-msg" id="err-status">กรุณาเลือกประเภทนักเรียน</div>
+        <div class="err-msg" id="err-status">Please select student status</div>
       </div>
 
       <!-- Price Summary Box -->
       <div id="priceBox" style="display:none" class="price-box">
-        <div class="price-row"><span>ราคาปกติ (Regular Price)</span><span id="pb-base"></span></div>
-        <div class="price-row" id="pb-discount-row"><span>ส่วนลดนักเรียนเดิม 20%</span><span id="pb-discount" style="color:#ef4444;"></span></div>
-        <div class="price-row total"><span>💰 ราคาสุทธิ (Final Price)</span><span id="pb-final"></span></div>
+        <div class="price-row"><span>Regular Price</span><span id="pb-base"></span></div>
+        <div class="price-row" id="pb-discount-row"><span>Existing Student Discount 20%</span><span id="pb-discount" style="color:#ef4444;"></span></div>
+        <div class="price-row total"><span>💰 Final Price</span><span id="pb-final"></span></div>
       </div>
 
       <!-- Weekly Schedule Picker -->
       <div style="margin-top:20px">
-        <label>ตารางเวลาเรียน (Class Schedule)<span class="req">*</span><span class="hint">คลิกช่องเพื่อเลือกวันและเวลา — ตารางนี้จะใช้ตลอดคอร์ส</span></label>
+        <label>Class Schedule<span class="req">*</span><span class="hint">Click to select days and times — this schedule applies for the entire course</span></label>
         <div id="schedWeeksContainer"></div>
         <div class="err-msg" id="err-days"></div>
-        <div class="err-msg" id="err-timeSlots">กรุณาเลือกอย่างน้อย 1 ช่อง</div>
+        <div class="err-msg" id="err-timeSlots">Please select at least one time slot</div>
       </div>
 
       <!-- Start Date + Payment Due Date -->
       <div class="grid-2" style="margin-top:20px">
         <div>
-          <label>วันที่เริ่มเรียน (Start Date)<span class="req">*</span></label>
+          <label>Start Date<span class="req">*</span></label>
           <input type="date" id="startDate" onchange="updateDate(this.value);autoSetDueDate(this.value)" style="font-size:.95rem;padding:12px 14px;">
           <div id="dateDisplay" style="margin-top:6px;font-size:.85rem;color:#6366f1;font-weight:600;min-height:20px;"></div>
-          <div class="err-msg" id="err-date">กรุณาเลือกวันที่เริ่มเรียน</div>
+          <div class="err-msg" id="err-date">Please select a start date</div>
         </div>
         <div>
-          <label>วันครบกำหนดชำระ (Payment Due Date)<span class="req">*</span><span class="hint">ค่าเริ่มต้น: 7 วันหลังเริ่มเรียน</span></label>
+          <label>Payment Due Date<span class="req">*</span><span class="hint">Default: 7 days after start date</span></label>
           <input type="date" id="paymentDueDate" style="font-size:.95rem;padding:12px 14px;">
-          <div class="err-msg" id="err-dueDate">กรุณาเลือกวันครบกำหนดชำระ</div>
+          <div class="err-msg" id="err-dueDate">Please select a payment due date</div>
         </div>
       </div>
 
       <div class="form-footer">
-        <button class="btn-prev" onclick="goStep(2)">‹ ย้อนกลับ</button>
-        <button class="btn-next-f" id="submitBtn" onclick="submitForm()">ส่งข้อมูล ›</button>
+        <button class="btn-prev" onclick="goStep(2)">‹ Back</button>
+        <button class="btn-next-f" id="submitBtn" onclick="submitForm()">Submit ›</button>
       </div>
     </div>
 
@@ -797,15 +797,15 @@ table.inv-tbl tr:hover td { background:#fafafa; }
     <div id="stepSuccess" style="display:none">
       <div class="success-box">
         <div class="success-icon">✓</div>
-        <h2>ลงทะเบียนสำเร็จ!</h2>
-        <p>ขอบคุณที่สมัครเรียนกับ AlphaLingo<br>เราจะติดต่อกลับเร็วๆ นี้</p>
+        <h2>Registration Successful!</h2>
+        <p>Thank you for enrolling with AlphaLingo.<br>We will be in touch shortly.</p>
         <div id="summaryArea"></div><br>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;">
-          <button style="display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;" onclick="downloadInvoicePDF()">📄 ดาวน์โหลด Invoice PDF</button>
+          <button style="display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;padding:12px 24px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;" onclick="downloadInvoicePDF()">📄 Download Invoice PDF</button>
         </div>
-        <button class="btn-add-course" id="btnAddCourse" style="display:none" onclick="addAnotherCourse()">➕ เพิ่มคอร์สให้นักเรียนคนเดิม</button>
-        <button class="btn-restart" onclick="restartReg()">สมัครนักเรียนใหม่</button>
-        <button class="btn-go-home" onclick="showPage('homePage')">หน้าหลัก</button>
+        <button class="btn-add-course" id="btnAddCourse" style="display:none" onclick="addAnotherCourse()">➕ Add Another Course for This Student</button>
+        <button class="btn-restart" onclick="restartReg()">Register New Student</button>
+        <button class="btn-go-home" onclick="showPage('homePage')">Home</button>
       </div>
     </div>
 
@@ -821,7 +821,8 @@ table.inv-tbl tr:hover td { background:#fafafa; }
     </div>
     <div style="display:flex;gap:10px;align-items:center;">
       <button onclick="loadInvoices()" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:8px;color:#fff;padding:7px 14px;cursor:pointer;font-size:.82rem;font-family:inherit;">🔄 Refresh</button>
-      <button class="btn-logout" onclick="showPage('homePage')">← หน้าหลัก</button>
+      <button onclick="showScriptSettings()" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:8px;color:#fff;padding:7px 14px;cursor:pointer;font-size:.82rem;font-family:inherit;">⚙️ Sheet Settings</button>
+      <button class="btn-logout" onclick="showPage('homePage')">← Home</button>
     </div>
   </div>
   <div class="inv-body">
@@ -865,6 +866,42 @@ table.inv-tbl tr:hover td { background:#fafafa; }
       <div id="invEmpty" class="inv-empty" style="display:none">No invoices found. Submit a registration to create one.</div>
     </div>
   </div>
+
+  <!-- Connection status bar -->
+  <div id="inv-conn-bar" style="display:none;margin:0 24px 16px;padding:10px 16px;border-radius:8px;font-size:.83rem;font-weight:500;"></div>
+</div>
+
+<!-- ── Sheet Settings Modal ── -->
+<div id="sheetSettingsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:32px;max-width:540px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+    <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:6px;color:#1f2937;">⚙️ Google Sheet Connection</h2>
+    <p style="font-size:.82rem;color:#6b7280;margin-bottom:20px;">Paste your Apps Script Web App URL below to link the invoice data to your Google Sheet.</p>
+
+    <label style="font-size:.78rem;font-weight:600;color:#374151;display:block;margin-bottom:5px;">Apps Script Web App URL</label>
+    <input id="scriptUrlInput" type="text" placeholder="https://script.google.com/macros/s/.../exec"
+      style="width:100%;padding:10px 12px;border:1.5px solid #d1d5db;border-radius:8px;font-size:.82rem;font-family:inherit;outline:none;color:#1f2937;margin-bottom:12px;">
+
+    <div id="connTestResult" style="min-height:28px;margin-bottom:16px;font-size:.82rem;"></div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button onclick="testSheetConnection()" style="background:#6366f1;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:inherit;">🔌 Test Connection</button>
+      <button onclick="saveScriptUrl()" style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:inherit;">💾 Save & Reload</button>
+      <button onclick="openScriptInBrowser()" style="background:#f3f4f6;color:#374151;border:none;border-radius:8px;padding:9px 18px;font-size:.83rem;font-weight:600;cursor:pointer;font-family:inherit;">🔗 Open URL</button>
+      <button onclick="closeSheetSettings()" style="margin-left:auto;background:#f3f4f6;color:#374151;border:none;border-radius:8px;padding:9px 18px;font-size:.83rem;cursor:pointer;font-family:inherit;">Cancel</button>
+    </div>
+
+    <div style="margin-top:20px;background:#f8f7ff;border:1px solid #e0e0f0;border-radius:10px;padding:14px 16px;">
+      <div style="font-size:.78rem;font-weight:700;color:#4f46e5;margin-bottom:8px;">📋 How to get your Apps Script URL</div>
+      <ol style="font-size:.77rem;color:#374151;line-height:1.9;padding-left:16px;margin:0;">
+        <li>Open your Google Sheet → <b>Extensions → Apps Script</b></li>
+        <li>Paste the full script from <b>alphalingo-apps-script.js</b></li>
+        <li>Run <b>setupHeaders()</b> once (▶ button)</li>
+        <li><b>Deploy → Manage deployments → New deployment</b></li>
+        <li>Type: <b>Web app</b> · Execute as: <b>Me</b> · Access: <b>Anyone</b></li>
+        <li>Copy the <b>Web app URL</b> and paste it above</li>
+      </ol>
+    </div>
+  </div>
 </div>
 
 <!-- Update Invoice Modal -->
@@ -875,10 +912,10 @@ table.inv-tbl tr:hover td { background:#fafafa; }
     <div class="modal-field">
       <label>Payment Status</label>
       <select id="modalStatus">
-        <option value="Pending">Pending — ยังไม่ชำระ</option>
-        <option value="Partial">Partial — ชำระบางส่วน</option>
-        <option value="Paid">Paid — ชำระครบแล้ว</option>
-        <option value="Overdue">Overdue — เกินกำหนด</option>
+        <option value="Pending">Pending</option>
+        <option value="Partial">Partial</option>
+        <option value="Paid">Paid</option>
+        <option value="Overdue">Overdue</option>
       </select>
     </div>
     <div class="modal-field">
@@ -998,14 +1035,14 @@ const DISCOUNT_RATE = 0.20;
 
 const SESSION_FORMATS = {
   half: [
-    { value:'1h-12',  label:'1 ชม./ครั้ง × 12 ครั้ง',  sub:'12 sessions × 1 hr each'  },
-    { value:'1.5h-8', label:'1.5 ชม./ครั้ง × 8 ครั้ง', sub:'8 sessions × 1.5 hr each' },
-    { value:'2h-6',   label:'2 ชม./ครั้ง × 6 ครั้ง',   sub:'6 sessions × 2 hr each'  }
+    { value:'1h-12',  label:'1 hr × 12 sessions',  sub:'12 sessions × 1 hr each'  },
+    { value:'1.5h-8', label:'1.5 hr × 8 sessions', sub:'8 sessions × 1.5 hr each' },
+    { value:'2h-6',   label:'2 hr × 6 sessions',   sub:'6 sessions × 2 hr each'  }
   ],
   full: [
-    { value:'1h-24',   label:'1 ชม./ครั้ง × 24 ครั้ง',  sub:'24 sessions × 1 hr each'  },
-    { value:'1.5h-16', label:'1.5 ชม./ครั้ง × 16 ครั้ง', sub:'16 sessions × 1.5 hr each' },
-    { value:'2h-12',   label:'2 ชม./ครั้ง × 12 ครั้ง',  sub:'12 sessions × 2 hr each'  }
+    { value:'1h-24',   label:'1 hr × 24 sessions',  sub:'24 sessions × 1 hr each'  },
+    { value:'1.5h-16', label:'1.5 hr × 16 sessions', sub:'16 sessions × 1.5 hr each' },
+    { value:'2h-12',   label:'2 hr × 12 sessions',  sub:'12 sessions × 2 hr each'  }
   ]
 };
 
@@ -1045,8 +1082,8 @@ let selectedSchedule = {}; // { monday: ['09:00','14:00'], friday: ['10:00'] }
 let isSubmitting = false;  // guard against double-submit
 
 const STEP_DEFS = {
-  new:      [['ข้อมูลนักเรียน','Student Info'],['ความพร้อมเรียน','Availability']],
-  existing: [['ค้นหานักเรียน','Student Lookup'],['รายละเอียดคอร์ส','Course Details'],['ตารางเรียน & ราคา','Schedule & Pricing']]
+  new:      [['Student Info',''],['Availability','']],
+  existing: [['Student Lookup',''],['Course Details',''],['Schedule & Pricing','']]
 };
 
 function buildStepper() {
@@ -1055,7 +1092,7 @@ function buildStepper() {
   container.innerHTML = steps.map((s, i) => `
     <div class="step-item${i===0?' active':''}" id="s${i+1}">
       <div class="step-circle" id="sc${i+1}">${i+1}</div>
-      <div class="step-label">${s[0]}<br>${s[1]}</div>
+      <div class="step-label">${s[0]}</div>
     </div>`).join('');
 }
 
@@ -1069,7 +1106,7 @@ function initReg(mode) {
   if (container) { container.innerHTML = buildSchedTable(); }
 
   // Update page header
-  const titles = { new: ['🎓 ลงทะเบียนนักเรียน','Student Registration — กรอกข้อมูลนักเรียนใหม่'], existing: ['📖 สมัครเรียนคอร์ส','Course Registration — สมัครเรียนสำหรับนักเรียนเดิม'] };
+  const titles = { new: ['🎓 Student Registration','New student registration form'], existing: ['📖 Course Registration','Enroll an existing student in a course'] };
   document.getElementById('regPageTitle').textContent = titles[mode][0];
   document.getElementById('regPageSubtitle').textContent = titles[mode][1];
 
@@ -1087,7 +1124,7 @@ function initReg(mode) {
   const gsEl  = document.getElementById('groupStatus');   if (gsEl)  gsEl.innerHTML = '';
   // Reset course package to empty state when form is re-opened
   const cpSel = document.getElementById('coursePackage');
-  if (cpSel) cpSel.innerHTML = '<option value="">-- กรุณาเลือกภาษาก่อน (Select language first) --</option>';
+  if (cpSel) cpSel.innerHTML = '<option value="">-- Please select a language first --</option>';
   ['firstName','lastName','nickname','birthDate','age','school','parentPhone','parentLineId','interests','preferredTimeSlotsText'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.value = ''; el.classList.remove('error'); }
@@ -1182,14 +1219,14 @@ function generateGroupId() {
   const id = 'GRP-' + now.getFullYear() + pad(now.getMonth()+1) + pad(now.getDate()) + '-' + pad(now.getHours()) + pad(now.getMinutes());
   document.getElementById('courseGroupId').value = id;
   document.getElementById('groupStatus').innerHTML =
-    `<span class="group-badge new">🆕 กลุ่มใหม่ — 0/${MAX_GROUP_SIZE} นักเรียน (New Group)</span>`;
+    `<span class="group-badge new">🆕 New Group — 0/${MAX_GROUP_SIZE} students</span>`;
 }
 
 function checkGroupEnrollment() {
   const gid = document.getElementById('courseGroupId').value.trim();
   const statusEl = document.getElementById('groupStatus');
-  if (!gid) { statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">กรุณากรอกรหัสกลุ่มก่อน</span>'; return; }
-  statusEl.innerHTML = '<span style="color:#6b7280;font-size:.82rem;">⏳ กำลังตรวจสอบ...</span>';
+  if (!gid) { statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">Please enter a group ID first</span>'; return; }
+  statusEl.innerHTML = '<span style="color:#6b7280;font-size:.82rem;">⏳ Checking...</span>';
 
   const cbName = 'alGrp_' + Date.now();
   const scId   = 'alGrpSc_' + Date.now();
@@ -1200,20 +1237,20 @@ function checkGroupEnrollment() {
       const count = result.count;
       const remaining = MAX_GROUP_SIZE - count;
       if (count >= MAX_GROUP_SIZE) {
-        statusEl.innerHTML = `<span class="group-badge full">🚫 กลุ่มเต็มแล้ว ${count}/${MAX_GROUP_SIZE} นักเรียน — กรุณาสร้างกลุ่มใหม่</span>`;
+        statusEl.innerHTML = `<span class="group-badge full">🚫 Group full ${count}/${MAX_GROUP_SIZE} students — please create a new group</span>`;
       } else if (count === 0) {
-        statusEl.innerHTML = `<span class="group-badge new">🆕 ยังไม่มีนักเรียนในกลุ่มนี้ — 0/${MAX_GROUP_SIZE}</span>`;
+        statusEl.innerHTML = `<span class="group-badge new">🆕 No students in this group yet — 0/${MAX_GROUP_SIZE}</span>`;
       } else {
         const cls = remaining === 1 ? 'warn' : 'ok';
-        statusEl.innerHTML = `<span class="group-badge ${cls}">👥 ${count}/${MAX_GROUP_SIZE} นักเรียน — เหลือ ${remaining} ที่ว่าง</span>`;
+        statusEl.innerHTML = `<span class="group-badge ${cls}">👥 ${count}/${MAX_GROUP_SIZE} students — ${remaining} spot${remaining===1?'':'s'} available</span>`;
       }
     } else {
-      statusEl.innerHTML = `<span class="group-badge new">🆕 ไม่พบกลุ่มนี้ — จะสร้างเป็นกลุ่มใหม่</span>`;
+      statusEl.innerHTML = `<span class="group-badge new">🆕 Group not found — will create as a new group</span>`;
     }
   };
   const script = document.createElement('script');
   script.id = scId;
-  script.onerror = () => { delete window[cbName]; statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">❌ เชื่อมต่อไม่ได้</span>'; };
+  script.onerror = () => { delete window[cbName]; statusEl.innerHTML = '<span style="color:#ef4444;font-size:.82rem;">❌ Connection failed</span>'; };
   script.src = APPS_SCRIPT_URL + '?action=getGroupCount&courseGroupId=' + encodeURIComponent(gid) + '&callback=' + cbName;
   document.head.appendChild(script);
 }
@@ -1302,7 +1339,7 @@ const COURSE_PACKAGES = {
 function updateCoursePackages(lang) {
   const sel = document.getElementById('coursePackage');
   if (!sel) return;
-  sel.innerHTML = '<option value="">-- เลือกคอร์ส (Select Course Package) --</option>';
+  sel.innerHTML = '<option value="">-- Select Course Package --</option>';
   const data = COURSE_PACKAGES[lang];
   if (!data) return;
   Object.entries(data).forEach(([group, courses]) => {
@@ -1326,9 +1363,8 @@ function calcAge() {
   if (today.getDate() < birth.getDate()) m--;
   if (m < 0) { y--; m += 12; }
   if (y < 0) { document.getElementById('age').value = ''; return; }
-  const th = (y > 0 ? y + ' ปี ' : '') + (m > 0 ? m + ' เดือน' : (y === 0 ? '< 1 เดือน' : ''));
   const en = (y > 0 ? y + ' yr' + (y > 1 ? 's' : '') + (m > 0 ? ' ' : '') : '') + (m > 0 ? m + ' mo' : (y === 0 ? '< 1 mo' : ''));
-  document.getElementById('age').value = th.trim() + ' (' + en.trim() + ')';
+  document.getElementById('age').value = en.trim();
 }
 
 function toggleDay(el, day) {
@@ -1343,18 +1379,18 @@ function toggleTimeSlot(el, slot) {
 
 // ── Schedule builder (30-min slots, single weekly grid) ──
 const SCHED_DAYS = [
-  {key:'monday',    th:'จันทร์'},
-  {key:'tuesday',   th:'อังคาร'},
-  {key:'wednesday', th:'พุธ'},
-  {key:'thursday',  th:'พฤหัสฯ'},
-  {key:'friday',    th:'ศุกร์'},
-  {key:'saturday',  th:'เสาร์'},
-  {key:'sunday',    th:'อาทิตย์'}
+  {key:'monday',    th:'Mon'},
+  {key:'tuesday',   th:'Tue'},
+  {key:'wednesday', th:'Wed'},
+  {key:'thursday',  th:'Thu'},
+  {key:'friday',    th:'Fri'},
+  {key:'saturday',  th:'Sat'},
+  {key:'sunday',    th:'Sun'}
 ];
 const SCHED_HOURS = [8,9,10,11,12,13,14,15,16,17,18,19,20];
 
 function buildSchedTable() {
-  let hrHead  = `<th class="sched-day-hd">วัน / Day</th>`;
+  let hrHead  = `<th class="sched-day-hd">Day</th>`;
   let minHead = `<th class="sched-day-hd"></th>`;
   SCHED_HOURS.forEach(h => {
     const isLast = h === 20;
@@ -1404,7 +1440,7 @@ function toggleSched(el, day, time) {
 
 function formatSchedule() {
   const dayOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-  const dayTh    = {monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสฯ',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'};
+  const dayTh    = {monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday',sunday:'Sunday'};
   return dayOrder
     .filter(d => selectedSchedule[d] && selectedSchedule[d].length > 0)
     .map(d => dayTh[d] + ' ' + selectedSchedule[d].join(', '))
@@ -1513,7 +1549,7 @@ function validateStep(s) {
     if (s===1) {
       if (!foundStudentData) {
         showE('err-registeredByCourse', false);
-        document.getElementById('searchStatusById').innerHTML = '<span style="color:#ef4444">❌ กรุณาค้นหานักเรียนก่อน</span>';
+        document.getElementById('searchStatusById').innerHTML = '<span style="color:#ef4444">❌ Please search for a student first</span>';
         ok = false;
       }
       ok = reqSel('registeredByCourse','err-registeredByCourse') & ok;
@@ -1526,8 +1562,8 @@ function validateStep(s) {
       ok = req('courseGroupId','err-courseGroupId') & ok;
       // Block if group is full
       const gs = document.getElementById('groupStatus');
-      if (gs && gs.innerHTML.includes('กลุ่มเต็มแล้ว')) {
-        gs.innerHTML += ' <span style="color:#ef4444;font-size:.8rem;">— กรุณาสร้างกลุ่มใหม่ก่อนดำเนินการต่อ</span>';
+      if (gs && gs.innerHTML.includes('Group full')) {
+        gs.innerHTML += ' <span style="color:#ef4444;font-size:.8rem;">— Please create a new group before proceeding</span>';
         ok = false;
       }
     }
@@ -1554,9 +1590,9 @@ function v(id) { const el=document.getElementById(id); return el?el.value.trim()
 function searchStudentById() {
   const sid    = document.getElementById('searchStudentId').value.trim().toUpperCase();
   const status = document.getElementById('searchStatusById');
-  if (!sid) { status.innerHTML = '<span style="color:#ef4444">กรุณากรอกรหัสนักเรียน</span>'; return; }
+  if (!sid) { status.innerHTML = '<span style="color:#ef4444">Please enter a Student ID</span>'; return; }
 
-  status.innerHTML = '<span style="color:#6b7280">⏳ กำลังค้นหา...</span>';
+  status.innerHTML = '<span style="color:#6b7280">⏳ Searching...</span>';
   document.getElementById('foundStudentPanel').style.display = 'none';
   foundStudentData = null;
 
@@ -1578,13 +1614,13 @@ function searchStudentById() {
         let a = today.getFullYear() - birth.getFullYear();
         const m = today.getMonth() - birth.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) a--;
-        if (a >= 0) ageStr = a + ' ปี (years old)';
+        if (a >= 0) ageStr = a + ' yr' + (a !== 1 ? 's' : '') + ' old';
       }
       document.getElementById('foundAge').textContent = ageStr;
       document.getElementById('foundStudentPanel').style.display = 'block';
-      status.innerHTML = '<span style="color:#15803d;font-weight:700;">✅ พบนักเรียน — กรุณาตรวจสอบข้อมูลด้านล่าง</span>';
+      status.innerHTML = '<span style="color:#15803d;font-weight:700;">✅ Student found — please verify the details below</span>';
     } else {
-      status.innerHTML = '<span style="color:#ef4444">❌ ไม่พบรหัสนักเรียนนี้ในระบบ — กรุณาตรวจสอบรหัสอีกครั้ง</span>';
+      status.innerHTML = '<span style="color:#ef4444">❌ Student ID not found — please check and try again</span>';
     }
   };
 
@@ -1592,7 +1628,7 @@ function searchStudentById() {
   script.id = scriptId;
   script.onerror = () => {
     delete window[cbName];
-    status.innerHTML = '<span style="color:#ef4444">❌ เชื่อมต่อไม่ได้ — กรุณาเปิดในเบราว์เซอร์หรือตรวจสอบการเชื่อมต่อ</span>';
+    status.innerHTML = '<span style="color:#ef4444">❌ Connection failed — please open in a browser or check your connection</span>';
   };
   script.src = APPS_SCRIPT_URL + '?action=searchById&studentId=' + encodeURIComponent(sid) + '&callback=' + cbName;
   document.head.appendChild(script);
@@ -1606,12 +1642,12 @@ async function submitForm() {
   if (!validateStep(lastValidStep)) return;
   isSubmitting = true;
 
-  const dayLabels   = {monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสดี',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'};
-  const langLabels  = {english:'ภาษาอังกฤษ (English)',chinese:'ภาษาจีน (Chinese)',german:'ภาษาเยอรมัน (German)'};
+  const dayLabels   = {monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday',sunday:'Sunday'};
+  const langLabels  = {english:'English',chinese:'Chinese',german:'German'};
   const levelLabels = {beginner:'Beginner',elementary:'Elementary',intermediate:'Intermediate',advanced:'Advanced'};
-  const typeLabels  = {group:'Group Class (เรียนกลุ่ม)',private:'Private Class (เรียนตัวต่อตัว)'};
+  const typeLabels  = {group:'Group Class',private:'Private Class'};
   const durLabels   = {half:'Half-course (12h)',full:'Full-course (24h)'};
-  const timeSlotLabels = {morning:'เช้า 08-12 (Morning)',afternoon:'บ่าย 12-17 (Afternoon)',evening:'เย็น 17-20 (Evening)'};
+  const timeSlotLabels = {morning:'Morning 08-12',afternoon:'Afternoon 12-17',evening:'Evening 17-20'};
 
   // Generate timestamps
   const _now = new Date();
@@ -1648,7 +1684,7 @@ async function submitForm() {
 
     // Disable button to prevent double-save
     const stuBtn = document.querySelector('.btn-next-f[onclick="submitForm()"]');
-    if (stuBtn) { stuBtn.disabled = true; stuBtn.textContent = 'กำลังบันทึก...'; }
+    if (stuBtn) { stuBtn.disabled = true; stuBtn.textContent = 'Saving...'; }
 
     // Send to sheet
     if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_')) {
@@ -1668,25 +1704,25 @@ async function submitForm() {
 
     document.getElementById('summaryArea').innerHTML = `
       <div style="background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1.5px solid #a5b4fc;border-radius:12px;padding:16px 20px;margin:16px 0;text-align:center;">
-        <div style="font-size:.8rem;color:#6366f1;font-weight:700;margin-bottom:6px;">🎓 รหัสนักเรียน (Student ID)</div>
+        <div style="font-size:.8rem;color:#6366f1;font-weight:700;margin-bottom:6px;">🎓 Student ID</div>
         <div style="font-size:1.4rem;font-weight:900;color:#1e1b4b;letter-spacing:1px;">${_studentId}</div>
-        <div style="font-size:.78rem;color:#6b7280;margin-top:4px;">กรุณาบันทึกรหัสนี้ไว้เพื่อใช้ในการสมัครเรียนคอร์ส</div>
+        <div style="font-size:.78rem;color:#6b7280;margin-top:4px;">Please save this ID — you will need it to enroll in courses</div>
       </div>
-      <div class="summary-section"><h3>ข้อมูลนักเรียน</h3>
-        <div class="summary-row"><span class="key">ชื่อ-นามสกุล:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
-        <div class="summary-row"><span class="key">วันเกิด / อายุ:</span><span class="val">${data.birthDate} (${data.age})</span></div>
-        ${data.school?`<div class="summary-row"><span class="key">โรงเรียน:</span><span class="val">${data.school}${data.grade?' ชั้น '+data.grade:''}</span></div>`:''}
-        <div class="summary-row"><span class="key">เบอร์ผู้ปกครอง:</span><span class="val">${data.parentPhone}</span></div>
-        ${data.hearAbout?`<div class="summary-row"><span class="key">รู้จักจาก:</span><span class="val">${data.hearAbout}</span></div>`:''}
-        <div class="summary-row"><span class="key">บันทึกโดย:</span><span class="val">${data.registeredBy}</span></div>
+      <div class="summary-section"><h3>Student Information</h3>
+        <div class="summary-row"><span class="key">Full Name:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
+        <div class="summary-row"><span class="key">Birth Date / Age:</span><span class="val">${data.birthDate} (${data.age})</span></div>
+        ${data.school?`<div class="summary-row"><span class="key">School:</span><span class="val">${data.school}${data.grade?' Grade: '+data.grade:''}</span></div>`:''}
+        <div class="summary-row"><span class="key">Parent Phone:</span><span class="val">${data.parentPhone}</span></div>
+        ${data.hearAbout?`<div class="summary-row"><span class="key">How found us:</span><span class="val">${data.hearAbout}</span></div>`:''}
+        <div class="summary-row"><span class="key">Registered by:</span><span class="val">${data.registeredBy}</span></div>
       </div>
-      <div class="summary-section"><h3>ความพร้อมเรียน</h3>
-        <div class="summary-row"><span class="key">วันที่สะดวก:</span><span class="val">${data.preferredDays}</span></div>
-        <div class="summary-row"><span class="key">ช่วงเวลา:</span><span class="val">${data.preferredTimeSlots}</span></div>
+      <div class="summary-section"><h3>Availability</h3>
+        <div class="summary-row"><span class="key">Preferred Days:</span><span class="val">${data.preferredDays}</span></div>
+        <div class="summary-row"><span class="key">Time Slots:</span><span class="val">${data.preferredTimeSlots}</span></div>
       </div>`;
 
     // Replace buttons on success screen
-    document.querySelector('.success-box p').innerHTML = 'ลงทะเบียนนักเรียนสำเร็จ! กรุณาบันทึกรหัสนักเรียนด้านบน<br>เพื่อใช้ในการ<strong>สมัครเรียนคอร์ส</strong>ครั้งต่อไป';
+    document.querySelector('.success-box p').innerHTML = 'Student registered successfully! Please save the Student ID above —<br>you will need it to <strong>enroll in courses</strong>.';
     document.querySelector('.success-box .success-icon').textContent = '✓';
     // Hide the PDF button (not needed for student registration)
     const pdfBtnWrap = document.querySelector('.success-box div[style*="flex"]');
@@ -1725,7 +1761,7 @@ async function submitForm() {
     courseType:   typeLabels[type]||'',
     courseDuration: durLabels[dur]||'',
     sessionFormat:  getRadio('sessionFmt')||'',
-    preferredDays:       Object.keys(selectedSchedule).map(d=>({monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสฯ',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'})[d]||d).join(', '),
+    preferredDays:       Object.keys(selectedSchedule).map(d=>({monday:'Monday',tuesday:'Tuesday',wednesday:'Wednesday',thursday:'Thursday',friday:'Friday',saturday:'Saturday',sunday:'Sunday'})[d]||d).join(', '),
     preferredTimeSlots:  formatSchedule(),
     startDate:       document.getElementById('startDate').value,
     paymentDueDate:  document.getElementById('paymentDueDate').value,
@@ -1744,7 +1780,7 @@ async function submitForm() {
   allInvoices.unshift({...lastSubmission});
 
   const btn = document.getElementById('submitBtn');
-  btn.textContent = 'กำลังส่งข้อมูล...'; btn.disabled = true;
+  btn.textContent = 'Submitting...'; btn.disabled = true;
   if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_')) {
     try {
       const params = new URLSearchParams();
@@ -1752,7 +1788,7 @@ async function submitForm() {
       await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() });
     } catch(e) { console.warn('Sheet save error:', e); }
   }
-  btn.textContent = 'ส่งข้อมูล ›'; btn.disabled = false;
+  btn.textContent = 'Submit ›'; btn.disabled = false;
   isSubmitting = false;
   // Show "Add Another Course" button and store student data for re-use
   window._lastCourseStudent = foundStudentData;
@@ -1760,33 +1796,33 @@ async function submitForm() {
   if (addBtn) addBtn.style.display = 'inline-block';
 
   const priceHTML = disc>0
-    ? `<div class="summary-row"><span class="key">ราคาปกติ:</span><span class="val" style="text-decoration:line-through;color:#9ca3af;">${fmt(base)} THB</span></div>
-       <div class="summary-row"><span class="key">ส่วนลด 20%:</span><span class="val" style="color:#ef4444;">-${fmt(disc)} THB</span></div>
-       <div class="summary-row"><span class="key">💰 ราคาสุทธิ:</span><span class="val green">${fmt(final)} THB</span></div>`
-    : `<div class="summary-row"><span class="key">💰 ราคาสุทธิ:</span><span class="val green">${fmt(final)} THB</span></div>`;
+    ? `<div class="summary-row"><span class="key">Regular Price:</span><span class="val" style="text-decoration:line-through;color:#9ca3af;">${fmt(base)} THB</span></div>
+       <div class="summary-row"><span class="key">Discount 20%:</span><span class="val" style="color:#ef4444;">-${fmt(disc)} THB</span></div>
+       <div class="summary-row"><span class="key">💰 Final Price:</span><span class="val green">${fmt(final)} THB</span></div>`
+    : `<div class="summary-row"><span class="key">💰 Final Price:</span><span class="val green">${fmt(final)} THB</span></div>`;
 
   const summaryHTML = `
-    <div class="summary-section"><h3>ข้อมูลนักเรียน</h3>
-      <div class="summary-row"><span class="key">รหัสนักเรียน:</span><span class="val" style="color:#6366f1;font-weight:700;">${data.studentId}</span></div>
-      <div class="summary-row"><span class="key">ชื่อ-นามสกุล:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
-      ${data.age?`<div class="summary-row"><span class="key">อายุ:</span><span class="val">${data.age}</span></div>`:''}
-      <div class="summary-row"><span class="key">บันทึกโดย:</span><span class="val">${data.registeredBy}</span></div>
+    <div class="summary-section"><h3>Student Information</h3>
+      <div class="summary-row"><span class="key">Student ID:</span><span class="val" style="color:#6366f1;font-weight:700;">${data.studentId}</span></div>
+      <div class="summary-row"><span class="key">Full Name:</span><span class="val">${data.firstName} ${data.lastName}${data.nickname?' ('+data.nickname+')':''}</span></div>
+      ${data.age?`<div class="summary-row"><span class="key">Age:</span><span class="val">${data.age}</span></div>`:''}
+      <div class="summary-row"><span class="key">Registered by:</span><span class="val">${data.registeredBy}</span></div>
     </div>
-    <div class="summary-section"><h3>รายละเอียดคอร์ส</h3>
-      <div class="summary-row"><span class="key">ภาษา:</span><span class="val">${data.language}</span></div>
-      <div class="summary-row"><span class="key">ระดับ:</span><span class="val">${data.level}</span></div>
-      <div class="summary-row"><span class="key">ครูผู้สอน:</span><span class="val">${data.mainTeacher}</span></div>
-      ${data.trialTeacher?`<div class="summary-row"><span class="key">ครูทดลองสอน:</span><span class="val">${data.trialTeacher}</span></div>`:''}
-      <div class="summary-row"><span class="key">แพ็คเกจ:</span><span class="val">${data.coursePackage}</span></div>
+    <div class="summary-section"><h3>Course Details</h3>
+      <div class="summary-row"><span class="key">Language:</span><span class="val">${data.language}</span></div>
+      <div class="summary-row"><span class="key">Level:</span><span class="val">${data.level}</span></div>
+      <div class="summary-row"><span class="key">Teacher:</span><span class="val">${data.mainTeacher}</span></div>
+      ${data.trialTeacher?`<div class="summary-row"><span class="key">Trial Teacher:</span><span class="val">${data.trialTeacher}</span></div>`:''}
+      <div class="summary-row"><span class="key">Package:</span><span class="val">${data.coursePackage}</span></div>
     </div>
-    <div class="summary-section"><h3>ตารางเรียน & ราคา</h3>
-      <div class="summary-row"><span class="key">ประเภท:</span><span class="val">${data.courseType}</span></div>
-      <div class="summary-row"><span class="key">ระยะเวลา:</span><span class="val">${data.courseDuration}</span></div>
-      <div class="summary-row"><span class="key">รูปแบบชั่วโมง:</span><span class="val">${data.sessionFormat}</span></div>
-      <div class="summary-row"><span class="key">วันที่สะดวก:</span><span class="val">${data.preferredDays}</span></div>
-      <div class="summary-row"><span class="key">ช่วงเวลา:</span><span class="val">${data.preferredTimeSlots}</span></div>
-      <div class="summary-row"><span class="key">วันเริ่มเรียน:</span><span class="val">${fmtDateShort(data.startDate)}</span></div>
-      <div class="summary-row"><span class="key">ประเภทนักเรียน:</span><span class="val">${data.studentType}</span></div>
+    <div class="summary-section"><h3>Schedule &amp; Pricing</h3>
+      <div class="summary-row"><span class="key">Type:</span><span class="val">${data.courseType}</span></div>
+      <div class="summary-row"><span class="key">Duration:</span><span class="val">${data.courseDuration}</span></div>
+      <div class="summary-row"><span class="key">Session Format:</span><span class="val">${data.sessionFormat}</span></div>
+      <div class="summary-row"><span class="key">Preferred Days:</span><span class="val">${data.preferredDays}</span></div>
+      <div class="summary-row"><span class="key">Time Slots:</span><span class="val">${data.preferredTimeSlots}</span></div>
+      <div class="summary-row"><span class="key">Start Date:</span><span class="val">${fmtDateShort(data.startDate)}</span></div>
+      <div class="summary-row"><span class="key">Student Status:</span><span class="val">${data.studentType}</span></div>
       ${priceHTML}
     </div>`;
 
@@ -1796,7 +1832,7 @@ async function submitForm() {
   // Show PDF button for course registration
   const pdfBtnWrap = document.querySelector('.success-box div[style*="flex"]');
   if (pdfBtnWrap) pdfBtnWrap.style.display = 'flex';
-  document.querySelector('.success-box p').innerHTML = 'ขอบคุณที่สมัครเรียนกับ AlphaLingo<br>เราจะติดต่อกลับเร็วๆ นี้';
+  document.querySelector('.success-box p').innerHTML = 'Thank you for enrolling with AlphaLingo.<br>We will be in touch shortly.';
 
   const invoiceBanner = `<div style="background:#eef2ff;border:1.5px solid #a5b4fc;border-radius:10px;padding:12px 18px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
     <div>
@@ -1829,7 +1865,7 @@ function addAnotherCourse() {
       document.getElementById('foundAge').textContent      = saved.age || '—';
       document.getElementById('foundStudentPanel').style.display = 'block';
       document.getElementById('searchStatusById').innerHTML =
-        '<span style="color:#15803d;font-weight:700;">✅ นักเรียนเดิม — กรุณาเลือกรายละเอียดคอร์สใหม่</span>';
+        '<span style="color:#15803d;font-weight:700;">✅ Existing student — please select new course details</span>';
     }, 50);
   }
 }
@@ -1839,20 +1875,67 @@ let allInvoices = [], invFilter = 'all', currentInvRow = null, lastSubmission = 
 
 // Example data shown when Google Sheet is not connected
 const EXAMPLE_INVOICES = [
-  { invoiceNo:'AL-2026-0001', firstName:'สมชาย', lastName:'ใจดี', nickname:'โจ', coursePackage:'English for Kids', courseType:'Group Class (เรียนกลุ่ม)', mainTeacher:'Natalia (T001)', finalPrice:9800, dueDate:'2026-05-07', startDate:'2026-05-01', sessionFormat:'1.5h-16', preferredDays:'จันทร์, พุธ', status:'Paid',    amountPaid:9800, balanceDue:0,    language:'ภาษาอังกฤษ', level:'Beginner', courseDuration:'Full-course (24h)' },
-  { invoiceNo:'AL-2026-0002', firstName:'มาลี',   lastName:'รักเรียน', nickname:'หมิว', coursePackage:'IELTS Preparation', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'Natalia (T001)', finalPrice:14500, dueDate:'2026-04-28', startDate:'2026-04-21', sessionFormat:'1h-12', preferredDays:'อังคาร, พฤหัสดี', status:'Overdue', amountPaid:0,    balanceDue:14500, language:'ภาษาอังกฤษ', level:'Intermediate', courseDuration:'Half-course (12h)' },
-  { invoiceNo:'AL-2026-0003', firstName:'วิชัย',  lastName:'เก่งมาก', nickname:'โอ', coursePackage:'Chinese Beginner', courseType:'Group Class (เรียนกลุ่ม)', mainTeacher:'Savanah (T002)', finalPrice:7840, dueDate:'2026-05-10', startDate:'2026-05-03', sessionFormat:'1h-12', preferredDays:'เสาร์', status:'Partial', amountPaid:4000, balanceDue:3840, language:'ภาษาจีน', level:'Beginner', courseDuration:'Half-course (12h)' },
-  { invoiceNo:'AL-2026-0004', firstName:'อาภา',   lastName:'สดใส', nickname:'เฟิร์น', coursePackage:'German for Kids', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'Erik (T003)', finalPrice:27500, dueDate:'2026-05-15', startDate:'2026-05-08', sessionFormat:'2h-12', preferredDays:'จันทร์, ศุกร์', status:'Pending', amountPaid:0,    balanceDue:27500, language:'ภาษาเยอรมัน', level:'Beginner', courseDuration:'Full-course (24h)' },
-  { invoiceNo:'AL-2026-0005', firstName:'ธนา',    lastName:'มั่งมี', nickname:'บอล', coursePackage:'Business English', courseType:'Private Class (เรียนตัวต่อตัว)', mainTeacher:'David (T005)', finalPrice:22000, dueDate:'2026-05-01', startDate:'2026-04-24', sessionFormat:'1.5h-8', preferredDays:'พุธ, ศุกร์', status:'Paid',    amountPaid:22000, balanceDue:0,    language:'ภาษาอังกฤษ', level:'Advanced', courseDuration:'Half-course (12h)' }
+  { invoiceNo:'AL-2026-0001', firstName:'Somchai', lastName:'Jaidee', nickname:'Jo', coursePackage:'English for Kids', courseType:'Group Class', mainTeacher:'Natalia (T001)', finalPrice:9800, dueDate:'2026-05-07', startDate:'2026-05-01', sessionFormat:'1.5h-16', preferredDays:'Monday, Wednesday', status:'Paid',    amountPaid:9800, balanceDue:0,    language:'English', level:'Beginner', courseDuration:'Full-course (24h)' },
+  { invoiceNo:'AL-2026-0002', firstName:'Mali',    lastName:'Rakrian',  nickname:'Mew', coursePackage:'IELTS Preparation', courseType:'Private Class', mainTeacher:'Natalia (T001)', finalPrice:14500, dueDate:'2026-04-28', startDate:'2026-04-21', sessionFormat:'1h-12', preferredDays:'Tuesday, Thursday', status:'Overdue', amountPaid:0,    balanceDue:14500, language:'English', level:'Intermediate', courseDuration:'Half-course (12h)' },
+  { invoiceNo:'AL-2026-0003', firstName:'Wichai',  lastName:'Kengmak',  nickname:'O',   coursePackage:'Chinese Beginner', courseType:'Group Class', mainTeacher:'Savanah (T002)', finalPrice:7840, dueDate:'2026-05-10', startDate:'2026-05-03', sessionFormat:'1h-12', preferredDays:'Saturday', status:'Partial', amountPaid:4000, balanceDue:3840, language:'Chinese', level:'Beginner', courseDuration:'Half-course (12h)' },
+  { invoiceNo:'AL-2026-0004', firstName:'Arpa',    lastName:'Sodsai',   nickname:'Fern', coursePackage:'German Beginner (A1)', courseType:'Private Class', mainTeacher:'Erik (T003)', finalPrice:27500, dueDate:'2026-05-15', startDate:'2026-05-08', sessionFormat:'2h-12', preferredDays:'Monday, Friday', status:'Pending', amountPaid:0,    balanceDue:27500, language:'German', level:'Beginner', courseDuration:'Full-course (24h)' },
+  { invoiceNo:'AL-2026-0005', firstName:'Tana',    lastName:'Mangmee',  nickname:'Ball', coursePackage:'English for Business Communication', courseType:'Private Class', mainTeacher:'David (T005)', finalPrice:22000, dueDate:'2026-05-01', startDate:'2026-04-24', sessionFormat:'1.5h-8', preferredDays:'Wednesday, Friday', status:'Paid',    amountPaid:22000, balanceDue:0,    language:'English', level:'Advanced', courseDuration:'Half-course (12h)' }
 ];
 
 // Calculate estimated course end date
+// ── Normalise invoice data coming from Google Sheet ──
+// Handles Thai text, ISO dates, mixed formats saved during earlier registrations
+const THAI_DAY_MAP = {
+  'จันทร์':'Monday','อังคาร':'Tuesday','พุธ':'Wednesday',
+  'พฤหัสบดี':'Thursday','พฤหัส':'Thursday','ศุกร์':'Friday',
+  'เสาร์':'Saturday','อาทิตย์':'Sunday'
+};
+function thaiDaysToEnglish(str) {
+  if (!str) return str;
+  let s = str;
+  Object.entries(THAI_DAY_MAP).forEach(([th, en]) => {
+    s = s.replace(new RegExp(th, 'g'), en);
+  });
+  return s;
+}
+function stripIsoDate(d) {
+  if (!d) return d;
+  const s = d.toString();
+  // "2026-05-31T17:00:00.000Z" → "2026-05-31"
+  if (s.length > 10 && s[10] === 'T') return s.substring(0, 10);
+  return s;
+}
+function cleanParens(str) {
+  // "ภาษาจีน (Chinese)" → "Chinese"   |   "Group Class (เรียนกลุ่ม)" → "Group Class"
+  if (!str) return str;
+  const m = str.match(/^([^\(]+)\(([^\)]+)\)\s*$/);
+  if (!m) return str;
+  const before = m[1].trim(); // Thai part (or English part)
+  const inside = m[2].trim(); // the other language
+  // Return whichever part is more ASCII (i.e. the English one)
+  const asciiScore = s => (s.match(/[a-zA-Z0-9 ]/g)||[]).length / s.length;
+  return asciiScore(inside) >= asciiScore(before) ? inside : before;
+}
+function normalizeInvoice(inv) {
+  const n = Object.assign({}, inv);
+  n.startDate         = stripIsoDate(n.startDate);
+  n.dueDate           = stripIsoDate(n.dueDate);
+  n.language          = cleanParens(n.language)          || n.language;
+  n.courseType        = cleanParens(n.courseType)        || n.courseType;
+  n.courseDuration    = cleanParens(n.courseDuration)    || n.courseDuration;
+  n.preferredDays     = thaiDaysToEnglish(n.preferredDays);
+  n.preferredTimeSlots = thaiDaysToEnglish(n.preferredTimeSlots);
+  return n;
+}
+
 function calcEndDate(startDate, sessionFormat, preferredDays) {
   if (!startDate || !sessionFormat) return null;
+  const cleanStart   = stripIsoDate(startDate);
   const numSessions  = parseInt((sessionFormat || '').split('-')[1]) || 0;
   const days         = (preferredDays || '').split(',').filter(d => d.trim()).length || 1;
   const weeksNeeded  = Math.ceil(numSessions / days);
-  const end = new Date(startDate + 'T00:00:00');
+  const end = new Date(cleanStart + 'T00:00:00');
+  if (isNaN(end.getTime())) return null;
   end.setDate(end.getDate() + (weeksNeeded * 7) - 1);
   return end;
 }
@@ -1867,49 +1950,147 @@ function fmtDateShort(d) {
   } catch(e) { return d||'—'; }
 }
 
+// ── APPS_SCRIPT_URL is the live variable — can be overridden from localStorage ──
+(function() {
+  const saved = localStorage.getItem('alphalingo_script_url');
+  if (saved && saved.startsWith('https://script.google.com/')) {
+    window.APPS_SCRIPT_URL_LIVE = saved;
+  } else {
+    window.APPS_SCRIPT_URL_LIVE = APPS_SCRIPT_URL;
+  }
+})();
+
+function getScriptUrl() { return window.APPS_SCRIPT_URL_LIVE || APPS_SCRIPT_URL; }
+
+// ── Sheet Settings modal ──
+function showScriptSettings() {
+  document.getElementById('scriptUrlInput').value = getScriptUrl();
+  document.getElementById('connTestResult').innerHTML = '';
+  document.getElementById('sheetSettingsModal').style.display = 'flex';
+}
+function closeSheetSettings() {
+  document.getElementById('sheetSettingsModal').style.display = 'none';
+}
+function openScriptInBrowser() {
+  const url = document.getElementById('scriptUrlInput').value.trim();
+  if (url) window.open(url + '?action=invoices', '_blank');
+}
+function saveScriptUrl() {
+  const url = document.getElementById('scriptUrlInput').value.trim();
+  if (!url.startsWith('https://script.google.com/')) {
+    document.getElementById('connTestResult').innerHTML = '<span style="color:#dc2626">❌ URL must start with https://script.google.com/</span>';
+    return;
+  }
+  localStorage.setItem('alphalingo_script_url', url);
+  window.APPS_SCRIPT_URL_LIVE = url;
+  closeSheetSettings();
+  loadInvoices();
+}
+function testSheetConnection() {
+  const url = document.getElementById('scriptUrlInput').value.trim();
+  if (!url) { document.getElementById('connTestResult').innerHTML = '<span style="color:#d97706">⚠ Please enter a URL first</span>'; return; }
+  document.getElementById('connTestResult').innerHTML = '⏳ Testing...';
+  const cb  = 'connTest_' + Date.now();
+  const sid = 'connTestSc_' + Date.now();
+  const timer = setTimeout(() => {
+    if (window[cb]) { delete window[cb]; const s=document.getElementById(sid); if(s)s.remove();
+      document.getElementById('connTestResult').innerHTML = '<span style="color:#dc2626">❌ No response after 15s — check URL and deployment permissions (Must be: Execute as Me, Access: Anyone)</span>'; }
+  }, 15000);
+  window[cb] = function(result) {
+    clearTimeout(timer); delete window[cb]; const s=document.getElementById(sid); if(s)s.remove();
+    if (result && result.status === 'ok') {
+      const count = (result.invoices || []).length;
+      document.getElementById('connTestResult').innerHTML =
+        '<span style="color:#16a34a">✅ Connected! Found <b>' + count + ' invoice' + (count!==1?'s':'') + '</b> in your Google Sheet.</span>';
+    } else if (result && result.status === 'error') {
+      document.getElementById('connTestResult').innerHTML = '<span style="color:#dc2626">❌ Script error: ' + (result.message||'unknown') + '</span>';
+    } else {
+      document.getElementById('connTestResult').innerHTML = '<span style="color:#d97706">⚠ Connected but sheet returned unexpected data.</span>';
+    }
+  };
+  const sc = document.createElement('script');
+  sc.id = sid;
+  sc.onerror = () => { clearTimeout(timer); delete window[cb];
+    document.getElementById('connTestResult').innerHTML = '<span style="color:#dc2626">❌ Failed to load script — URL may be wrong or not deployed.</span>'; };
+  sc.src = url + '?action=invoices&callback=' + cb + '&t=' + Date.now();
+  document.head.appendChild(sc);
+}
+
 function initInvoice() {
   const now = new Date();
   document.getElementById('invDateLine').textContent =
     now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-  // If we already have real invoices (e.g. just came from a registration), render them immediately
-  // Only fetch from sheet if list is empty or contains only example data
-  const hasRealData = allInvoices.length > 0 && allInvoices.some(i => i.invoiceNo && !EXAMPLE_INVOICES.find(e => e.invoiceNo === i.invoiceNo));
-  if (hasRealData) {
-    renderInvoices();
-  } else {
-    loadInvoices();
-  }
+  // Always fetch fresh data from the sheet so any updates are reflected immediately
+  loadInvoices();
+}
+
+function setConnBar(type, msg) {
+  const bar = document.getElementById('inv-conn-bar');
+  if (!bar) return;
+  const styles = {
+    ok:      'display:block;background:#dcfce7;border:1px solid #86efac;color:#166534;',
+    error:   'display:block;background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;',
+    warning: 'display:block;background:#fffbeb;border:1px solid #fde68a;color:#92400e;',
+    hide:    'display:none;'
+  };
+  bar.style.cssText = (styles[type] || styles.hide) + 'margin:0 24px 16px;padding:10px 16px;border-radius:8px;font-size:.83rem;font-weight:500;';
+  bar.innerHTML = msg;
 }
 
 function loadInvoices() {
   document.getElementById('invTableBody').innerHTML =
-    '<tr><td colspan="9" style="text-align:center;padding:28px;color:#9ca3af">⏳ Loading invoices...</td></tr>';
+    '<tr><td colspan="9" style="text-align:center;padding:28px;color:#9ca3af">⏳ Loading invoices from Google Sheet...</td></tr>';
   document.getElementById('invEmpty').style.display = 'none';
+  setConnBar('hide', '');
 
-  const cb = 'invCb_' + Date.now(), sid = 'invSc_' + Date.now();
+  const url = getScriptUrl();
+  const cb  = 'invCb_' + Date.now();
+  const sid = 'invSc_' + Date.now();
+
+  function onFail(msg) {
+    if (!window[cb]) return;
+    delete window[cb];
+    const s = document.getElementById(sid); if (s) s.remove();
+    // Connection failed — show example data with a clear error message
+    allInvoices = JSON.parse(JSON.stringify(EXAMPLE_INVOICES));
+    setConnBar('error',
+      '❌ Could not connect to Google Sheet. <b>Showing example data.</b> ' +
+      'Click <b>⚙️ Sheet Settings</b> to set up or test your Apps Script URL. ' +
+      (msg ? '(' + msg + ')' : '')
+    );
+    renderInvoices();
+  }
+
+  // Timeout: 15 s with no response → show error (Apps Script cold start can take 8–12 s)
+  const timer = setTimeout(() => onFail('no response after 15s — check deployment permissions: Execute as Me, Access: Anyone'), 15000);
+
   window[cb] = function(result) {
-    delete window[cb]; const s = document.getElementById(sid); if(s) s.remove();
-    if (result && result.status === 'ok' && result.invoices.length > 0) {
-      allInvoices = result.invoices;
+    clearTimeout(timer);
+    delete window[cb];
+    const s = document.getElementById(sid); if (s) s.remove();
+
+    if (result && result.status === 'ok') {
+      allInvoices = Array.isArray(result.invoices) ? result.invoices.map(normalizeInvoice) : [];
+      if (allInvoices.length === 0) {
+        // Connected, but no invoices yet
+        setConnBar('ok', '✅ Connected to Google Sheet — no invoices found yet. Submit a course registration to create one.');
+      } else {
+        setConnBar('ok', '✅ Connected · ' + allInvoices.length + ' invoice' + (allInvoices.length !== 1 ? 's' : '') + ' loaded from Google Sheet.');
+      }
     } else {
-      // Fall back to example data if sheet empty or unreachable
       allInvoices = JSON.parse(JSON.stringify(EXAMPLE_INVOICES));
-      document.getElementById('invTableBody').innerHTML = '';
-      const note = document.createElement('div');
-      note.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 16px;margin:0 20px 16px;font-size:.83rem;color:#92400e;';
-      note.textContent = '⚠ Showing example data. Open in Chrome/Safari and connect to Google Sheet to see real invoices.';
-      document.querySelector('.inv-table-wrap').insertBefore(note, document.querySelector('.inv-table-wrap div'));
+      setConnBar('error',
+        '❌ Apps Script returned an error' + (result && result.message ? ': ' + result.message : '') +
+        '. <b>Showing example data.</b> Click <b>⚙️ Sheet Settings</b> to troubleshoot.'
+      );
     }
     renderInvoices();
   };
+
   const sc = document.createElement('script');
   sc.id = sid;
-  sc.onerror = () => {
-    delete window[cb];
-    allInvoices = JSON.parse(JSON.stringify(EXAMPLE_INVOICES));
-    renderInvoices();
-  };
-  sc.src = APPS_SCRIPT_URL + '?action=invoices&callback=' + cb;
+  sc.onerror = () => { clearTimeout(timer); onFail('script failed to load — URL may be wrong or not deployed'); };
+  sc.src = url + '?action=invoices&callback=' + cb + '&t=' + Date.now();
   document.head.appendChild(sc);
 }
 
@@ -1994,15 +2175,45 @@ function saveInvoiceUpdate() {
   const newStatus  = document.getElementById('modalStatus').value;
   const amountPaid = parseFloat(document.getElementById('modalAmountPaid').value) || 0;
   const balanceDue = Math.max(0, (parseFloat(inv.finalPrice)||0) - amountPaid);
+
+  // Update local cache immediately so table reflects change right away
   allInvoices[currentInvRow].status     = newStatus;
   allInvoices[currentInvRow].amountPaid = amountPaid;
   allInvoices[currentInvRow].balanceDue = balanceDue;
+
+  // Show saving state on button
+  const saveBtn = document.querySelector('#updateModal .btn-modal-save');
+  if (saveBtn) { saveBtn.textContent = '⏳ Saving...'; saveBtn.disabled = true; }
+
   closeModal();
   renderInvoices();
+
   const params = new URLSearchParams();
-  params.append('payload', JSON.stringify({ action:'updateInvoice', invoiceNo:inv.invoiceNo, status:newStatus, amountPaid, balanceDue }));
-  fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() })
-    .catch(e => console.warn('Update error:', e));
+  params.append('payload', JSON.stringify({
+    action: 'updateInvoice',
+    invoiceNo: inv.invoiceNo,
+    status: newStatus,
+    amountPaid,
+    balanceDue
+  }));
+
+  fetch(getScriptUrl(), {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString()
+  })
+  .then(() => {
+    // Re-fetch from sheet after a brief delay to confirm the save
+    setTimeout(() => loadInvoices(), 1200);
+  })
+  .catch(e => {
+    console.warn('Update error:', e);
+    setTimeout(() => loadInvoices(), 1200);
+  })
+  .finally(() => {
+    if (saveBtn) { saveBtn.textContent = 'Save ✓'; saveBtn.disabled = false; }
+  });
 }
 
 // ── PDF Generation ──
@@ -2044,110 +2255,110 @@ async function generatePDF(inv) {
   const balColor   = balanceDue > 0 ? '#dc2626' : '#16a34a';
 
   const html = `
-<div id="inv-render" style="width:794px;background:#fff;font-family:'Sarabun',Arial,sans-serif;color:#1f2937;margin:0;padding:0;line-height:1.5;">
+<div id="inv-render" style="width:794px;height:1123px;background:#fff;font-family:'Sarabun',Arial,sans-serif;color:#1f2937;margin:0;padding:0;line-height:1.4;overflow:hidden;display:flex;flex-direction:column;">
 
   <!-- HEADER -->
-  <div style="background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);padding:30px 40px;color:#fff;">
+  <div style="background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);padding:20px 36px;color:#fff;flex-shrink:0;">
     <table style="width:100%;border-collapse:collapse;"><tr>
-      <td style="vertical-align:top;">
-        <div style="font-size:26px;font-weight:700;letter-spacing:-0.5px;">AlphaLingo</div>
-        <div style="font-size:12px;margin-top:3px;opacity:.9;">Alpha Lingo Language &amp; Learning Center</div>
-        <div style="font-size:11px;margin-top:2px;opacity:.75;">alphalingothailand@gmail.com</div>
+      <td style="vertical-align:middle;">
+        <div style="font-size:24px;font-weight:700;letter-spacing:-0.5px;">AlphaLingo</div>
+        <div style="font-size:11px;margin-top:2px;opacity:.9;">Alpha Lingo Language &amp; Learning Center</div>
+        <div style="font-size:10px;margin-top:1px;opacity:.75;">alphalingothailand@gmail.com</div>
       </td>
-      <td style="vertical-align:top;text-align:right;">
-        <div style="font-size:28px;font-weight:700;letter-spacing:3px;">INVOICE</div>
-        <div style="font-size:13px;margin-top:4px;opacity:.9;">${inv.invoiceNo||'—'}</div>
+      <td style="vertical-align:middle;text-align:right;">
+        <div style="font-size:26px;font-weight:700;letter-spacing:3px;">INVOICE</div>
+        <div style="font-size:12px;margin-top:3px;opacity:.9;">${inv.invoiceNo||'—'}</div>
       </td>
     </tr></table>
   </div>
 
   <!-- META ROW -->
-  <div style="background:#f8f7ff;padding:14px 40px;border-bottom:1px solid #e5e7eb;">
+  <div style="background:#f8f7ff;padding:10px 36px;border-bottom:1px solid #e5e7eb;flex-shrink:0;">
     <table style="width:100%;border-collapse:collapse;"><tr>
-      <td style="width:33%;padding:0 16px 0 0;">
-        <div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Issue Date</div>
-        <div style="font-size:13px;font-weight:600;margin-top:2px;">${issueDate}</div>
+      <td style="width:33%;padding:0 12px 0 0;">
+        <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Issue Date</div>
+        <div style="font-size:12px;font-weight:600;margin-top:1px;">${issueDate}</div>
       </td>
-      <td style="width:33%;padding:0 16px;">
-        <div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Payment Due</div>
-        <div style="font-size:13px;font-weight:600;margin-top:2px;">${fmtDateShort(inv.dueDate)}</div>
+      <td style="width:33%;padding:0 12px;">
+        <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Payment Due</div>
+        <div style="font-size:12px;font-weight:600;margin-top:1px;">${fmtDateShort(inv.dueDate)}</div>
       </td>
-      <td style="width:33%;padding:0 0 0 16px;">
-        <div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Status</div>
-        <div style="font-size:13px;font-weight:700;margin-top:2px;color:${statusColor};">${inv.status||'Pending'}</div>
+      <td style="width:33%;padding:0 0 0 12px;">
+        <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;">Status</div>
+        <div style="font-size:12px;font-weight:700;margin-top:1px;color:${statusColor};">${inv.status||'Pending'}</div>
       </td>
     </tr></table>
   </div>
 
   <!-- BODY -->
-  <div style="padding:24px 40px;">
+  <div style="padding:16px 36px;flex:1;display:flex;flex-direction:column;">
 
     <!-- Bill To -->
-    <div style="margin-bottom:20px;">
-      <div style="font-size:10px;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Bill To / ใบเสร็จถึง</div>
-      <div style="font-size:18px;font-weight:700;">${inv.firstName||''} ${inv.lastName||''}${inv.nickname ? ' <span style="font-weight:400;color:#6b7280;font-size:14px;">('+inv.nickname+')</span>' : ''}</div>
-      ${inv.parentPhone ? '<div style="font-size:12px;color:#6b7280;margin-top:3px;">&#128222; '+inv.parentPhone+'</div>' : ''}
+    <div style="margin-bottom:12px;">
+      <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Bill To / ใบเสร็จถึง</div>
+      <div style="font-size:17px;font-weight:700;">${inv.firstName||''} ${inv.lastName||''}${inv.nickname ? ' <span style="font-weight:400;color:#6b7280;font-size:13px;">('+inv.nickname+')</span>' : ''}</div>
+      ${inv.parentPhone ? '<div style="font-size:11px;color:#6b7280;margin-top:2px;">&#128222; '+inv.parentPhone+'</div>' : ''}
     </div>
 
     <!-- Course Details -->
-    <div style="background:#f8f7ff;border:1px solid #e0e0f0;border-radius:10px;padding:18px 22px;margin-bottom:18px;">
-      <div style="font-size:10px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">&#128218; Course Details / รายละเอียดคอร์ส</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+    <div style="background:#f8f7ff;border:1px solid #e0e0f0;border-radius:8px;padding:12px 18px;margin-bottom:10px;">
+      <div style="font-size:9px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#128218; Course Details / รายละเอียดคอร์ส</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;">
         <tr>
-          <td style="width:50%;padding:5px 10px 5px 0;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Language / ภาษาที่เรียน</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.language||'—'}</div>
+          <td style="width:50%;padding:3px 8px 3px 0;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Language / ภาษาที่เรียน</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.language||'—'}</div>
           </td>
-          <td style="width:50%;padding:5px 0 5px 10px;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Type / ประเภทคอร์ส</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.courseType||'—'}</div>
+          <td style="width:50%;padding:3px 0 3px 8px;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Type / ประเภทคอร์ส</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.courseType||'—'}</div>
           </td>
         </tr>
         <tr>
-          <td style="padding:5px 10px 5px 0;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Course Package / แพ็คเกจ</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.coursePackage||'—'}</div>
+          <td style="padding:3px 8px 3px 0;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Course Package / แพ็คเกจ</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.coursePackage||'—'}</div>
           </td>
-          <td style="padding:5px 0 5px 10px;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Level / ระดับ</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.level||'—'}</div>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:5px 10px 5px 0;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Teacher / ครูผู้สอน</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.mainTeacher||'—'}</div>
-          </td>
-          <td style="padding:5px 0 5px 10px;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Duration / ระยะเวลา</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.courseDuration||'—'}</div>
+          <td style="padding:3px 0 3px 8px;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Level / ระดับ</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.level||'—'}</div>
           </td>
         </tr>
         <tr>
-          <td style="padding:5px 10px 5px 0;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Sessions / จำนวนชั่วโมง</div>
-            <div style="font-weight:600;margin-top:2px;">${fmtSession(inv.sessionFormat)}</div>
+          <td style="padding:3px 8px 3px 0;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Teacher / ครูผู้สอน</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.mainTeacher||'—'}</div>
           </td>
-          <td style="padding:5px 0 5px 10px;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Start Date / วันเริ่มเรียน</div>
-            <div style="font-weight:600;margin-top:2px;">${fmtDateShort(inv.startDate)}</div>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:5px 10px 5px 0;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Schedule Days / วันเรียน</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.preferredDays||'—'}</div>
-          </td>
-          <td style="padding:5px 0 5px 10px;vertical-align:top;">
-            <div style="font-size:10px;color:#9ca3af;">Time Slot / เวลาเรียน</div>
-            <div style="font-weight:600;margin-top:2px;">${inv.preferredTimeSlots||'—'}</div>
+          <td style="padding:3px 0 3px 8px;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Duration / ระยะเวลา</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.courseDuration||'—'}</div>
           </td>
         </tr>
         <tr>
-          <td colspan="2" style="padding:8px 0 0 0;">
-            <div style="background:#fff;border:1.5px solid #c7d2fe;border-radius:7px;padding:10px 14px;">
-              <div style="font-size:10px;color:#4f46e5;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Plan Course Ends (without skipping) / วันสิ้นสุดคอร์ส (ไม่รวมวันขาด)</div>
-              <div style="font-size:16px;font-weight:700;color:#4f46e5;margin-top:4px;">${endStr}</div>
+          <td style="padding:3px 8px 3px 0;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Sessions / จำนวนชั่วโมง</span>
+            <div style="font-weight:600;margin-top:1px;">${fmtSession(inv.sessionFormat)}</div>
+          </td>
+          <td style="padding:3px 0 3px 8px;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Start Date / วันเริ่มเรียน</span>
+            <div style="font-weight:600;margin-top:1px;">${fmtDateShort(inv.startDate)}</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:3px 8px 3px 0;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Schedule Days / วันเรียน</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.preferredDays||'—'}</div>
+          </td>
+          <td style="padding:3px 0 3px 8px;vertical-align:top;">
+            <span style="color:#9ca3af;font-size:9px;">Time Slot / เวลาเรียน</span>
+            <div style="font-weight:600;margin-top:1px;">${inv.preferredTimeSlots||'—'}</div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding:6px 0 0 0;">
+            <div style="background:#fff;border:1.5px solid #c7d2fe;border-radius:6px;padding:7px 12px;">
+              <div style="font-size:9px;color:#4f46e5;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Plan Course Ends (without skipping) / วันสิ้นสุดคอร์ส</div>
+              <div style="font-size:14px;font-weight:700;color:#4f46e5;margin-top:2px;">${endStr}</div>
             </div>
           </td>
         </tr>
@@ -2155,47 +2366,39 @@ async function generatePDF(inv) {
     </div>
 
     <!-- Absent Policy -->
-    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-bottom:18px;">
-      <div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">&#9888; Absent Policy / นโยบายการขาดเรียน</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px;color:#78350f;">
-        <tr>
-          <td style="padding:2px 0;">&#x2022; ${policy.th}</td>
-        </tr>
-        <tr>
-          <td style="padding:2px 0;">&#x2022; ${policy.en}</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 0 2px 0;color:#92400e;">&#x2022; นโยบายนี้ใช้กับทั้งคอร์สส่วนตัว (Private) และคอร์สกลุ่ม (Group)</td>
-        </tr>
-        <tr>
-          <td style="padding:2px 0;color:#92400e;">&#x2022; This policy applies to both Private and Group courses</td>
-        </tr>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:10px;">
+      <div style="font-size:9px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">&#9888; Absent Policy / นโยบายการขาดเรียน</div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;color:#78350f;">
+        <tr><td style="padding:1px 0;">&#x2022; ${policy.th}</td></tr>
+        <tr><td style="padding:1px 0;">&#x2022; ${policy.en}</td></tr>
+        <tr><td style="padding:3px 0 1px 0;color:#92400e;">&#x2022; นโยบายนี้ใช้กับทั้งคอร์สส่วนตัว (Private) และคอร์สกลุ่ม (Group)</td></tr>
+        <tr><td style="padding:1px 0;color:#92400e;">&#x2022; This policy applies to both Private and Group courses</td></tr>
       </table>
     </div>
 
     <!-- Pricing -->
-    <div style="border-top:2px solid #e5e7eb;padding-top:14px;">
-      <div style="font-size:10px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">&#128176; Pricing Summary / สรุปค่าใช้จ่าย</div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+    <div style="border-top:2px solid #e5e7eb;padding-top:10px;flex-shrink:0;">
+      <div style="font-size:9px;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">&#128176; Pricing Summary / สรุปค่าใช้จ่าย</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
         <tr>
-          <td style="padding:5px 0;color:#6b7280;">Regular Price / ราคาปกติ</td>
-          <td style="padding:5px 0;text-align:right;font-weight:600;">${basePrice.toLocaleString('th-TH')} THB</td>
+          <td style="padding:3px 0;color:#6b7280;">Regular Price / ราคาปกติ</td>
+          <td style="padding:3px 0;text-align:right;font-weight:600;">${basePrice.toLocaleString('th-TH')} THB</td>
         </tr>
         ${discount > 0 ? `<tr>
-          <td style="padding:5px 0;color:#dc2626;">Discount (20%) / ส่วนลด</td>
-          <td style="padding:5px 0;text-align:right;font-weight:600;color:#dc2626;">-${discount.toLocaleString('th-TH')} THB</td>
+          <td style="padding:3px 0;color:#dc2626;">Discount (20%) / ส่วนลด</td>
+          <td style="padding:3px 0;text-align:right;font-weight:600;color:#dc2626;">-${discount.toLocaleString('th-TH')} THB</td>
         </tr>` : ''}
         <tr style="border-top:2px solid #e5e7eb;">
-          <td style="padding:10px 0;font-size:16px;font-weight:700;">Total Due / ยอดรวม</td>
-          <td style="padding:10px 0;text-align:right;font-size:16px;font-weight:700;">${finalPrice.toLocaleString('th-TH')} THB</td>
+          <td style="padding:7px 0;font-size:15px;font-weight:700;">Total Due / ยอดรวม</td>
+          <td style="padding:7px 0;text-align:right;font-size:15px;font-weight:700;">${finalPrice.toLocaleString('th-TH')} THB</td>
         </tr>
         <tr>
-          <td style="padding:4px 0;color:#16a34a;">Amount Paid / ชำระแล้ว</td>
-          <td style="padding:4px 0;text-align:right;color:#16a34a;font-weight:600;">${amountPaid.toLocaleString('th-TH')} THB</td>
+          <td style="padding:3px 0;color:#16a34a;">Amount Paid / ชำระแล้ว</td>
+          <td style="padding:3px 0;text-align:right;color:#16a34a;font-weight:600;">${amountPaid.toLocaleString('th-TH')} THB</td>
         </tr>
         <tr>
-          <td style="padding:4px 0;color:${balColor};font-weight:700;">Balance Due / ยอดค้างชำระ</td>
-          <td style="padding:4px 0;text-align:right;color:${balColor};font-weight:700;">${balanceDue.toLocaleString('th-TH')} THB</td>
+          <td style="padding:3px 0;color:${balColor};font-weight:700;">Balance Due / ยอดค้างชำระ</td>
+          <td style="padding:3px 0;text-align:right;color:${balColor};font-weight:700;">${balanceDue.toLocaleString('th-TH')} THB</td>
         </tr>
       </table>
     </div>
@@ -2203,16 +2406,16 @@ async function generatePDF(inv) {
   </div><!-- /body -->
 
   <!-- FOOTER -->
-  <div style="background:#f8f7ff;border-top:1px solid #e5e7eb;padding:14px 40px;text-align:center;margin-top:4px;">
-    <div style="font-size:11px;color:#9ca3af;">ขอบคุณที่ไว้วางใจเรา &bull; Thank you for choosing Alpha Lingo Language &amp; Learning Center</div>
-    <div style="font-size:10px;color:#d1d5db;margin-top:3px;">This invoice was generated automatically &bull; หากมีข้อสงสัยกรุณาติดต่อเรา</div>
+  <div style="background:#f8f7ff;border-top:1px solid #e5e7eb;padding:10px 36px;text-align:center;flex-shrink:0;">
+    <div style="font-size:10px;color:#9ca3af;">ขอบคุณที่ไว้วางใจเรา &bull; Thank you for choosing Alpha Lingo Language &amp; Learning Center</div>
+    <div style="font-size:9px;color:#d1d5db;margin-top:2px;">This invoice was generated automatically &bull; หากมีข้อสงสัยกรุณาติดต่อเรา</div>
   </div>
 
 </div>`;
 
   // ── Render off-screen ──
   const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-999;';
+  wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;z-index:-999;width:794px;height:1123px;overflow:hidden;';
   wrapper.innerHTML = html;
   document.body.appendChild(wrapper);
 
@@ -2225,26 +2428,27 @@ async function generatePDF(inv) {
       useCORS: true,
       backgroundColor: '#ffffff',
       logging: false,
-      allowTaint: true
+      allowTaint: true,
+      width: 794,
+      height: 1123,
+      windowWidth: 794,
+      windowHeight: 1123
     });
 
     const { jsPDF } = window.jspdf;
     const imgData = canvas.toDataURL('image/png');
+    // Always fit exactly on one A4 page (210×297mm)
     const pw = 210, ph = 297;
-    const imgW = pw;
-    const imgH = (canvas.height / canvas.width) * pw;
+    // canvas is 794×1123px (A4 ratio), so image fills the page perfectly
+    const canvasRatio = canvas.height / canvas.width;
+    let imgW = pw;
+    let imgH = pw * canvasRatio;
+    // Safety: if somehow taller than A4, scale down to fit
+    if (imgH > ph) { imgW = pw * (ph / imgH); imgH = ph; }
+    const xOff = (pw - imgW) / 2;
 
     const doc = new jsPDF({ unit:'mm', format:'a4' });
-    if (imgH <= ph) {
-      doc.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-    } else {
-      let posY = 0;
-      while (posY < imgH) {
-        if (posY > 0) doc.addPage();
-        doc.addImage(imgData, 'PNG', 0, -posY, imgW, imgH);
-        posY += ph;
-      }
-    }
+    doc.addImage(imgData, 'PNG', xOff, 0, imgW, imgH);
     doc.save((inv.invoiceNo||'invoice') + '_' + (inv.firstName||'student') + '.pdf');
   } finally {
     document.body.removeChild(wrapper);
