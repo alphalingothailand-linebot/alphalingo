@@ -1038,6 +1038,7 @@ function showPage(id) {
 let currentStep = 1, selectedDays = [], selectedTimeSlots = [], regMode = 'new';
 let foundStudentData = null;
 let selectedSchedule = {}; // { monday: ['09:00','14:00'], friday: ['10:00'] }
+let isSubmitting = false;  // guard against double-submit
 
 const STEP_DEFS = {
   new:      [['ข้อมูลนักเรียน','Student Info'],['ความพร้อมเรียน','Availability']],
@@ -1059,6 +1060,7 @@ function initReg(mode) {
   currentStep = 1; selectedDays = []; selectedTimeSlots = [];
   selectedSchedule = {};
   foundStudentData = null;
+  isSubmitting = false;
   const container = document.getElementById('schedWeeksContainer');
   if (container) { container.innerHTML = buildSchedTable(); }
 
@@ -1512,8 +1514,10 @@ function searchStudentById() {
 function setVal(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
 
 async function submitForm() {
+  if (isSubmitting) return;           // block double-click / double-submit
   const lastValidStep = regMode === 'new' ? 2 : 3;
   if (!validateStep(lastValidStep)) return;
+  isSubmitting = true;
 
   const dayLabels   = {monday:'จันทร์',tuesday:'อังคาร',wednesday:'พุธ',thursday:'พฤหัสดี',friday:'ศุกร์',saturday:'เสาร์',sunday:'อาทิตย์'};
   const langLabels  = {english:'ภาษาอังกฤษ (English)',chinese:'ภาษาจีน (Chinese)',german:'ภาษาเยอรมัน (German)'};
@@ -1555,6 +1559,10 @@ async function submitForm() {
       preferredTimeSlots:  (document.getElementById('preferredTimeSlotsText')||{}).value||''
     };
 
+    // Disable button to prevent double-save
+    const stuBtn = document.querySelector('.btn-next-f[onclick="submitForm()"]');
+    if (stuBtn) { stuBtn.disabled = true; stuBtn.textContent = 'กำลังบันทึก...'; }
+
     // Send to sheet
     if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_')) {
       try {
@@ -1563,6 +1571,7 @@ async function submitForm() {
         await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:params.toString() });
       } catch(e) { console.warn('Sheet save error:', e); }
     }
+    isSubmitting = false;
 
     // Success screen — student registration
     document.getElementById('step2').style.display = 'none';
@@ -1657,6 +1666,7 @@ async function submitForm() {
     } catch(e) { console.warn('Sheet save error:', e); }
   }
   btn.textContent = 'ส่งข้อมูล ›'; btn.disabled = false;
+  isSubmitting = false;
   // Show "Add Another Course" button and store student data for re-use
   window._lastCourseStudent = foundStudentData;
   const addBtn = document.getElementById('btnAddCourse');
